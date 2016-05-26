@@ -12,10 +12,10 @@ JHtml::_('behavior.tabstate');
 
 if (!JFactory::getUser()->authorise('core.manage', 'com_associations'))
 {
-    return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-JLoader::register('ContentHelper', __DIR__ . '/helpers/associations.php');
+JLoader::register('AssociationsHelper', __DIR__ . '/helpers/associations.php');
 
 $controller = JControllerLegacy::getInstance('Associations');
 $controller->execute(JFactory::getApplication()->input->get('task'));
