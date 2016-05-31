@@ -78,10 +78,26 @@ $assoc = JLanguageAssociations::isEnabled();
 					</select>
 				</div>
 			<?php if ($assoc && $input->get('layout') != 'modal') : ?>
-				<a class="btn btn-primary" data-toggle="modal" role="button" href="index.php?option=com_content&view=article&layout=edit&id=1#articleSelectjform_associations_pt_PTModal" title="title">
+				<a class="btn btn-primary" data-toggle="modal" role="button" href="#associationsModal" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>">
 					<span class="icon-list "> </span> 
 					Select
 				</a>
+
+			<?php echo JHtml::_(
+						'bootstrap.renderModal',
+						'associationsModal',
+						array(
+							'title'       => JText::_('COM_ASSOCIATIONS_TITLE_MODAL'),
+							'url'         => JRoute::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component'),
+							'height'      => '400px',
+							'width'       => '800px',
+							'bodyHeight'  => '70',
+							'modalWidth'  => '80',
+							'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+									. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+						)
+					);
+			?>
 			<?php endif; ?>
 		 
 		
