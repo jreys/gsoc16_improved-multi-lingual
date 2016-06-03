@@ -58,8 +58,9 @@ defined('_JEXEC') or die; ?>
 							<span class="icon-publish"></span>
 						</td>
 						<td>
-							<a href="javascript:void(0);" onclick="if (window.parent) window.parent.jSelectArticle_jform_associations_en_GB('1', 'Article (en-gb)', '8', null, 'index.php?option=com_content&amp;view=article&amp;id=1&amp;catid=8&amp;lang=en-GB&amp;Itemid=101', 'en', null);">
-															Article (en-gb)</a>
+							<a href="#" data-dismiss="modal" onclick="window.location.href='index.php?option=com_associations&amp;view=associations&amp;layout=side-by-side'" >
+								Article (en-gb)
+							</a>
 							<div class="small">Category: Category (en-gb)</div>
 						</td>
 						<td class="small hidden-phone">Public
