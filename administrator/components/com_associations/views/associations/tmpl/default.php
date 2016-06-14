@@ -46,35 +46,29 @@ $assoc = JLanguageAssociations::isEnabled();
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
 
 	<div id="j-main-container">
-		<?php
-		// Search tools bar
-		//echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this), null, array('debug' => false));
-		?>
 
 	<div class="js-stools clearfix">
 		<div class="clearfix">
 			<div class="js-stools-container-bar">
 
 				<div class="js-stools-field-filter js-stools-menutype">
-					<select id="component" name="component">
-						<option value="*">- Select Component -</option>
-						<option value="articles" selected="selected">Articles</option>
-					</select>
-				</div>
-
-				<div class="js-stools-field-filter js-stools-menutype">
-					<select id="category" name="category">
-						<option value="*">- Select Category -</option>
-						<option value="en-gb" selected="selected">Category (en-gb)</option>
-						<option value="uncategorized">Uncategorized</option>
+					<select ...>
+						<option value="">- Select Item type -</option>
+						<optgroup label="Content">
+							<option value="com_content.articles">- Articles</option>
+							<option value="com_content.categories">- Categories</option>
+						</optgroup>
+						<optgroup label="Contacts">
+							<option value="com_contact.contacts">- Contacts</option>
+							<option value="com_contact.categories">- Categories</option>
+						</optgroup>
 					</select>
 				</div>
 
 				<div class="js-stools-field-filter js-stools-menutype">
 					<select id="ref-language" name="ref-language">
-						<option value="*" selected="selected">- Select Reference Language -</option>
-						<option value="eng" >English</option>
-						<option value="fr">French</option>
+						<option value="">- Select Reference Language -</option>
+						<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', false, true), 'value', 'text'); ?>
 					</select>
 				</div>
 			<?php if ($assoc && $input->get('layout') != 'modal') : ?>
