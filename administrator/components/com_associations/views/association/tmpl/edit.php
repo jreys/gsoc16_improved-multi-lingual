@@ -38,11 +38,9 @@ $app->getDocument()->addStyleDeclaration('
 }
 ');
 
-$jinput = JFactory::getApplication()->input;
-
-$referenceId = $jinput->get('id', '0');
-$associatedComponent = $jinput->get('acomponent', '');
-$associatedView = $jinput->get('aview', '');
+$referenceId = $input->get('id', '0');
+$associatedComponent = $input->get('acomponent', '');
+$associatedView = $input->get('aview', '');
 
 ?>
 
@@ -59,8 +57,29 @@ $associatedView = $jinput->get('aview', '');
     <div class="outer-panel">
         <div class="inner-panel right-panel">
             <h3><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
-            <iframe src="<?php echo JRoute::_('index.php?option='. $associatedComponent . '&view=' . $associatedView . '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=2' ); ?>" name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no"></iframe>
+            <select id="ref-language" name="ref-language">
+                <?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', false, true), 'value', 'text'); ?>
+            </select>
+            <button onclick="return triggerSave();" class="btn btn-small btn-success">
+                <span class="icon-apply icon-white"></span>Save
+            </button>
+            <iframe id="target-association" name="target-association" src="<?php echo JRoute::_('index.php?option='. $associatedComponent . '&view=' . $associatedView . '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=1' ); ?>" name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no"></iframe>
         </div>
     </div>
 </div>
 </form>
+
+<script>
+    function iframeRef( frameRef ) {
+    return frameRef.contentWindow
+        ? frameRef.contentWindow.document
+        : frameRef.contentDocument
+    }
+
+    function triggerSave() {
+        var inside = iframeRef( document.getElementById('target-association') );
+        inside.getElementById('applyBtn').click();
+        return false;
+    }
+
+</script>
