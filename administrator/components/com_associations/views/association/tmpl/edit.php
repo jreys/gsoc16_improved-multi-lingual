@@ -44,13 +44,17 @@ $associatedView = $input->get('aview', '');
 
 ?>
 
-<form action="<?php JRoute::_('index.php?option=com_associations&id=' . (int)$id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php JRoute::_('index.php?option=com_associations&id=' . (int) $id); ?>"
+ method="post" name="adminForm" id="item-form" class="form-validate">
 
 <div class="sidebyside">
     <div class="outer-panel">
         <div class="inner-panel left-panel">
             <h3><?php echo JText::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
-            <iframe src="<?php echo JRoute::_('index.php?option='. $associatedComponent . '&view=' . $associatedView . '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $referenceId); ?>" name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no">
+            <?php $link = 'index.php?option=' . $associatedComponent . '&view=' . $associatedView; ?>
+            <?php $link += '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $referenceId; ?>
+            <iframe src="<?php echo JRoute::_($link); ?>" 
+                name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no">
             </iframe>
         </div>
     </div>
@@ -63,7 +67,10 @@ $associatedView = $input->get('aview', '');
             <button onclick="return triggerSave();" class="btn btn-small btn-success">
                 <span class="icon-apply icon-white"></span>Save
             </button>
-            <iframe id="target-association" name="target-association" src="<?php echo JRoute::_('index.php?option='. $associatedComponent . '&view=' . $associatedView . '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=1' ); ?>" name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no"></iframe>
+            <iframe id="target-association" name="target-association" 
+                src="<?php echo JRoute::_('index.php?option=' . $associatedComponent . '&view=' . $associatedView
+					. '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=1'); ?>" 
+                name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no"></iframe>
         </div>
     </div>
 </div>
