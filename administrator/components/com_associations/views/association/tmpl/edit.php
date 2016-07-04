@@ -52,7 +52,7 @@ $associatedView = $input->get('aview', '');
         <div class="inner-panel left-panel">
             <h3><?php echo JText::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
             <?php $link = 'index.php?option=' . $associatedComponent . '&view=' . $associatedView; ?>
-            <?php $link += '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $referenceId; ?>
+            <?php $link .= '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $referenceId; ?>
             <iframe src="<?php echo JRoute::_($link); ?>" 
                 name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no">
             </iframe>
