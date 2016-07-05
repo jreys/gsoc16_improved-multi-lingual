@@ -18,21 +18,4 @@ class AssociationsHelper extends JHelperContent
 {
 	public static $extension = 'com_associations';
 
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function addSubmenu($vName)
-	{
-		JHtmlSidebar::addEntry(
-			JText::_('JGLOBAL_ARTICLES'),
-			'index.php?option=com_content&view=articles',
-			$vName == 'articles'
-		);
-	}
 }
