@@ -15,6 +15,7 @@ JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_contact/helpers/htm
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('jquery.framework');
 
 $app       = JFactory::getApplication();
 $user      = JFactory::getUser();
@@ -128,7 +129,7 @@ html[dir=rtl] .js-stools .js-stools-menutype {
 					</select>
 				</div>
 			<?php if ($assoc && $input->get('layout') != 'modal') : ?>
-				<button class="btn btn-primary" type="submit" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>">
+				<button id="filter-submit" class="btn btn-primary" type="submit" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>">
 					<span class="icon-list "> </span> 
 					Select
 				</button>
@@ -211,3 +212,29 @@ html[dir=rtl] .js-stools .js-stools-menutype {
 	<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
+
+<script type="text/javascript">
+	function isValid() {
+		if (jQuery('#component').val() != "" && jQuery('#ref-language').val() != "") {
+			return true;
+		}
+		return false;
+	}
+
+	jQuery('#filter-submit').attr("disabled", true);
+
+	jQuery('#component').change(function() {
+  		if(isValid()) {
+  			jQuery('#filter-submit').attr("disabled", false);
+  		}
+  		else jQuery('#filter-submit').attr("disabled", true);
+	});
+
+	jQuery('#ref-language').change(function() {
+  		if(isValid()) {
+  			jQuery('#filter-submit').attr("disabled", false);
+  		}
+  		else jQuery('#filter-submit').attr("disabled", true);
+	});
+
+</script>
