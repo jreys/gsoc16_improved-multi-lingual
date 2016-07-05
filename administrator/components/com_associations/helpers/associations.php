@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Associations component helper.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class AssociationsHelper extends JHelperContent
 {
@@ -25,7 +25,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function addSubmenu($vName)
 	{

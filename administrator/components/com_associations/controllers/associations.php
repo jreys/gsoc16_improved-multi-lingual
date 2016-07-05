@@ -12,7 +12,7 @@ defined("_JEXEC") or die("Restricted access");
 /**
  * Associations controller class.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class AssociationsControllerAssociations extends JControllerAdmin
 {
@@ -20,7 +20,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 * The URL view list variable.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $view_list = 'Associations';
 
@@ -33,7 +33,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 *
 	 * @return  JModel
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getModel($name = 'Associations', $prefix='AssociationsModel', $config = array('ignore_request' => true))
 	{

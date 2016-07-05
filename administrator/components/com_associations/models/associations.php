@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of article records.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class AssociationsModelAssociations extends JModelList
 {
@@ -21,7 +21,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 * @see     JController
 	 */
 	public function __construct($config = array())
@@ -72,7 +72,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
@@ -138,7 +138,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -158,7 +158,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getListQuery()
 	{
@@ -339,7 +339,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getAuthors()
 	{
@@ -367,7 +367,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   1.6.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getItems()
 	{

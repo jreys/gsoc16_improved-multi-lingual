@@ -12,13 +12,13 @@ defined('_JEXEC') or die;
 /**
  * Component Controller
  *
- * @since  1.5
+ * @since  __DEPLOY_VERSION__
  */
 class AssociationsController extends JControllerLegacy
 {
 	/**
 	 * @var     string  The default view.
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $default_view = 'associations';
 
@@ -30,7 +30,7 @@ class AssociationsController extends JControllerLegacy
 	 *
 	 * @return  JController     This object to support chaining.
 	 *
-	 * @since   1.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{

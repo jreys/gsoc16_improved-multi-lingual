@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of articles.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class AssociationsViewAssociations extends JViewLegacy
 {
@@ -76,7 +76,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{
@@ -90,7 +90,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	 *
 	 * @return  array  Array containing the field name to sort by as the key and display text as value
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getSortFields()
 	{
