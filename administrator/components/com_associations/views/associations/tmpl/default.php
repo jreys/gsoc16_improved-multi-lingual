@@ -131,30 +131,10 @@ if (isset($component) && isset($language))
 
 	<div id="j-main-container">
 
+	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+
 	<div class="js-stools clearfix">
 		<div class="clearfix">
-			<div class="js-stools-container-bar">
-
-				<div class="js-stools-field-filter js-stools-menutype">
-					<select id="component" name="component">
-						<option value="">- Select Item type -</option>
-						<optgroup label="Content">
-							<option value="com_content.articles">- Articles</option>
-							<option value="com_content.categories">- Categories</option>
-						</optgroup>
-						<optgroup label="Contacts">
-							<option value="com_contact.contacts">- Contacts</option>
-							<option value="com_contact.categories">- Categories</option>
-						</optgroup>
-					</select>
-				</div>
-
-				<div class="js-stools-field-filter js-stools-menutype">
-					<select id="ref-language" name="ref-language">
-						<option value="">- Select Reference Language -</option>
-						<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', false, true), 'value', 'text'); ?>
-					</select>
-				</div>
 			<?php if ($assoc && $input->get('layout') != 'modal') : ?>
 				<button id="filter-submit" class="btn btn-primary" type="submit" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>">
 					<span class="icon-list "> </span> 
