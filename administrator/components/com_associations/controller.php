@@ -43,11 +43,11 @@ class AssociationsController extends JControllerLegacy
 		$lName   = $this->input->getCmd('layout', 'associations');
 
 		// Get the model and the view
-		// $model = $this->getModel($vName);
+		$model = $this->getModel($vName);
 		$view = $this->getView($vName, $vFormat);
 
 		// Push the model into the view (as default).
-		// $view->setModel($model, true);
+		$view->setModel($model, true);
 		$view->setLayout($lName);
 
 		// Push document object into the view.
