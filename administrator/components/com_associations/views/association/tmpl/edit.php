@@ -17,6 +17,20 @@ $app = JFactory::getApplication();
 $input = $app->input;
 $assoc = JLanguageAssociations::isEnabled();
 
+$app->getDocument()->addScriptDeclaration("
+    function iframeRef( frameRef ) {
+    return frameRef.contentWindow
+        ? frameRef.contentWindow.document
+        : frameRef.contentDocument
+    }
+
+    function triggerSave() {
+        var inside = iframeRef( document.getElementById('target-association') );
+        inside.getElementById('applyBtn').click();
+        return false;
+    }
+");
+
 $app->getDocument()->addStyleDeclaration('
 .sidebyside .outer-panel {
     float: left;
@@ -69,24 +83,9 @@ $associatedView = $input->get('aview', '');
             </button>
             <iframe id="target-association" name="target-association" 
                 src="<?php echo JRoute::_('index.php?option=' . $associatedComponent . '&view=' . $associatedView
-					. '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=1'); ?>" 
+                    . '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=1'); ?>" 
                 name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no"></iframe>
         </div>
     </div>
 </div>
 </form>
-
-<script>
-    function iframeRef( frameRef ) {
-    return frameRef.contentWindow
-        ? frameRef.contentWindow.document
-        : frameRef.contentDocument
-    }
-
-    function triggerSave() {
-        var inside = iframeRef( document.getElementById('target-association') );
-        inside.getElementById('applyBtn').click();
-        return false;
-    }
-
-</script>

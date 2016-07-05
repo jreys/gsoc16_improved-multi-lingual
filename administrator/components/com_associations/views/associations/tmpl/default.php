@@ -25,6 +25,50 @@ $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
 
+$app->getDocument()->addScriptDeclaration("
+	jQuery( document ).ready(function() {
+		function isValid() {
+			if (jQuery('#component').val() != '' && jQuery('#ref-language').val() != '') {
+				return true;
+			}
+			return false;
+		}
+
+		jQuery('#filter-submit').attr('disabled', true);
+
+		jQuery('#component').change(function() {
+	  		if(isValid()) {
+	  			jQuery('#filter-submit').attr('disabled', false);
+	  		}
+	  		else jQuery('#filter-submit').attr('disabled', true);
+		});
+
+		jQuery('#ref-language').change(function() {
+	  		if(isValid()) {
+	  			jQuery('#filter-submit').attr('disabled', false);
+	  		}
+	  		else jQuery('#filter-submit').attr('disabled', true);
+		});
+	});
+");
+
+$app->getDocument()->addStyleDeclaration('
+	/* Fixed filter field in search bar */
+	.js-stools .js-stools-menutype {
+		float: left;
+		margin-right: 10px;
+		min-width: 220px;
+	}
+	html[dir=rtl] .js-stools .js-stools-menutype {
+		float: right;
+		margin-left: 10px
+		margin-right: 0;
+	}
+	.js-stools .js-stools-container-bar .js-stools-field-filter .chzn-container {
+		padding: 3px 0;
+	}
+');
+
 // For debugging this will be deleted -> print_r($input->post);
 
 $component = $input->post->get('component');
@@ -81,23 +125,6 @@ if (isset($component) && isset($language))
 	// Debug statement -> print_r($results);
 }
 
-
-$app->getDocument()->addStyleDeclaration('
-/* Fixed filter field in search bar */
-.js-stools .js-stools-menutype {
-	float: left;
-	margin-right: 10px;
-	min-width: 220px;
-}
-html[dir=rtl] .js-stools .js-stools-menutype {
-	float: right;
-	margin-left: 10px
-	margin-right: 0;
-}
-.js-stools .js-stools-container-bar .js-stools-field-filter .chzn-container {
-	padding: 3px 0;
-}
-');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
@@ -212,29 +239,3 @@ html[dir=rtl] .js-stools .js-stools-menutype {
 	<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
-
-<script type="text/javascript">
-	function isValid() {
-		if (jQuery('#component').val() != "" && jQuery('#ref-language').val() != "") {
-			return true;
-		}
-		return false;
-	}
-
-	jQuery('#filter-submit').attr("disabled", true);
-
-	jQuery('#component').change(function() {
-  		if(isValid()) {
-  			jQuery('#filter-submit').attr("disabled", false);
-  		}
-  		else jQuery('#filter-submit').attr("disabled", true);
-	});
-
-	jQuery('#ref-language').change(function() {
-  		if(isValid()) {
-  			jQuery('#filter-submit').attr("disabled", false);
-  		}
-  		else jQuery('#filter-submit').attr("disabled", true);
-	});
-
-</script>
