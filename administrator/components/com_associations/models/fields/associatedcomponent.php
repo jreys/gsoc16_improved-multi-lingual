@@ -87,7 +87,6 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 
 		$lang = JFactory::getLanguage();
 		$lang->load('com_menus');
-		$options[JText::_("COM_MENUS_SUBMENU_MENUS")][] = JHtml::_('select.option', 'com_menus.menu', JText::_("COM_MENUS_SUBMENU_MENUS"));
 		$options[JText::_("COM_MENUS_SUBMENU_MENUS")][] = JHtml::_('select.option', 'com_menus.item', JText::_("COM_MENUS_SUBMENU_ITEMS"));
 
 
