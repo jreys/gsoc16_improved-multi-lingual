@@ -48,6 +48,29 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 		$options1['Content'] = $options;
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getGroups(), $options1);
+
+		$componentsDirectory = getcwd() . "/components";
+		$components = scandir($componentsDirectory);
+
+		foreach ($components as $key => $value)
+		{
+			$currentDir = $componentsDirectory . "/" . $value . "/models/";
+			$componentModel = scandir($currentDir);
+			foreach ($componentModel as $key2 => $value2)
+			{
+				if (is_file($currentDir . $value2))
+				{
+					if(exec('grep '.escapeshellarg("JLanguageAssociations::isEnabled()").' '.$currentDir . $value2))
+					{
+        				print_r($value . " has associations <br>");
+    				}
+    				break;
+				}
+			}
+		}
+
+		//print_r($components);
+
 		return $options;
 	}
 }
