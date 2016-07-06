@@ -17,9 +17,9 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('jquery.framework');
 
-$app       = JFactory::getApplication();
-$user      = JFactory::getUser();
-$userId    = $user->get('id');
+$app    = JFactory::getApplication();
+$user   = JFactory::getUser();
+$userId = $user->get('id');
 
 $input = $app->input;
 
@@ -156,6 +156,9 @@ if (isset($component) && isset($language))
 			</tfoot>
 			<tbody>
 			<?php
+			/**
+				@todo ACL Check
+			*/
 			$n = count($this->items);
 			foreach ($results as $i => $item) :
 				$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $menutypeid);
@@ -163,7 +166,7 @@ if (isset($component) && isset($language))
 				$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 				$canChange  = $user->authorise('core.edit.state', 'com_menus.menu.' . $menutypeid) && $canCheckin;
 				?>
-				<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
+				<tr class="row<?php echo $i % 2; ?>">
 					<td class="nowrap has-context">
 						<div class="pull-left">
 							<?php if ($canEdit || $canEditOwn) : ?>
