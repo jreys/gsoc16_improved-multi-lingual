@@ -28,6 +28,8 @@ class AssociationsViewAssociations extends JViewLegacy
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
@@ -85,28 +87,5 @@ class AssociationsViewAssociations extends JViewLegacy
 		$bar = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_TITLE'), 'stack article');
-	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getSortFields()
-	{
-		return array(
-			'a.ordering'     => JText::_('JGRID_HEADING_ORDERING'),
-			'a.state'        => JText::_('JSTATUS'),
-			'a.title'        => JText::_('JGLOBAL_TITLE'),
-			'category_title' => JText::_('JCATEGORY'),
-			'access_level'   => JText::_('JGRID_HEADING_ACCESS'),
-			'a.created_by'   => JText::_('JAUTHOR'),
-			'language'       => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.created'      => JText::_('JDATE'),
-			'a.id'           => JText::_('JGRID_HEADING_ID'),
-			'a.featured'     => JText::_('JFEATURED')
-		);
 	}
 }
