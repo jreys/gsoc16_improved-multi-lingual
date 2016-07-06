@@ -62,7 +62,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 					{
 						$file = file_get_contents($currentDir . $value2);
 
-						if (strpos($file, 'protected $associationsContext') && $value != 'com_categories')
+						if (strpos($file, 'protected $associationsContext') && $value != 'com_categories' && $value != 'com_menus')
 						{
 							$modelsPath = JPATH_ADMINISTRATOR . '/components/'
 								. $value . '/models';
@@ -70,10 +70,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 							$removeExtension = preg_replace('/\\.[^.\\s]{3,4}$/', '', $value2);
 
 							JModelLegacy::addIncludePath($modelsPath, ucfirst($removeExtension) . 'Model');
-
-							if ($value != 'com_menus') {
-								$model = JModelLegacy::getInstance(ucfirst($removeExtension), ucfirst(substr($value, 4)) . 'Model', array('ignore_request' => true));
-							}
+							$model = JModelLegacy::getInstance(ucfirst($removeExtension), ucfirst(substr($value, 4)) . 'Model', array('ignore_request' => true));
 
 							$lang = JFactory::getLanguage();
 							$lang->load($value);
@@ -87,6 +84,12 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 				}
 			}
 		}
+
+		$lang = JFactory::getLanguage();
+		$lang->load('com_menus');
+		$options[JText::_("COM_MENUS_SUBMENU_MENUS")][] = JHtml::_('select.option', 'com_menus.menu', JText::_("COM_MENUS_SUBMENU_MENUS"));
+		$options[JText::_("COM_MENUS_SUBMENU_MENUS")][] = JHtml::_('select.option', 'com_menus.item', JText::_("COM_MENUS_SUBMENU_ITEMS"));
+
 
 		$options = array_merge(parent::getGroups(), $options);
 
