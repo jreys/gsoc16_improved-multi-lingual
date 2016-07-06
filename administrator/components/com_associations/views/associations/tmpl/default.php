@@ -52,23 +52,6 @@ $app->getDocument()->addScriptDeclaration("
 	});
 ");
 
-$app->getDocument()->addStyleDeclaration('
-	/* Fixed filter field in search bar */
-	.js-stools .js-stools-menutype {
-		float: left;
-		margin-right: 10px;
-		min-width: 220px;
-	}
-	html[dir=rtl] .js-stools .js-stools-menutype {
-		float: right;
-		margin-left: 10px
-		margin-right: 0;
-	}
-	.js-stools .js-stools-container-bar .js-stools-field-filter .chzn-container {
-		padding: 3px 0;
-	}
-');
-
 // For debugging this will be deleted -> print_r($input->post);
 
 $component = $input->post->get('component');
