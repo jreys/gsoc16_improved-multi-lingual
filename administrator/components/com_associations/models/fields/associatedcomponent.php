@@ -77,7 +77,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 							$options[JText::_($value)][] = JHtml::_('select.option', $model->typeAlias, JText::_($value));
 							if (JFile::exists($frontendComponentsDirectory . "/" . $value . "/helpers/association.php"))
 							{
-								$options[JText::_($value)][] = JHtml::_('select.option', 'com_categories.category|' . $value, JText::_("JCategories"));
+								$options[JText::_($value)][] = JHtml::_('select.option', 'com_categories.category|' . $value, JText::_("JCATEGORIES"));
 							}
 						}
 					}
