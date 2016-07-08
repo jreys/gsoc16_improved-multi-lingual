@@ -63,17 +63,19 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 					{
 						$file = file_get_contents($currentDir . $value2);
 
-						if (strpos($file, 'protected $associationsContext') && $value != 'com_categories' && $value != 'com_menus')
+						if ($value != 'com_categories' && $value != 'com_menus')
 						{
-							$modelsPath = JPATH_ADMINISTRATOR . '/components/'
+							if(strpos($file, 'protected $associationsContext')) {
+								$modelsPath = JPATH_ADMINISTRATOR . '/components/'
 								. $value . '/models';
 
-							$removeExtension = preg_replace('/\\.[^.\\s]{3,4}$/', '', $value2);
+								$removeExtension = preg_replace('/\\.[^.\\s]{3,4}$/', '', $value2);
 
-							JModelLegacy::addIncludePath($modelsPath, ucfirst($removeExtension) . 'Model');
-							$model = JModelLegacy::getInstance(ucfirst($removeExtension), ucfirst(substr($value, 4)) . 'Model', array('ignore_request' => true));
-							
-							$options[JText::_($value)][] = JHtml::_('select.option', $model->typeAlias, JText::_($value));
+								JModelLegacy::addIncludePath($modelsPath, ucfirst($removeExtension) . 'Model');
+								$model = JModelLegacy::getInstance(ucfirst($removeExtension), ucfirst(substr($value, 4)) . 'Model', array('ignore_request' => true));
+								
+								$options[JText::_($value)][] = JHtml::_('select.option', $model->typeAlias, JText::_($value));
+							}
 
 							if (JFile::exists($frontendComponentsDirectory . "/" . $value . "/helpers/association.php"))
 							{
@@ -83,7 +85,9 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 								{
 									$options[JText::_($value)][] = JHtml::_('select.option', 'com_categories.category|' . $value, JText::_("JCATEGORIES"));
 								}
+								
 							}
+							break;
 						}
 					}
 				}
