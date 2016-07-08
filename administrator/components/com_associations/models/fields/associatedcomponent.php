@@ -43,11 +43,14 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
 
-		$options = array(array());
+		$options = array(); // no use to have a double array!
 
 		$componentsDirectory         = JPATH_ADMINISTRATOR . "/components";
 		$frontendComponentsDirectory = JPATH_SITE . "/components";
-		$components                  = scandir($componentsDirectory);
+		$backendComponents           = scandir($componentsDirectory);
+		$frontendComponents          = scandir($frontendComponentsDirectory);
+		
+		$components = array_intersect($frontendComponents, $backendComponents);
 
 		foreach ($components as $key => $value)
 		{
