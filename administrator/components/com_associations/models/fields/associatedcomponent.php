@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('JPATH_BASE') or die;
+
 JFormHelper::loadFieldClass('groupedlist');
 /**
  * A drop down containing all valid HTTP 1.1 response codes.
@@ -44,9 +45,9 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 
 		$options = array(array());
 
-		$componentsDirectory = JPATH_ADMINISTRATOR . "/components";
+		$componentsDirectory         = JPATH_ADMINISTRATOR . "/components";
 		$frontendComponentsDirectory = JPATH_SITE . "/components";
-		$components          = scandir($componentsDirectory);
+		$components                  = scandir($componentsDirectory);
 
 		foreach ($components as $key => $value)
 		{
@@ -71,17 +72,17 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 
 							JModelLegacy::addIncludePath($modelsPath, ucfirst($removeExtension) . 'Model');
 							$model = JModelLegacy::getInstance(ucfirst($removeExtension), ucfirst(substr($value, 4)) . 'Model', array('ignore_request' => true));
-
-							$lang = JFactory::getLanguage();
-							$lang->load($value, JPATH_ADMINISTRATOR, null, false, true);
+							
 							$options[JText::_($value)][] = JHtml::_('select.option', $model->typeAlias, JText::_($value));
 
-							$associationsPhp = $frontendComponentsDirectory . "/" . $value . "/helpers/association.php";
-							$associationsPhpAsFile =  file_get_contents($associationsPhp);
-
-							if (JFile::exists($associationsPhp) && strpos($associationsPhpAsFile, "$view == 'category'"))
+							if (JFile::exists($frontendComponentsDirectory . "/" . $value . "/helpers/association.php"))
 							{
-								$options[JText::_($value)][] = JHtml::_('select.option', 'com_categories.category|' . $value, JText::_("JCATEGORIES"));
+								$file = file_get_contents($frontendComponentsDirectory . "/" . $value . "/helpers/association.php");
+
+								if (strpos($file, 'getCategoryAssociations'))
+								{
+									$options[JText::_($value)][] = JHtml::_('select.option', 'com_categories.category|' . $value, JText::_("JCATEGORIES"));
+								}
 							}
 						}
 					}
@@ -89,10 +90,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 			}
 		}
 
-		$lang = JFactory::getLanguage();
-		$lang->load('com_menus', JPATH_ADMINISTRATOR, null, false, true);
 		$options[JText::_("COM_MENUS_SUBMENU_MENUS")][] = JHtml::_('select.option', 'com_menus.item', JText::_("COM_MENUS_SUBMENU_ITEMS"));
-
 
 		$options = array_merge(parent::getGroups(), $options);
 
