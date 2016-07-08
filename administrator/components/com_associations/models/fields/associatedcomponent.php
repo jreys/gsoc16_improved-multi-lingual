@@ -73,7 +73,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 							$model = JModelLegacy::getInstance(ucfirst($removeExtension), ucfirst(substr($value, 4)) . 'Model', array('ignore_request' => true));
 
 							$lang = JFactory::getLanguage();
-							$lang->load($value);
+							$lang->load($value, JPATH_ADMINISTRATOR, null, false, true);
 							$options[JText::_($value)][] = JHtml::_('select.option', $model->typeAlias, JText::_($value));
 							if (JFile::exists($frontendComponentsDirectory . "/" . $value . "/helpers/association.php"))
 							{
