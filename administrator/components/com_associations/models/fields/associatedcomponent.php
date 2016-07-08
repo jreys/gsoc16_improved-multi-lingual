@@ -43,7 +43,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
 
-		$options = array(); // no use to have a double array!
+		$options = array();
 
 		$componentsDirectory         = JPATH_ADMINISTRATOR . "/components";
 		$frontendComponentsDirectory = JPATH_SITE . "/components";
@@ -68,7 +68,8 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 
 						if ($value != 'com_categories' && $value != 'com_menus')
 						{
-							if(strpos($file, 'protected $associationsContext')) {
+							if(strpos($file, 'protected $associationsContext'))
+							{
 								$modelsPath = JPATH_ADMINISTRATOR . '/components/'
 								. $value . '/models';
 
@@ -88,7 +89,6 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 								{
 									$options[JText::_($value)][] = JHtml::_('select.option', 'com_categories.category|' . $value, JText::_("JCATEGORIES"));
 								}
-								
 							}
 							break;
 						}

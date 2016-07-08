@@ -51,63 +51,6 @@ $app->getDocument()->addScriptDeclaration("
 		});
 	});
 ");
-
-// For debugging this will be deleted -> print_r($input->post);
-
-$component = $input->post->get('component');
-$language = $input->post->get('ref-language');
-
-if (isset($component) && isset($language))
-{
-	// Create a new query object.
-	$db = JFactory::getDbo();
-	$query = $db->getQuery(true);
-
-	// Select the required fields from the table.
-	$query->select('a.id, a.name, a.language');
-	$query->from($db->quoteName('#__contact_details', 'a'));
-
-	// Join over the language
-	$query->select($db->quoteName('l.title', 'language_title'))
-		->select($db->quoteName('l.image', 'language_image'))
-		->join(
-			'LEFT',
-			$db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language')
-		);
-
-	// Join over the associations.
-
-	if ($assoc)
-	{
-		$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 as ' . $db->quoteName('association'))
-			->join(
-				'LEFT',
-				$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
-				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote('com_contact.item')
-			)
-			->join(
-				'LEFT',
-				$db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
-			)
-			->group(
-				$db->quoteName(
-					array(
-						'a.id',
-						'a.name',
-						'a.language'
-					)
-				)
-			);
-	}
-
-	// Filter on the language.
-	$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
-	$db->setQuery($query);
-	$results = $db->loadObjectList();
-
-	// Debug statement -> print_r($results);
-}
-
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">

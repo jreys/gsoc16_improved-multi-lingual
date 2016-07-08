@@ -53,14 +53,14 @@ class AssociationsHelper extends JHelperContent
 						if (strpos($file, 'protected $associationsContext'))
 						{
 							$lang->load($value, JPATH_ADMINISTRATOR, null, false, true)
-       							|| $lang->load($value, JPATH_ADMINISTRATOR . '/components/' . $value, null, false, true);
-       					}
-       				}
-       			}
-       		}
-       	}
+								|| $lang->load($value, JPATH_ADMINISTRATOR . '/components/' . $value, null, false, true);
+						}
+					}
+				}
+			}
+		}
 
-       	foreach ($frontendComponents as $key => $value)
+		foreach ($frontendComponents as $key => $value)
 		{
 			if (JFile::exists($frontendComponentsDirectory . "/" . $value . "/helpers/association.php"))
 			{
@@ -69,9 +69,9 @@ class AssociationsHelper extends JHelperContent
 				if (strpos($file, 'getCategoryAssociations'))
 				{
 					$lang->load($value, JPATH_ADMINISTRATOR, null, false, true)
-       					|| $lang->load($value, JPATH_ADMINISTRATOR . '/components/' . $value, null, false, true);
-       			}
-       		}
-       	}
+						|| $lang->load($value, JPATH_ADMINISTRATOR . '/components/' . $value, null, false, true);
+				}
+			}
+		}
 	}
 }
