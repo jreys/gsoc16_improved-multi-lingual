@@ -48,6 +48,8 @@ class AssociationsViewAssociation extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		AssociationsHelper::loadLanguageFiles();
+		
 		if ($this->getLayout() !== 'modal')
 		{
 			AssociationsHelper::addSubmenu('articles');
