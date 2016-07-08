@@ -34,7 +34,7 @@ $app->getDocument()->addScriptDeclaration("
 			return false;
 		}
 
-		jQuery('#filter-submit').attr('disabled', true);
+		//jQuery('#filter-submit').attr('disabled', true);
 
 		jQuery('#component').change(function() {
 	  		if(isValid()) {
@@ -70,7 +70,7 @@ $app->getDocument()->addScriptDeclaration("
 		</div>
 	</div>
 
-	<?php if (!empty($results)) : ?>
+	<?php if (!empty($this->items)) : ?>
 		<table class="table table-striped" id="contactList">
 			<thead>
 				<tr>
@@ -103,7 +103,7 @@ $app->getDocument()->addScriptDeclaration("
 				@todo ACL Check
 			*/
 			$n = count($this->items);
-			foreach ($results as $i => $item) :
+			foreach ($this->items as $i => $item) :
 				$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $menutypeid);
 				$canEdit    = $user->authorise('core.edit',       'com_menus.menu.' . $menutypeid);
 				$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
@@ -113,9 +113,9 @@ $app->getDocument()->addScriptDeclaration("
 					<td class="nowrap has-context">
 						<div class="pull-left">
 							<?php if ($canEdit || $canEditOwn) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_associations&view=association&layout=edit&acomponent=com_contact&aview=contact&id=' . (int) $item->id); ?>"><?php echo $this->escape($item->name); ?></a>
+								<a href="<?php echo JRoute::_('index.php?option=com_associations&view=association&layout=edit&acomponent=com_contact&aview=contact&id=' . (int) $item->id); ?>"><?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
-								<?php echo $this->escape($item->name); ?>
+								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 						</div>
 					</td>

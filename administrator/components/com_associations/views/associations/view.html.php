@@ -49,12 +49,13 @@ class AssociationsViewAssociations extends JViewLegacy
 	public function display($tpl = null)
 	{
 		AssociationsHelper::loadLanguageFiles();
-		
+
 		if ($this->getLayout() !== 'modal')
 		{
 			AssociationsHelper::addSubmenu('articles');
 		}
-
+		
+		$this->items         = $this->get('Items');
 		$this->filterForm    = $this->get('FilterForm');
 
 		// Check for errors.
