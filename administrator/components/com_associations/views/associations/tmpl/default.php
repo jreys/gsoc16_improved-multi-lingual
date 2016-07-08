@@ -51,6 +51,23 @@ $app->getDocument()->addScriptDeclaration("
 		});
 	});
 ");
+
+$componentFilter = $this->state->get('filter.component');
+
+// If it's not a category
+if ($componentFilter != '' && !strpos($componentFilter, '|'))
+{
+	$componentSplit = explode('.', $componentFilter);
+	$aComponent = $componentSplit[0];
+	$aView = $componentSplit[1];
+}
+else if ($componentFilter != '') {
+	$componentSplit = explode('|', $componentFilter);
+	$aComponent = 'com_categories';
+	$aView = $componentSplit[1];
+}
+$link = 'index.php?option=com_associations&view=association&layout=edit&acomponent='
+	. $aComponent . '&aview=' . $aView . '&id=';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
@@ -113,7 +130,7 @@ $app->getDocument()->addScriptDeclaration("
 					<td class="nowrap has-context">
 						<div class="pull-left">
 							<?php if ($canEdit || $canEditOwn) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_associations&view=association&layout=edit&acomponent=com_contact&aview=contact&id=' . (int) $item->id); ?>"><?php echo $this->escape($item->title); ?></a>
+								<a href="<?php echo JRoute::_($link . (int) $item->id); ?>"><?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
