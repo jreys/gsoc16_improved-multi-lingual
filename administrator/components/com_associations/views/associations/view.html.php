@@ -54,9 +54,10 @@ class AssociationsViewAssociations extends JViewLegacy
 		{
 			AssociationsHelper::addSubmenu('articles');
 		}
-		
+
 		$this->items         = $this->get('Items');
 		$this->filterForm    = $this->get('FilterForm');
+		$this->state         = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
