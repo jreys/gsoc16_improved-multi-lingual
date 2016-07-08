@@ -145,13 +145,24 @@ class AssociationsModelAssociations extends JModelList
 					// Searching for , '#__table' , after getAssociations(
 					$start = strpos($componentModel, ',', $position) + 2;
 					$end = strpos($componentModel, ',', $start) - 1;
-					$table = str_replace("'", "", substr($componentModel, $start, $end - $start));
+					
+					if ($componentSplit[0] == 'com_menus')
+					{
+						$table = '#__menu';
+					}
+
+					else 
+					{
+						$table = str_replace("'", "", substr($componentModel, $start, $end - $start));
+					}
 					
 					$columns = $db->getTableColumns($table);
 
-					if(!isset($columns['title'])){
+					if(!isset($columns['title']))
+					{
 						$title = 'a.name';
 					}
+
 					else {
 						$title = 'a.title';
 					}
@@ -187,6 +198,13 @@ class AssociationsModelAssociations extends JModelList
 									)
 								)
 							);
+					}
+
+					if ($componentSplit[0] == 'com_menus')
+					{
+						// Exclude the root category.
+						$query->where('a.id > 1')
+							->where('a.client_id = 0');
 					}
 
 					// Filter on the language.
