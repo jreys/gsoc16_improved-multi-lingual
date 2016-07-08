@@ -63,7 +63,7 @@ if ($associatedComponent == 'com_categories') {
 }
 
 //If it's a menu item
-else if ($associatedComponent == 'com_menus') {
+elseif ($associatedComponent == 'com_menus') {
 	$link = 'index.php?option=com_menus&view=item&layout=modal&task=item.edit&tmpl=component&id=' . $referenceId;
 }
 

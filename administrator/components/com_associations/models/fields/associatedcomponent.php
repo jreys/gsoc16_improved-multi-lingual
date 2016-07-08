@@ -68,7 +68,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 
 						if ($value != 'com_categories' && $value != 'com_menus')
 						{
-							if(strpos($file, 'protected $associationsContext'))
+							if (strpos($file, 'protected $associationsContext'))
 							{
 								$modelsPath = JPATH_ADMINISTRATOR . '/components/'
 								. $value . '/models';

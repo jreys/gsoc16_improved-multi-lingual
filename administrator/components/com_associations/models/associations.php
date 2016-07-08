@@ -136,9 +136,10 @@ class AssociationsModelAssociations extends JModelList
 			// If it's not a category
 			if (!strpos($component, '|'))
 			{
-				$componentSplit = explode('.', $component);
-				$componentModel = file_get_contents(JPATH_ADMINISTRATOR . '/components/' . $componentSplit[0]
-					. '/models/' . $componentSplit[1] . '.php');
+				$componentSplit     = explode('.', $component);
+				$componentModelPath = JPATH_ADMINISTRATOR . '/components/' . $componentSplit[0]	
+					. '/models/' . $componentSplit[1] . '.php';
+				$componentModel     = file_get_contents($componentModelPath);
 
 				if ($position = strpos($componentModel, 'getAssociations'))
 				{
@@ -150,7 +151,6 @@ class AssociationsModelAssociations extends JModelList
 					{
 						$table = '#__menu';
 					}
-
 					else 
 					{
 						$table = str_replace("'", "", substr($componentModel, $start, $end - $start));
@@ -158,16 +158,16 @@ class AssociationsModelAssociations extends JModelList
 					
 					$columns = $db->getTableColumns($table);
 
-					if(!isset($columns['title']))
+					if (!isset($columns['title']))
 					{
 						$title = 'a.name';
 					}
-
-					else {
+					else
+					{
 						$title = 'a.title';
 					}
 
-					$query->select('a.id, ' .$title. ' AS title, a.language');
+					$query->select('a.id, ' . $title . ' AS title, a.language');
 					
 					$query->from($db->quoteName($table, 'a'));
 
@@ -208,14 +208,14 @@ class AssociationsModelAssociations extends JModelList
 					}
 
 					// Filter on the language.
-					if ($language = $this->getState('filter.language')) {
+					if ($language = $this->getState('filter.language'))
+					{
 						$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
 					}
 				}
 			}
-
 			// If it's a category
-			else if (strpos($component, '|'))
+			elseif (strpos($component, '|'))
 			{
 				$componentSplit = explode('|', $component);
 				$extension = $componentSplit[1];
@@ -252,7 +252,6 @@ class AssociationsModelAssociations extends JModelList
 				
 			}
 		}
-
 		else
 		{
 			$query->select('a.id, a.name, a.language');

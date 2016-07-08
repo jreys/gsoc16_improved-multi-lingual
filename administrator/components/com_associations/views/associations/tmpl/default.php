@@ -61,7 +61,7 @@ if ($componentFilter != '' && !strpos($componentFilter, '|'))
 	$aComponent = $componentSplit[0];
 	$aView = $componentSplit[1];
 }
-else if ($componentFilter != '') {
+elseif ($componentFilter != '') {
 	$componentSplit = explode('|', $componentFilter);
 	$aComponent = 'com_categories';
 	$aView = $componentSplit[1];
