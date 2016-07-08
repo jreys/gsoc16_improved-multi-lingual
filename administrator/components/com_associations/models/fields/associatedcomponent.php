@@ -75,7 +75,11 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 							$lang = JFactory::getLanguage();
 							$lang->load($value, JPATH_ADMINISTRATOR, null, false, true);
 							$options[JText::_($value)][] = JHtml::_('select.option', $model->typeAlias, JText::_($value));
-							if (JFile::exists($frontendComponentsDirectory . "/" . $value . "/helpers/association.php"))
+
+							$associationsPhp = $frontendComponentsDirectory . "/" . $value . "/helpers/association.php";
+							$associationsPhpAsFile =  file_get_contents($associationsPhp);
+
+							if (JFile::exists($associationsPhp) && strpos($associationsPhpAsFile, "$view == 'category'"))
 							{
 								$options[JText::_($value)][] = JHtml::_('select.option', 'com_categories.category|' . $value, JText::_("JCATEGORIES"));
 							}
@@ -86,7 +90,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 		}
 
 		$lang = JFactory::getLanguage();
-		$lang->load('com_menus');
+		$lang->load('com_menus', JPATH_ADMINISTRATOR, null, false, true);
 		$options[JText::_("COM_MENUS_SUBMENU_MENUS")][] = JHtml::_('select.option', 'com_menus.item', JText::_("COM_MENUS_SUBMENU_ITEMS"));
 
 
