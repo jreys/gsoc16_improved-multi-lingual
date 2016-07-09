@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_contact/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
@@ -20,6 +19,8 @@ JHtml::_('jquery.framework');
 $app    = JFactory::getApplication();
 $user   = JFactory::getUser();
 $userId = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 
 $input = $app->input;
 
@@ -53,6 +54,29 @@ $app->getDocument()->addScriptDeclaration("
 ");
 
 $componentFilter = $this->state->get('filter.component');
+$parts = explode('.', $componentFilter);
+$comp = $parts[0];
+$assocItem = $parts[1];
+
+JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
+
+// Get the value in the Association column
+if ($comp != "com_content" && $comp != "com_categories" && $comp != "com_menus")
+{
+	$assocValue = $assocItem . '.association';
+}
+elseif ($comp == "com_content")
+{
+	$assocValue = "contentadministrator.association";
+}
+elseif ($comp == "com_categories")
+{
+	$assocValue = "categoriesadministrator.association";
+}
+elseif ($comp == "com_menus")
+{
+	$assocValue = "MenusHtml.Menus.association";
+}
 
 // If it's not a category
 if ($componentFilter != '' && !strpos($componentFilter, '|'))
@@ -80,7 +104,7 @@ $link = 'index.php?option=com_associations&view=association&layout=edit&acompone
 		<div class="clearfix">
 			<?php if ($assoc && $input->get('layout') != 'modal') : ?>
 				<button id="filter-submit" class="btn btn-primary" type="submit" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>">
-					<span class="icon-list "> </span> 
+					<span class="icon-list "> </span>
 					Select
 				</button>
 			<?php endif; ?>
@@ -121,10 +145,10 @@ $link = 'index.php?option=com_associations&view=association&layout=edit&acompone
 			*/
 			$n = count($this->items);
 			foreach ($this->items as $i => $item) :
-				$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $menutypeid);
-				$canEdit    = $user->authorise('core.edit',       'com_menus.menu.' . $menutypeid);
-				$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
-				$canChange  = $user->authorise('core.edit.state', 'com_menus.menu.' . $menutypeid) && $canCheckin;
+				$canCreate  = $user->authorise('core.create', $componentFilter);
+				$canEdit    = $user->authorise('core.edit', $componentFilter);
+				$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
+				$canChange  = $user->authorise('core.edit.state', $componentFilter) && $canCheckin;
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="nowrap has-context">
@@ -137,16 +161,12 @@ $link = 'index.php?option=com_associations&view=association&layout=edit&acompone
 						</div>
 					</td>
 					<td class="small hidden-phone">
-						<?php if ($item->language == '*') : ?>
-							<?php echo JText::alt('JALL', 'language'); ?>
-						<?php else : ?>
-							<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-						<?php endif; ?>
+						<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 					</td>
 					<?php if ($assoc) : ?>
 					<td class="hidden-phone hidden-tablet">
 						<?php if ($item->association) : ?>
-							<?php echo JHtml::_('contact.association', $item->id); ?>
+							<?php echo JHtml::_($assocValue, $item->id); ?>
 						<?php endif; ?>
 					</td>
 					<?php endif;?>
@@ -159,7 +179,7 @@ $link = 'index.php?option=com_associations&view=association&layout=edit&acompone
 		</table>
 
 	<?php endif; ?>
-	
+
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
 	<?php echo JHtml::_('form.token'); ?>
