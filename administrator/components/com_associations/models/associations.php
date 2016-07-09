@@ -249,6 +249,12 @@ class AssociationsModelAssociations extends JModelList
 				}
 
 				$query->where('a.extension = ' . $db->quote($extension));
+
+				// Filter on the language.
+				if ($language = $this->getState('filter.language'))
+				{
+					$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
+				}
 				
 			}
 		}
