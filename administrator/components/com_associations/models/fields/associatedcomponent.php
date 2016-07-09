@@ -25,11 +25,6 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'AssociatedComponent';
-
-	protected $articles = array(
-		'com_content.articles' => 'Articles',
-		'com_content.categories' => 'Categories',
-	);
 	
 	/**
 	 * Method to get the field input markup.
