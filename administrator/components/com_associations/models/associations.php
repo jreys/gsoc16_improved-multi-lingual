@@ -124,147 +124,137 @@ class AssociationsModelAssociations extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
-		$app = JFactory::getApplication();
+		$db        = $this->getDbo();
+		$query     = $db->getQuery(true);
+		$user      = JFactory::getUser();
+		$app       = JFactory::getApplication();
+		$assoc     = JLanguageAssociations::isEnabled();
+		$component = $this->getState('filter.component');
 
-		$assoc = JLanguageAssociations::isEnabled();
+		// If it's not a category
+		if (!strpos($component, '|'))
+		{
+			$componentSplit     = explode('.', $component);
+			$componentModelPath = JPATH_ADMINISTRATOR . '/components/' . $componentSplit[0]	
+				. '/models/' . $componentSplit[1] . '.php';
+			$componentModel     = file_get_contents($componentModelPath);
 
-		if ($component = $this->getState('filter.component'))
-		{	
-			// If it's not a category
-			if (!strpos($component, '|'))
+			if ($position = strpos($componentModel, 'getAssociations'))
 			{
-				$componentSplit     = explode('.', $component);
-				$componentModelPath = JPATH_ADMINISTRATOR . '/components/' . $componentSplit[0]	
-					. '/models/' . $componentSplit[1] . '.php';
-				$componentModel     = file_get_contents($componentModelPath);
-
-				if ($position = strpos($componentModel, 'getAssociations'))
+				// Searching for , '#__table' , after getAssociations(
+				$start = strpos($componentModel, ',', $position) + 2;
+				$end = strpos($componentModel, ',', $start) - 1;
+				
+				if ($componentSplit[0] == 'com_menus')
 				{
-					// Searching for , '#__table' , after getAssociations(
-					$start = strpos($componentModel, ',', $position) + 2;
-					$end = strpos($componentModel, ',', $start) - 1;
-					
-					if ($componentSplit[0] == 'com_menus')
-					{
-						$table = '#__menu';
-					}
-					else 
-					{
-						$table = str_replace("'", "", substr($componentModel, $start, $end - $start));
-					}
-					
-					$columns = $db->getTableColumns($table);
-
-					if (!isset($columns['title']))
-					{
-						$title = 'a.name';
-					}
-					else
-					{
-						$title = 'a.title';
-					}
-
-					$query->select('a.id, ' . $title . ' AS title, a.language');
-					
-					$query->from($db->quoteName($table, 'a'));
-
-					// Join over the language
-					$query->select('l.title AS language_title, l.image AS language_image')
-						->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
-
-					// Join over the associations.
-
-					if ($assoc)
-					{
-						$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 as ' . $db->quoteName('association'))
-							->join(
-								'LEFT',
-								$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
-								. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($componentSplit[0] . '.item')
-							)
-							->join(
-								'LEFT',
-								$db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
-							)
-							->group(
-								$db->quoteName(
-									array(
-										'a.id',
-										$title,
-										'a.language'
-									)
-								)
-							);
-					}
-
-					if ($componentSplit[0] == 'com_menus')
-					{
-						// Exclude the root category.
-						$query->where('a.id > 1')
-							->where('a.client_id = 0');
-					}
-
-					// Filter on the language.
-					if ($language = $this->getState('filter.language'))
-					{
-						$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
-					}
+					$table = '#__menu';
 				}
-			}
-			// If it's a category
-			elseif (strpos($component, '|'))
-			{
-				$componentSplit = explode('|', $component);
-				$extension = $componentSplit[1];
+				else 
+				{
+					$table = str_replace("'", "", substr($componentModel, $start, $end - $start));
+				}
+				
+				$columns = $db->getTableColumns($table);
 
-				// Select the required fields from the table.
-				$query->select('a.id, a.title, a.language');
-				$query->from('#__categories AS a');
+				if (!isset($columns['title']))
+				{
+					$title = 'a.name';
+				}
+				else
+				{
+					$title = 'a.title';
+				}
+
+				$query->select('a.id, ' . $title . ' AS title, a.language');
+				
+				$query->from($db->quoteName($table, 'a'));
 
 				// Join over the language
 				$query->select('l.title AS language_title, l.image AS language_image')
 					->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
-				// Join over the users for the checked out user.
-				$query->select('uc.name AS editor')
-					->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
-
-				// Join over the asset groups.
-				$query->select('ag.title AS access_level')
-					->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
-
-				// Join over the users for the author.
-				$query->select('ua.name AS author_name')
-					->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
+				// Join over the associations.
 
 				if ($assoc)
 				{
-					$query->select('COUNT(asso2.id)>1 as association')
-						->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_categories.item'))
-						->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-						->group('a.id, l.title, uc.name, ag.title, ua.name');
+					$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 as ' . $db->quoteName('association'))
+						->join(
+							'LEFT',
+							$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
+							. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($componentSplit[0] . '.item')
+						)
+						->join(
+							'LEFT',
+							$db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
+						)
+						->group(
+							$db->quoteName(
+								array(
+									'a.id',
+									$title,
+									'a.language'
+								)
+							)
+						);
 				}
 
-				$query->where('a.extension = ' . $db->quote($extension));
+				if ($componentSplit[0] == 'com_menus')
+				{
+					// Exclude the root category.
+					$query->where('a.id > 1')
+						->where('a.client_id = 0');
+				}
 
 				// Filter on the language.
 				if ($language = $this->getState('filter.language'))
 				{
 					$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
 				}
-				
 			}
 		}
-		else
+		// If it's a category
+		elseif (strpos($component, '|'))
 		{
-			$query->select('a.id, a.name, a.language');
-			$query->from($db->quoteName('#__contact_details', 'a'));
-		}
+			$componentSplit = explode('|', $component);
+			$extension = $componentSplit[1];
 
-		// Debug statement print_r($query->__toString());
+			// Select the required fields from the table.
+			$query->select('a.id, a.title, a.language');
+			$query->from('#__categories AS a');
+
+			// Join over the language
+			$query->select('l.title AS language_title, l.image AS language_image')
+				->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+
+			// Join over the users for the checked out user.
+			$query->select('uc.name AS editor')
+				->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+
+			// Join over the asset groups.
+			$query->select('ag.title AS access_level')
+				->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+
+			// Join over the users for the author.
+			$query->select('ua.name AS author_name')
+				->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
+
+			if ($assoc)
+			{
+				$query->select('COUNT(asso2.id)>1 as association')
+					->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_categories.item'))
+					->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+					->group('a.id, l.title, uc.name, ag.title, ua.name');
+			}
+
+			$query->where('a.extension = ' . $db->quote($extension));
+
+			// Filter on the language.
+			if ($language = $this->getState('filter.language'))
+			{
+				$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
+			}
+			
+		}
 
 		return $query;
 	}
