@@ -26,34 +26,6 @@ $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
 
-$app->getDocument()->addScriptDeclaration("
-	jQuery( document ).ready(function() {
-		function isValid() {
-			if (jQuery('#filter_component').val() != '' && jQuery('#filter_language').val() != '') {
-				return true;
-			}
-			return false;
-		}
-
-		if (!isValid()) {
-			jQuery('#filter-submit').attr('disabled', true);
-		}
-
-		jQuery('#filter_component').change(function() {
-	  		if(isValid()) {
-	  			jQuery('#filter-submit').attr('disabled', false);
-	  		}
-	  		else jQuery('#filter-submit').attr('disabled', true);
-		});
-
-		jQuery('#filter_language').change(function() {
-	  		if(isValid()) {
-	  			jQuery('#filter-submit').attr('disabled', false);
-	  		}
-	  		else jQuery('#filter-submit').attr('disabled', true);
-		});
-	});
-");
 
 $componentFilter = $this->state->get('filter.component');
 $parts = explode('.', $componentFilter);
