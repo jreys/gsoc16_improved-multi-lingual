@@ -29,22 +29,24 @@ $assoc = JLanguageAssociations::isEnabled();
 $app->getDocument()->addScriptDeclaration("
 	jQuery( document ).ready(function() {
 		function isValid() {
-			if (jQuery('#component').val() != '' && jQuery('#ref-language').val() != '') {
+			if (jQuery('#filter_component').val() != '' && jQuery('#filter_language').val() != '') {
 				return true;
 			}
 			return false;
 		}
 
-		//jQuery('#filter-submit').attr('disabled', true);
+		if (!isValid()) {
+			jQuery('#filter-submit').attr('disabled', true);
+		}
 
-		jQuery('#component').change(function() {
+		jQuery('#filter_component').change(function() {
 	  		if(isValid()) {
 	  			jQuery('#filter-submit').attr('disabled', false);
 	  		}
 	  		else jQuery('#filter-submit').attr('disabled', true);
 		});
 
-		jQuery('#ref-language').change(function() {
+		jQuery('#filter_language').change(function() {
 	  		if(isValid()) {
 	  			jQuery('#filter-submit').attr('disabled', false);
 	  		}
