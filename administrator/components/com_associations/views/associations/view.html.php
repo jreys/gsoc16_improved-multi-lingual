@@ -50,11 +50,6 @@ class AssociationsViewAssociations extends JViewLegacy
 	{
 		AssociationsHelper::loadLanguageFiles();
 
-		if ($this->getLayout() !== 'modal')
-		{
-			AssociationsHelper::addSubmenu('articles');
-		}
-
 		$this->filterForm    = $this->get('FilterForm');
 		$this->state         = $this->get('State');
 
@@ -71,6 +66,9 @@ class AssociationsViewAssociations extends JViewLegacy
 			return false;
 		}
 
+		/*
+		* @todo Review this later
+		*/
 		// We don't need toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
 		{

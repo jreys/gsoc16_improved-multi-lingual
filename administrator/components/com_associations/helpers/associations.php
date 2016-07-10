@@ -23,7 +23,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function loadLanguageFiles()
 	{
