@@ -57,6 +57,10 @@ class AssociationsViewAssociations extends JViewLegacy
 		{
 			$this->items = $this->get('Items');
 		}
+		else
+		{
+			JFactory::getApplication()->enqueueMessage('Please select a Item Type and a reference language to view the associations.', 'notice');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
