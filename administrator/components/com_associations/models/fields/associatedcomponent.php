@@ -10,10 +10,10 @@ defined('JPATH_BASE') or die;
 
 JFormHelper::loadFieldClass('groupedlist');
 /**
- * A drop down containing all valid HTTP 1.1 response codes.
+ * A drop down containing all components that implement associations
  *
  * @package     Joomla.Administrator
- * @subpackage  com_redirect
+ * @subpackage  com_associations
  * @since       __DEPLOY_VERSION__
  */
 class JFormFieldAssociatedComponent extends JFormFieldGroupedList
@@ -40,49 +40,59 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 
 		$options = array();
 
-		$componentsDirectory         = JPATH_ADMINISTRATOR . "/components";
-		$frontendComponentsDirectory = JPATH_SITE . "/components";
-		$backendComponents           = scandir($componentsDirectory);
-		$frontendComponents          = scandir($frontendComponentsDirectory);
+		$componentsDirectory         = JPATH_ADMINISTRATOR . '/components';
+		$frontendComponentsDirectory = JPATH_SITE . '/components';
+		$backendComponents           = glob($componentsDirectory . '/*', GLOB_ONLYDIR);
+		$frontendComponents          = glob($frontendComponentsDirectory . '/*', GLOB_ONLYDIR);
+		
+		// Keeping only directory name
+		for ($i = 0; $i < count($backendComponents); $i++) { 
+			$backendComponents[$i] = basename($backendComponents[$i]);
+		}
+
+		// Keeping only directory name
+		for ($i = 0; $i < count($frontendComponents); $i++) { 
+			$frontendComponents[$i] = basename($frontendComponents[$i]);
+		}
 		
 		$components = array_intersect($frontendComponents, $backendComponents);
 
-		foreach ($components as $key => $value)
+		foreach ($components as $component)
 		{
-			$currentDir = $componentsDirectory . "/" . $value . "/models/";
+			$currentDir = $componentsDirectory . '/' . $component . '/models/';
 
 			if (JFolder::exists($currentDir))
 			{
 				$componentModel = scandir($currentDir);
 
-				foreach ($componentModel as $key2 => $value2)
+				foreach ($componentModel as $key => $value)
 				{
-					if (JFile::exists($currentDir . $value2))
+					if (JFile::exists($currentDir . $value))
 					{
-						$file = file_get_contents($currentDir . $value2);
+						$file = file_get_contents($currentDir . $value);
 
-						if ($value != 'com_categories' && $value != 'com_menus')
+						if ($component != 'com_categories' && $component != 'com_menus')
 						{
 							if (strpos($file, 'protected $associationsContext'))
 							{
 								$modelsPath = JPATH_ADMINISTRATOR . '/components/'
-								. $value . '/models';
+								. $component . '/models';
 
-								$removeExtension = preg_replace('/\\.[^.\\s]{3,4}$/', '', $value2);
+								$removeExtension = preg_replace('/\\.[^.\\s]{3,4}$/', '', $value);
 
 								JModelLegacy::addIncludePath($modelsPath, ucfirst($removeExtension) . 'Model');
-								$model = JModelLegacy::getInstance(ucfirst($removeExtension), ucfirst(substr($value, 4)) . 'Model', array('ignore_request' => true));
+								$model = JModelLegacy::getInstance(ucfirst($removeExtension), ucfirst(substr($component, 4)) . 'Model', array('ignore_request' => true));
 								
-								$options[JText::_($value)][] = JHtml::_('select.option', $model->typeAlias, JText::_($value));
+								$options[JText::_($component)][] = JHtml::_('select.option', $model->typeAlias, JText::_($component));
 							}
 
-							if (JFile::exists($frontendComponentsDirectory . "/" . $value . "/helpers/association.php"))
+							if (JFile::exists($frontendComponentsDirectory . "/" . $component . "/helpers/association.php"))
 							{
-								$file = file_get_contents($frontendComponentsDirectory . "/" . $value . "/helpers/association.php");
+								$file = file_get_contents($frontendComponentsDirectory . "/" . $component . "/helpers/association.php");
 
 								if (strpos($file, 'getCategoryAssociations'))
 								{
-									$options[JText::_($value)][] = JHtml::_('select.option', 'com_categories.category|' . $value, JText::_("JCATEGORIES"));
+									$options[JText::_($component)][] = JHtml::_('select.option', 'com_categories.category|' . $component, JText::_("JCATEGORIES"));
 								}
 							}
 							break;
