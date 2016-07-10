@@ -106,7 +106,7 @@ if (isset($aComponent) && isset($aView))
 
 	<div id="j-main-container">
 
-	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 
 	<div class="js-stools clearfix">
 		<div class="clearfix">
