@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<field
-		name="component"
+		name="associationcomponent"
 		type="associatedcomponent"
 		label="COM_ASSOCIATIONS_FILTER_SEARCH_LABEL"
 		description="COM_ASSOCIATIONS_FILTER_SEARCH_DESC"
@@ -10,7 +10,7 @@
 		<option value="">COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE</option>
 	</field>
 	<field
-		name="language"
+		name="associationlanguage"
 		type="contentlanguage"
 		label="JOPTION_FILTER_LANGUAGE"
 		description="JOPTION_FILTER_LANGUAGE_DESC"
