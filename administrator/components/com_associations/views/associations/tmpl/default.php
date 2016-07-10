@@ -52,58 +52,53 @@ $app->getDocument()->addScriptDeclaration("
 	});
 ");
 
-$componentFilter = $this->state->get('associationcomponent');
-
-if (isset($componentFilter))
+if (!empty($componentFilter) && isset($componentFilter))
 {
-	$parts = explode('.', $componentFilter);
-	$comp = $parts[0];
+	$parts     = explode('.', $componentFilter);
+	$comp      = $parts[0];
 	$assocItem = $parts[1];
-}
 
-JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
+	JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
 
-// Get the value in the Association column
-if ($comp != "com_content" && $comp != "com_categories" && $comp != "com_menus")
-{
-	$assocValue = $assocItem . '.association';
-}
-elseif ($comp == "com_content")
-{
-	$assocValue = "contentadministrator.association";
-}
-elseif ($comp == "com_categories")
-{
-	$assocValue = "categoriesadministrator.association";
-}
-elseif ($comp == "com_menus")
-{
-	$assocValue = "MenusHtml.Menus.association";
-}
+	// Get the value in the Association column
+	if ($comp != "com_content" && $comp != "com_categories" && $comp != "com_menus")
+	{
+		$assocValue = $assocItem . '.association';
+	}
+	elseif ($comp == "com_content")
+	{
+		$assocValue = "contentadministrator.association";
+	}
+	elseif ($comp == "com_categories")
+	{
+		$assocValue = "categoriesadministrator.association";
+	}
+	elseif ($comp == "com_menus")
+	{
+		$assocValue = "MenusHtml.Menus.association";
+	}
 
-// If it's not a category
-if ($componentFilter != '' && !strpos($componentFilter, '|'))
-{
-	$componentSplit = explode('.', $componentFilter);
-	$aComponent = $componentSplit[0];
-	$aView = $componentSplit[1];
-}
-elseif ($componentFilter != '') {
-	$componentSplit = explode('|', $componentFilter);
-	$aComponent = 'com_categories';
-	$aView = $componentSplit[1];
-}
+	// If it's not a category
+	if ($componentFilter != '' && !strpos($componentFilter, '|'))
+	{
+		$componentSplit = explode('.', $componentFilter);
+		$aComponent = $componentSplit[0];
+		$aView = $componentSplit[1];
+	}
+	elseif ($componentFilter != '') {
+		$componentSplit = explode('|', $componentFilter);
+		$aComponent = 'com_categories';
+		$aView = $componentSplit[1];
+	}
 
-if (isset($aComponent) && isset($aView))
-{
-	$link = 'index.php?option=com_associations&view=association&layout=edit&acomponent='
-	. $aComponent . '&aview=' . $aView . '&id=';
+	if (isset($aComponent) && isset($aView))
+	{
+		$link = 'index.php?option=com_associations&view=association&layout=edit&acomponent='
+		. $aComponent . '&aview=' . $aView . '&id=';
+	}
 }
-
 ?>
-
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
-
 	<div id="j-main-container">
 
 	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
