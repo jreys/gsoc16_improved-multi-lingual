@@ -54,7 +54,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function populateState($ordering = 'a.id', $direction = 'desc')
+	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('associationlanguage', $this->getUserStateFromRequest($this->context . '.associationlanguage', 'associationlanguage', '', 'string'));
@@ -226,10 +226,9 @@ class AssociationsModelAssociations extends JModelList
 			{
 				$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
 			}
-			
+
 		}
 
 		return $query;
 	}
-
 }
