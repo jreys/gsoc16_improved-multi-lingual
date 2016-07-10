@@ -53,7 +53,7 @@ class AssociationsViewAssociations extends JViewLegacy
 		$this->state      = $this->get('State');
 		$this->filterForm = $this->get('FilterForm');
 
-		if (!$this->state->get('associationcomponent') == '' || !$this->state->get('associationlanguage') == '')
+		if (!$this->state->get('associationcomponent') == '' && !$this->state->get('associationlanguage') == '')
 		{
 			$this->items = $this->get('Items');
 		}
