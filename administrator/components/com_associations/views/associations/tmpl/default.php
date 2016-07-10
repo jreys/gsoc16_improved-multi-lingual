@@ -53,9 +53,13 @@ $app->getDocument()->addScriptDeclaration("
 ");
 
 $componentFilter = $this->state->get('filter.component');
-$parts = explode('.', $componentFilter);
-$comp = $parts[0];
-$assocItem = $parts[1];
+
+if (isset($componentFilter))
+{
+	$parts = explode('.', $componentFilter);
+	$comp = $parts[0];
+	$assocItem = $parts[1];
+}
 
 JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
 
@@ -89,8 +93,13 @@ elseif ($componentFilter != '') {
 	$aComponent = 'com_categories';
 	$aView = $componentSplit[1];
 }
-$link = 'index.php?option=com_associations&view=association&layout=edit&acomponent='
+
+if (isset($aComponent) && isset($aView))
+{
+	$link = 'index.php?option=com_associations&view=association&layout=edit&acomponent='
 	. $aComponent . '&aview=' . $aView . '&id=';
+}
+
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
