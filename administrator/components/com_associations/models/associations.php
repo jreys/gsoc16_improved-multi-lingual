@@ -29,13 +29,10 @@ class AssociationsModelAssociations extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id', 'a.id'
+				'id', 'a.id',
+				'associationlanguage',
+				'associationcomponent',
 			);
-
-			if (JLanguageAssociations::isEnabled())
-			{
-				$config['filter_fields'][] = 'association';
-			}
 		}
 
 		parent::__construct($config);
@@ -55,40 +52,12 @@ class AssociationsModelAssociations extends JModelList
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
-		$app = JFactory::getApplication();
-
-		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
-
-		// Adjust the context to support modal layouts.
-		if ($layout = $app->input->get('layout'))
-		{
-			$this->context .= '.' . $layout;
-		}
-
-		// Adjust the context to support forced languages.
-		if ($forcedLanguage)
-		{
-			$this->context .= '.' . $forcedLanguage;
-		}
-
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
-		$this->setState('filter.language', $language);
-
-		$component = $this->getUserStateFromRequest($this->context . '.filter.associatedcomponent', 'associatedcomponent', '');
-		$this->setState('filter.associatedcomponent', $component);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('associationlanguage', $this->getUserStateFromRequest($this->context . '.associationlanguage', 'associationlanguage', '', 'string'));
+		$this->setState('associationcomponent', $this->getUserStateFromRequest($this->context . '.associationcomponent', 'associationcomponent', '', 'string'));
 
 		// List state information.
 		parent::populateState($ordering, $direction);
-
-		// Force a language
-		if (!empty($forcedLanguage))
-		{
-			$this->setState('filter.language', $forcedLanguage);
-			$this->setState('filter.forcedLanguage', $forcedLanguage);
-		}
 	}
 
 	/**
@@ -108,8 +77,8 @@ class AssociationsModelAssociations extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.language');
-		$id .= ':' . $this->getState('filter.associatedcomponent');
+		$id .= ':' . $this->getState('associationlanguage');
+		$id .= ':' . $this->getState('associationcomponent');
 
 		return parent::getStoreId($id);
 	}
@@ -129,7 +98,7 @@ class AssociationsModelAssociations extends JModelList
 		$user      = JFactory::getUser();
 		$app       = JFactory::getApplication();
 		$assoc     = JLanguageAssociations::isEnabled();
-		$component = $this->getState('filter.component');
+		$component = $this->getState('associationcomponent');
 
 		// If it's not a category
 		if (!strpos($component, '|'))
@@ -206,7 +175,7 @@ class AssociationsModelAssociations extends JModelList
 				}
 
 				// Filter on the language.
-				if ($language = $this->getState('filter.language'))
+				if ($language = $this->getState('associationlanguage'))
 				{
 					$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
 				}
@@ -249,7 +218,7 @@ class AssociationsModelAssociations extends JModelList
 			$query->where('a.extension = ' . $db->quote($extension));
 
 			// Filter on the language.
-			if ($language = $this->getState('filter.language'))
+			if ($language = $this->getState('associationlanguage'))
 			{
 				$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
 			}
