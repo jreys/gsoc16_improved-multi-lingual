@@ -50,8 +50,8 @@ class AssociationsViewAssociations extends JViewLegacy
 	{
 		AssociationsHelper::loadLanguageFiles();
 
-		$this->filterForm    = $this->get('FilterForm');
-		$this->state         = $this->get('State');
+		$this->state      = $this->get('State');
+		$this->filterForm = $this->get('FilterForm');
 
 		if (!$this->state->get('associationcomponent') == '' || !$this->state->get('associationlanguage') == '')
 		{
