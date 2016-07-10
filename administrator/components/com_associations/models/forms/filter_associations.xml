@@ -5,14 +5,14 @@
 			name="search"
 			type="text"
 			label="COM_ASSOCIATIONS_FILTER_SEARCH_LABEL"
-			description="COM_CONTENT_FILTER_SEARCH_DESC"
+			description="COM_ASSOCIATIONS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
 			name="component"
 			type="associatedcomponent"
 			label="COM_ASSOCIATIONS_FILTER_SEARCH_LABEL"
-			description="COM_CONTENT_FILTER_SEARCH_DESC"
+			description="COM_ASSOCIATIONS_FILTER_SEARCH_DESC"
 			>
 			<option value="">COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE</option>
 		</field>
@@ -24,5 +24,48 @@
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="COM_ASSOCIATIONS_LIST_FULL_ORDERING"
+			description="COM_ASSOCIATIONS_LIST_FULL_ORDERING_DESC"
+			default="a.name ASC"
+			onchange="this.form.submit();"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="a.name ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="a.name DESC">JGLOBAL_TITLE_DESC</option>
+			<option
+				value="association ASC"
+				requires="associations"
+				>
+				JASSOCIATIONS_ASC
+			</option>
+			<option
+				value="association DESC"
+				requires="associations"
+				>
+				JASSOCIATIONS_DESC
+			</option>
+			<option value="language_title ASC">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="language_title DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="COM_ASSOCIATIONS_LIST_LIMIT"
+			description="COM_ASSOCIATIONS_LIST_LIMIT_DESC"
+			default="25"
+			class="input-mini"
+			onchange="this.form.submit();"
+		/>
 	</fields>
 </form>
