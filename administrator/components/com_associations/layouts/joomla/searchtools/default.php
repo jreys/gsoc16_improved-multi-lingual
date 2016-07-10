@@ -35,7 +35,7 @@ if ($data['view'] instanceof AssociationsViewAssociations)
 		}
 	");
 
-	// This filters doesn't have to activate the filter bar
+	// This selectors doesn't have to activate the filter bar
 	unset($data['view']->activeFilters['associationcomponent']);
 	unset($data['view']->activeFilters['associationlanguage']);
 }
