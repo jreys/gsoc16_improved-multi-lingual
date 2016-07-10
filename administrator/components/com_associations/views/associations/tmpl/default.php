@@ -61,11 +61,7 @@ if (!empty($componentFilter) && isset($componentFilter))
 	JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
 
 	// Get the value in the Association column
-	if ($comp != "com_content" && $comp != "com_categories" && $comp != "com_menus")
-	{
-		$assocValue = $assocItem . '.association';
-	}
-	elseif ($comp == "com_content")
+	if ($comp == "com_content")
 	{
 		$assocValue = "contentadministrator.association";
 	}
@@ -76,6 +72,10 @@ if (!empty($componentFilter) && isset($componentFilter))
 	elseif ($comp == "com_menus")
 	{
 		$assocValue = "MenusHtml.Menus.association";
+	}
+	else
+	{
+		$assocValue = $assocItem . '.association';
 	}
 
 	// If it's not a category
