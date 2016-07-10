@@ -30,6 +30,10 @@ class AssociationsModelAssociations extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
+				'a.name',
+				'a.ordering',
+				'language_title',
+				'association',
 				'associationlanguage',
 				'associationcomponent',
 			);
