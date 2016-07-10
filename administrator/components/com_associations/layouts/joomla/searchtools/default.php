@@ -36,8 +36,8 @@ if ($data['view'] instanceof AssociationsViewAssociations)
 	");
 
 	// This filters doesn't have to activate the filter bar
-	unset($data['view']->activeFilters['component']);
-	unset($data['view']->activeFilters['language']);
+	unset($data['view']->activeFilters['associationcomponent']);
+	unset($data['view']->activeFilters['associationlanguage']);
 }
 
 // Display the main joomla layout
