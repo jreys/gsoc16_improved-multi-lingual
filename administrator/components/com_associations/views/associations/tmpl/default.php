@@ -52,6 +52,8 @@ $app->getDocument()->addScriptDeclaration("
 	});
 ");
 
+$componentFilter = $this->state->get('associationcomponent');
+
 if (!empty($componentFilter) && isset($componentFilter))
 {
 	$parts     = explode('.', $componentFilter);
