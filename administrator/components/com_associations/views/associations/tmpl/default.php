@@ -29,7 +29,7 @@ $assoc = JLanguageAssociations::isEnabled();
 $app->getDocument()->addScriptDeclaration("
 	jQuery( document ).ready(function() {
 		function isValid() {
-			if (jQuery('#component').val() != '' && jQuery('#language').val() != '') {
+			if (jQuery('#associationcomponent').val() != '' && jQuery('#associationlanguage').val() != '') {
 				return true;
 			}
 			return false;
@@ -37,13 +37,13 @@ $app->getDocument()->addScriptDeclaration("
 		if (!isValid()) {
 			jQuery('#filter-submit').attr('disabled', true);
 		}
-		jQuery('#component').change(function() {
+		jQuery('#associationcomponent').change(function() {
 	  		if(isValid()) {
 	  			jQuery('#filter-submit').attr('disabled', false);
 	  		}
 	  		else jQuery('#filter-submit').attr('disabled', true);
 		});
-		jQuery('#language').change(function() {
+		jQuery('#associationlanguage').change(function() {
 	  		if(isValid()) {
 	  			jQuery('#filter-submit').attr('disabled', false);
 	  		}
@@ -52,7 +52,7 @@ $app->getDocument()->addScriptDeclaration("
 	});
 ");
 
-$componentFilter = $this->state->get('component');
+$componentFilter = $this->state->get('associationcomponent');
 
 if (isset($componentFilter))
 {
