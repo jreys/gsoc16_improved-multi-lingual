@@ -42,8 +42,8 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 
 		$componentsDirectory         = JPATH_ADMINISTRATOR . '/components';
 		$frontendComponentsDirectory = JPATH_SITE . '/components';
-		$backendComponents           = glob($componentsDirectory . '/*', GLOB_ONLYDIR);
-		$frontendComponents          = glob($frontendComponentsDirectory . '/*', GLOB_ONLYDIR);
+		$backendComponents           = glob($componentsDirectory . '/*', GLOB_NOSORT | GLOB_ONLYDIR);
+		$frontendComponents          = glob($frontendComponentsDirectory . '/*', GLOB_NOSORT | GLOB_ONLYDIR);
 		
 		// Keeping only directory name
 		for ($i = 0; $i < count($backendComponents); $i++)
