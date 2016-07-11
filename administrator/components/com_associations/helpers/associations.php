@@ -31,14 +31,26 @@ class AssociationsHelper extends JHelperContent
 		jimport('joomla.filesystem.file');
 		$lang = JFactory::getLanguage();
 		
-		$componentsDirectory = JPATH_ADMINISTRATOR . "/components";
+		$backendComponentsDirectory         = JPATH_ADMINISTRATOR . "/components";
 		$frontendComponentsDirectory = JPATH_SITE . "/components";
-		$components          = scandir($componentsDirectory);
-		$frontendComponents  = scandir($frontendComponentsDirectory);
+		$backendComponents           = glob($backendComponentsDirectory . '/*', GLOB_NOSORT | GLOB_ONLYDIR);
+		$frontendComponents          = glob($frontendComponentsDirectory . '/*', GLOB_NOSORT | GLOB_ONLYDIR);
 
-		foreach ($components as $key => $value)
+		// Keeping only directory name
+		for ($i = 0; $i < count($backendComponents); $i++)
+		{ 
+			$backendComponents[$i] = basename($backendComponents[$i]);
+		}
+
+		// Keeping only directory name
+		for ($i = 0; $i < count($frontendComponents); $i++)
+		{ 
+			$frontendComponents[$i] = basename($frontendComponents[$i]);
+		}
+
+		foreach ($backendComponents as $key => $value)
 		{
-			$currentDir = $componentsDirectory . "/" . $value . "/models/";
+			$currentDir = $backendComponentsDirectory . "/" . $value . "/models/";
 
 			if (JFolder::exists($currentDir))
 			{
