@@ -50,12 +50,16 @@ class AssociationsViewAssociations extends JViewLegacy
 	{
 		AssociationsHelper::loadLanguageFiles();
 
-		$this->filterForm    = $this->get('FilterForm');
-		$this->state         = $this->get('State');
+		$this->state      = $this->get('State');
+		$this->filterForm = $this->get('FilterForm');
 
-		if (!$this->state->get('filter.component') == '' || !$this->state->get('filter.language') == '')
+		if (!$this->state->get('associationcomponent') == '' && !$this->state->get('associationlanguage') == '')
 		{
 			$this->items = $this->get('Items');
+		}
+		else
+		{
+			JFactory::getApplication()->enqueueMessage('Please select a Item Type and a reference language to view the associations.', 'notice');
 		}
 
 		// Check for errors.
@@ -69,29 +73,8 @@ class AssociationsViewAssociations extends JViewLegacy
 		/*
 		* @todo Review this later
 		*/
-		// We don't need toolbar in the modal window.
-		if ($this->getLayout() !== 'modal')
-		{
-			$this->addToolbar();
-			$this->sidebar = JHtmlSidebar::render();
-		}
-		else
-		{
-			// In article associations modal we need to remove language filter if forcing a language.
-			// We also need to change the category filter to show show categories with All or the forced language.
-			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
-			{
-				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
-				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
-				$this->filterForm->setField($languageXml, 'filter', true);
-
-				// Also, unset the active language filter so the search tools is not open by default with this filter.
-				unset($this->activeFilters['language']);
-
-				// One last changes needed is to change the category filter to just show categories with All language or with the forced language.
-				$this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
-			}
-		}
+		$this->addToolbar();
+		//$this->sidebar = JHtmlSidebar::render();
 
 		parent::display($tpl);
 	}

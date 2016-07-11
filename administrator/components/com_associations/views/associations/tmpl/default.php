@@ -29,7 +29,7 @@ $assoc = JLanguageAssociations::isEnabled();
 $app->getDocument()->addScriptDeclaration("
 	jQuery( document ).ready(function() {
 		function isValid() {
-			if (jQuery('#filter_component').val() != '' && jQuery('#filter_language').val() != '') {
+			if (jQuery('#associationcomponent').val() != '' && jQuery('#associationlanguage').val() != '') {
 				return true;
 			}
 			return false;
@@ -37,13 +37,13 @@ $app->getDocument()->addScriptDeclaration("
 		if (!isValid()) {
 			jQuery('#filter-submit').attr('disabled', true);
 		}
-		jQuery('#filter_component').change(function() {
+		jQuery('#associationcomponent').change(function() {
 	  		if(isValid()) {
 	  			jQuery('#filter-submit').attr('disabled', false);
 	  		}
 	  		else jQuery('#filter-submit').attr('disabled', true);
 		});
-		jQuery('#filter_language').change(function() {
+		jQuery('#associationlanguage').change(function() {
 	  		if(isValid()) {
 	  			jQuery('#filter-submit').attr('disabled', false);
 	  		}
@@ -52,61 +52,58 @@ $app->getDocument()->addScriptDeclaration("
 	});
 ");
 
-$componentFilter = $this->state->get('filter.component');
+$componentFilter = $this->state->get('associationcomponent');
 
-if (isset($componentFilter))
+if (!empty($componentFilter) && isset($componentFilter))
 {
-	$parts = explode('.', $componentFilter);
-	$comp = $parts[0];
+	$parts     = explode('.', $componentFilter);
+	$comp      = $parts[0];
 	$assocItem = $parts[1];
-}
 
-JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
+	JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
 
-// Get the value in the Association column
-if ($comp != "com_content" && $comp != "com_categories" && $comp != "com_menus")
-{
-	$assocValue = $assocItem . '.association';
-}
-elseif ($comp == "com_content")
-{
-	$assocValue = "contentadministrator.association";
-}
-elseif ($comp == "com_categories")
-{
-	$assocValue = "categoriesadministrator.association";
-}
-elseif ($comp == "com_menus")
-{
-	$assocValue = "MenusHtml.Menus.association";
-}
+	// Get the value in the Association column
+	if ($comp == "com_content")
+	{
+		$assocValue = "contentadministrator.association";
+	}
+	elseif ($comp == "com_categories")
+	{
+		$assocValue = "categoriesadministrator.association";
+	}
+	elseif ($comp == "com_menus")
+	{
+		$assocValue = "MenusHtml.Menus.association";
+	}
+	else
+	{
+		$assocValue = $assocItem . '.association';
+	}
 
-// If it's not a category
-if ($componentFilter != '' && !strpos($componentFilter, '|'))
-{
-	$componentSplit = explode('.', $componentFilter);
-	$aComponent = $componentSplit[0];
-	$aView = $componentSplit[1];
-}
-elseif ($componentFilter != '') {
-	$componentSplit = explode('|', $componentFilter);
-	$aComponent = 'com_categories';
-	$aView = $componentSplit[1];
-}
+	// If it's not a category
+	if ($componentFilter != '' && !strpos($componentFilter, '|'))
+	{
+		$componentSplit = explode('.', $componentFilter);
+		$aComponent = $componentSplit[0];
+		$aView = $componentSplit[1];
+	}
+	elseif ($componentFilter != '') {
+		$componentSplit = explode('|', $componentFilter);
+		$aComponent = 'com_categories';
+		$aView = $componentSplit[1];
+	}
 
-if (isset($aComponent) && isset($aView))
-{
-	$link = 'index.php?option=com_associations&view=association&layout=edit&acomponent='
-	. $aComponent . '&aview=' . $aView . '&id=';
+	if (isset($aComponent) && isset($aView))
+	{
+		$link = 'index.php?option=com_associations&view=association&layout=edit&acomponent='
+		. $aComponent . '&aview=' . $aView . '&id=';
+	}
 }
-
 ?>
-
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
-
 	<div id="j-main-container">
 
-	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 
 	<div class="js-stools clearfix">
 		<div class="clearfix">
