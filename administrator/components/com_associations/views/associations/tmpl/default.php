@@ -26,32 +26,6 @@ $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
 
-$app->getDocument()->addScriptDeclaration("
-	jQuery( document ).ready(function() {
-		function isValid() {
-			if (jQuery('#associationcomponent').val() != '' && jQuery('#associationlanguage').val() != '') {
-				return true;
-			}
-			return false;
-		}
-		if (!isValid()) {
-			jQuery('#filter-submit').attr('disabled', true);
-		}
-		jQuery('#associationcomponent').change(function() {
-	  		if(isValid()) {
-	  			jQuery('#filter-submit').attr('disabled', false);
-	  		}
-	  		else jQuery('#filter-submit').attr('disabled', true);
-		});
-		jQuery('#associationlanguage').change(function() {
-	  		if(isValid()) {
-	  			jQuery('#filter-submit').attr('disabled', false);
-	  		}
-	  		else jQuery('#filter-submit').attr('disabled', true);
-		});
-	});
-");
-
 $componentFilter = $this->state->get('associationcomponent');
 
 if (!empty($componentFilter) && isset($componentFilter))
@@ -104,17 +78,6 @@ if (!empty($componentFilter) && isset($componentFilter))
 	<div id="j-main-container">
 
 	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
-
-	<div class="js-stools clearfix">
-		<div class="clearfix">
-			<?php if ($assoc && $input->get('layout') != 'modal') : ?>
-				<button id="filter-submit" class="btn btn-primary" type="submit" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>">
-					<span class="icon-list "> </span>
-					Select
-				</button>
-			<?php endif; ?>
-		</div>
-	</div>
 
 	<?php if (!empty($this->items)) : ?>
 		<table class="table table-striped" id="contactList">
