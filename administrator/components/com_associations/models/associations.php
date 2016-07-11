@@ -183,6 +183,23 @@ class AssociationsModelAssociations extends JModelList
 				{
 					$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
 				}
+
+				// Filter by search in name.
+				$search = $this->getState('filter.search');
+				if (!empty($search))
+				{
+					if (stripos($search, 'id:') === 0)
+					{
+						$query->where('a.id = ' . (int) substr($search, 3));
+					}
+					else
+					{
+						$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+						$query->where(
+							'(' . $db->quoteName($title) . ' LIKE ' . $search . ')'
+						);
+					}
+				}
 			}
 		}
 		// If it's a category
@@ -227,6 +244,22 @@ class AssociationsModelAssociations extends JModelList
 				$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
 			}
 
+			// Filter by search in name.
+			$search = $this->getState('filter.search');
+			if (!empty($search))
+			{
+				if (stripos($search, 'id:') === 0)
+				{
+					$query->where('a.id = ' . (int) substr($search, 3));
+				}
+				else
+				{
+					$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+					$query->where(
+						'(' . $db->quoteName('a.title') . ' LIKE ' . $search . ')'
+					);
+				}
+			}
 		}
 
 		return $query;
