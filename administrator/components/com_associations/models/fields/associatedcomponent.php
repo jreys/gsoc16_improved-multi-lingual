@@ -75,7 +75,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 			}
 
 			// Check if component uses categories with associations. Add category option to select box if so.
-			if (file_exists(JPATH_SITE . '/components/' . $component. '/helpers/association.php'))
+			if (file_exists(JPATH_SITE . '/components/' . $component . '/helpers/association.php'))
 			{
 				JLoader::register($componentName . 'HelperAssociation', JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 

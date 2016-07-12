@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @since  __DEPLOY_VERSION__
  */
 class AssociationsControllerAssociation extends JControllerAdmin
-{	
+{
 	/**
 	 * Proxy for getModel.
 	 *
