@@ -101,7 +101,10 @@ class AssociationsViewAssociations extends JViewLegacy
 		$bar = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_TITLE'), 'stack article');
-		JToolbarHelper::editList('association.edit');
+		/* 
+		 * @todo Verify later if new/edit/select is really needed
+		*/
+		// JToolbarHelper::editList('association.edit');
 		JToolbarHelper::preferences('com_associations');
 		JToolbarHelper::help('JGLOBAL_HELP');
 	}
