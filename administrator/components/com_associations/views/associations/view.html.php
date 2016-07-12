@@ -53,14 +53,14 @@ class AssociationsViewAssociations extends JViewLegacy
 		
 		if ($assoc)
 		{
-			$this->state      = $this->get('State');
-			$this->filterForm = $this->get('FilterForm');
-			$this->pagination    = $this->get('Pagination');
+			$this->state         = $this->get('State');
+			$this->filterForm    = $this->get('FilterForm');
 			$this->activeFilters = $this->get('ActiveFilters');
 
 			if (!$this->state->get('associationcomponent') == '' && !$this->state->get('associationlanguage') == '')
 			{
-				$this->items = $this->get('Items');
+				$this->items      = $this->get('Items');
+				$this->pagination = $this->get('Pagination');
 			}
 			else
 			{
