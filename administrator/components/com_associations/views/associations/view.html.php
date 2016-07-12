@@ -66,6 +66,8 @@ class AssociationsViewAssociations extends JViewLegacy
 				$comp             = $parts[0];
 				$assocItem        = $parts[1];
 
+				JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
+
 				// Get the value in the Association column
 				if ($comp == "com_content")
 				{
