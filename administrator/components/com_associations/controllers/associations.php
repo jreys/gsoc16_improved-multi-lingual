@@ -20,6 +20,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 * The URL view list variable.
 	 *
 	 * @var    string
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $view_list = 'Associations';
