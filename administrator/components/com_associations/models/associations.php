@@ -57,8 +57,16 @@ class AssociationsModelAssociations extends JModelList
 	protected function populateState($ordering = 'title', $direction = 'asc')
 	{
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('associationlanguage', $this->getUserStateFromRequest($this->context . '.associationlanguage', 'associationlanguage', '', 'string'));
-		$this->setState('associationcomponent', $this->getUserStateFromRequest($this->context . '.associationcomponent', 'associationcomponent', '', 'string'));
+		$this->setState(
+			'associationlanguage', $this->getUserStateFromRequest(
+					$this->context . '.associationlanguage', 'associationlanguage', '', 'string'
+				)
+			);
+		$this->setState(
+			'associationcomponent', $this->getUserStateFromRequest(
+					$this->context . '.associationcomponent', 'associationcomponent', '', 'string'
+				)
+			);
 
 		// List state information.
 		parent::populateState($ordering, $direction);

@@ -74,8 +74,8 @@ class AssociationsViewAssociations extends JViewLegacy
 		* @todo Review this later
 		*/
 		$this->addToolbar();
-		//$this->sidebar = JHtmlSidebar::render();
-
+		
+		// Will add sidebar if needed $this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
