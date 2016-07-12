@@ -9,12 +9,11 @@
 defined('JPATH_BASE') or die;
 
 JFormHelper::loadFieldClass('groupedlist');
+
 /**
  * A drop down containing all components that implement associations
  *
- * @package     Joomla.Administrator
- * @subpackage  com_associations
- * @since       __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 {
@@ -22,6 +21,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 	 * The form field type.
 	 *
 	 * @var    string
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'AssociatedComponent';
@@ -29,85 +29,76 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  array  The field option objects as a nested array in groups.
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  UnexpectedValueException
 	 */
 	protected function getGroups()
 	{
-		jimport('joomla.filesystem.folder');
-		jimport('joomla.filesystem.file');
+		$lang              = JFactory::getLanguage();
+		$options           = array();
+		$excludeComponents = array('com_categories', 'com_menus');
 
-		$options = array();
-
-		$componentsDirectory         = JPATH_ADMINISTRATOR . '/components';
-		$frontendComponentsDirectory = JPATH_SITE . '/components';
-		$backendComponents           = glob($componentsDirectory . '/*', GLOB_NOSORT | GLOB_ONLYDIR);
-		$frontendComponents          = glob($frontendComponentsDirectory . '/*', GLOB_NOSORT | GLOB_ONLYDIR);
-		
-		// Keeping only directory name
-		for ($i = 0; $i < count($backendComponents); $i++)
-		{ 
-			$backendComponents[$i] = basename($backendComponents[$i]);
-		}
-
-		// Keeping only directory name
-		for ($i = 0; $i < count($frontendComponents); $i++)
-		{ 
-			$frontendComponents[$i] = basename($frontendComponents[$i]);
-		}
-		
-		$components = array_intersect($frontendComponents, $backendComponents);
-
-		foreach ($components as $component)
+		// Get all admin components.
+		foreach (glob(JPATH_ADMINISTRATOR . '/components/*', GLOB_NOSORT | GLOB_ONLYDIR) as $componentAdminPath)
 		{
-			$currentDir = $componentsDirectory . '/' . $component . '/models/';
+			$component           = basename($componentAdminPath);
+			$componentName       = ucfirst(substr($component, 4));
+			$componentModelsPath = $componentAdminPath . '/models';
 
-			if (JFolder::exists($currentDir))
+			// Only components that exist also in the site client, aren't in the excluded components array and have models.
+			if (!is_dir(JPATH_SITE . '/components/' . $component) || !is_dir($componentModelsPath) || in_array($component, $excludeComponents))
 			{
-				$componentModel = scandir($currentDir);
+				continue;
+			}
 
-				foreach ($componentModel as $key => $value)
+			// Check if component uses associations, by checking is models.
+			foreach (glob($componentModelsPath . '/*.php', GLOB_NOSORT) as $modelFile)
+			{
+				$file = file_get_contents($modelFile);
+
+				// Check if this model uses associations. Add component model option to select box if so.
+				if (strpos($file, 'protected $associationsContext'))
 				{
-					if (JFile::exists($currentDir . $value))
-					{
-						$file = file_get_contents($currentDir . $value);
+					$modelNameSpace = ucfirst(basename($modelFile, '.php'));
 
-						if ($component != 'com_categories' && $component != 'com_menus')
-						{
-							if (strpos($file, 'protected $associationsContext'))
-							{
-								$modelsPath = JPATH_ADMINISTRATOR . '/components/'
-								. $component . '/models';
+					JModelLegacy::addIncludePath($componentModelsPath, $modelNameSpace . 'Model');
+					$model = JModelLegacy::getInstance($modelNameSpace, $componentName . 'Model', array('ignore_request' => true));
 
-								$removeExtension = preg_replace('/\\.[^.\\s]{3,4}$/', '', $value);
+					// Load component language file.
+					$lang->load($component, JPATH_ADMINISTRATOR) || $lang->load($component, $componentAdminPath);
 
-								JModelLegacy::addIncludePath($modelsPath, ucfirst($removeExtension) . 'Model');
-								$model = JModelLegacy::getInstance(ucfirst($removeExtension), ucfirst(substr($component, 4)) . 'Model', array('ignore_request' => true));
-								
-								$options[JText::_($component)][] = JHtml::_('select.option', $model->typeAlias, JText::_($component));
-							}
+					// Add componet option select box.
+					$options[JText::_($component)][] = JHtml::_('select.option', $model->typeAlias, JText::_($component));
+				}
+			}
 
-							if (JFile::exists($frontendComponentsDirectory . "/" . $component . "/helpers/association.php"))
-							{
-								$file = file_get_contents($frontendComponentsDirectory . "/" . $component . "/helpers/association.php");
+			// Check if component uses categories with associations. Add category option to select box if so.
+			if (file_exists(JPATH_SITE . '/components/' . $component. '/helpers/association.php'))
+			{
+				JLoader::register($componentName . 'HelperAssociation', JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-								if (strpos($file, 'getCategoryAssociations'))
-								{
-									$options[JText::_($component)][] = JHtml::_('select.option', 'com_categories.category|' . $component, JText::_("JCATEGORIES"));
-								}
-							}
-							break;
-						}
-					}
+				if (method_exists($componentName . 'HelperAssociation', 'getCategoryAssociations'))
+				{
+					// Load component language file.
+					$lang->load($component, JPATH_ADMINISTRATOR) || $lang->load($component, $componentAdminPath);
+
+					$options[JText::_($component)][] = JHtml::_('select.option', 'com_categories.category|' . $component, JText::_("JCATEGORIES"));
 				}
 			}
 		}
 
+		// Load menus component language file.
+		$lang->load('com_menus', JPATH_ADMINISTRATOR) || $lang->load('com_menus', JPATH_ADMINISTRATOR . '/components/com_menus');
+
+		// Add also the menus component to the list.
 		$options[JText::_("COM_MENUS_SUBMENU_MENUS")][] = JHtml::_('select.option', 'com_menus.item', JText::_("COM_MENUS_SUBMENU_ITEMS"));
 
-		$options = array_merge(parent::getGroups(), $options);
+		// Sort by alpha order.
+		ksort($options, SORT_NATURAL);
 
-		return $options;
+		// Add options to parent array.
+		return array_merge(parent::getGroups(), $options);
 	}
 }
