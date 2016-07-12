@@ -61,6 +61,50 @@ class AssociationsViewAssociations extends JViewLegacy
 			{
 				$this->items      = $this->get('Items');
 				$this->pagination = $this->get('Pagination');
+				$componentFilter  = $this->state->get('associationcomponent');
+				$parts            = explode('.', $componentFilter);
+				$comp             = $parts[0];
+				$assocItem        = $parts[1];
+
+				JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
+
+				// Get the value in the Association column
+				if ($comp == "com_content")
+				{
+					$this->assocValue = "contentadministrator.association";
+				}
+				elseif ($comp == "com_categories")
+				{
+					$this->assocValue = "categoriesadministrator.association";
+				}
+				elseif ($comp == "com_menus")
+				{
+					$this->assocValue = "MenusHtml.Menus.association";
+				}
+				else
+				{
+					$this->assocValue = $assocItem . '.association';
+				}
+
+				// If it's not a category
+				if ($componentFilter != '' && !strpos($componentFilter, '|'))
+				{
+					$componentSplit = explode('.', $componentFilter);
+					$aComponent = $componentSplit[0];
+					$aView = $componentSplit[1];
+				}
+				elseif ($componentFilter != '') {
+					$componentSplit = explode('|', $componentFilter);
+					$aComponent = 'com_categories';
+					$aView = $componentSplit[1];
+				}
+
+				if (isset($aComponent) && isset($aView))
+				{
+					$this->link = 'index.php?option=com_associations&view=association&layout=edit&acomponent='
+					. $aComponent . '&aview=' . $aView . '&id=';
+				}
+
 			}
 			else
 			{
