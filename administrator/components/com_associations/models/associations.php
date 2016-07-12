@@ -31,7 +31,7 @@ class AssociationsModelAssociations extends JModelList
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title',
-				'a.ordering',
+				'ordering',
 				'language_title',
 				'association',
 				'associationlanguage',
@@ -154,7 +154,7 @@ class AssociationsModelAssociations extends JModelList
 					$ordering = 'a.ordering';
 				}
 
-				$query->select('a.id, ' . $title . ' AS title, a.language, ' . $ordering);
+				$query->select('a.id, ' . $title . ' AS title, a.language, ' . $ordering . ' AS ordering');
 				
 				$query->from($db->quoteName($table, 'a'));
 
@@ -218,9 +218,9 @@ class AssociationsModelAssociations extends JModelList
 				$orderCol = $this->state->get('list.ordering', 'title');
 				$orderDirn = $this->state->get('list.direction', 'asc');
 
-				if ($orderCol == $ordering)
+				if ($orderCol == 'ordering')
 				{
-					$orderCol = 'title' . $orderDirn . ', a.ordering';
+					$orderCol = 'title' . $orderDirn . ', ordering';
 				}
 
 				// SQL server change
@@ -239,7 +239,7 @@ class AssociationsModelAssociations extends JModelList
 			$extension = $componentSplit[1];
 
 			// Select the required fields from the table.
-			$query->select('a.id, a.title AS title, a.language');
+			$query->select('a.id, a.title AS title, a.language, a.ordering as ordering');
 			$query->from('#__categories AS a');
 
 			// Join over the language
