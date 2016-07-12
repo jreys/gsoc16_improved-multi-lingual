@@ -3,8 +3,8 @@
 	<field
 		name="associationcomponent"
 		type="associatedcomponent"
-		label="COM_ASSOCIATIONS_FILTER_SEARCH_LABEL"
-		description="COM_ASSOCIATIONS_FILTER_SEARCH_DESC"
+		label="COM_ASSOCIATIONS_COMPONENT_SELECTOR_LABEL"
+		description="COM_ASSOCIATIONS_COMPONENT_SELECTOR_DESC"
 		onchange="this.form.submit();"
 		>
 		<option value="">COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE</option>
@@ -38,10 +38,8 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
-			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
-			<option value="a.lft ASC">JGRID_HEADING_ORDERING_ASC</option>
-			<option value="a.lft DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="title DESC">JGLOBAL_TITLE_DESC</option>
 			<option
