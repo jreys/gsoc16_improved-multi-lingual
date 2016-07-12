@@ -51,7 +51,7 @@ class AssociationsViewAssociations extends JViewLegacy
 		$app    = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 		
-		if (!$assoc)
+		if ($assoc)
 		{
 			AssociationsHelper::loadLanguageFiles();
 			$this->state      = $this->get('State');
