@@ -204,7 +204,7 @@ class AssociationsModelAssociations extends JModelList
 
 				if ($orderCol == 'ordering')
 				{
-					$orderCol = 'title' . $orderDirn . ', ordering';
+					$orderCol = 'title ' . $orderDirn . ', ordering';
 				}
 
 				// SQL server change

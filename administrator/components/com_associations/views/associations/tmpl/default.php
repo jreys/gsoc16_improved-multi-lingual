@@ -14,8 +14,6 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('jquery.framework');
 
-$user   = JFactory::getUser();
-$userId = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
@@ -50,8 +48,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</th>
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="5">
+						<?php echo $this->pagination->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
 			<tbody>
-			<?php $n = count($this->items); ?>
 			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">
@@ -76,13 +80,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tr>
 				<?php endforeach; ?>
 			</tbody>
-			<tfoot>
-				<tr>
-					<td>
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
-			</tfoot>
 		</table>
 
 	<?php endif; ?>

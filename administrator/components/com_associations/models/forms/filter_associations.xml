@@ -63,8 +63,8 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_ASSOCIATIONS_LIST_LIMIT"
-			description="COM_ASSOCIATIONS_LIST_LIMIT_DESC"
+			label="GLOBAL_LIMIT"
+			description="GLOBAL_LIMIT"
 			default="25"
 			class="input-mini"
 			onchange="this.form.submit();"
