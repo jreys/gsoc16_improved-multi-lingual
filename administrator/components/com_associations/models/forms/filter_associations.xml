@@ -40,8 +40,8 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
-			<option value="a.name ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="a.name DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="title DESC">JGLOBAL_TITLE_DESC</option>
 			<option
 				value="association ASC"
 				requires="associations"

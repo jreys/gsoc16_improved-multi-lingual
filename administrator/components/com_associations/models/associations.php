@@ -54,7 +54,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function populateState($ordering = 'a.name', $direction = 'asc')
+	protected function populateState($ordering = 'title', $direction = 'asc')
 	{
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('associationlanguage', $this->getUserStateFromRequest($this->context . '.associationlanguage', 'associationlanguage', '', 'string'));
@@ -138,7 +138,7 @@ class AssociationsModelAssociations extends JModelList
 					$title = 'a.title';
 				}
 
-				$query->select('a.id, ' . $title . ' AS title, a.language');
+				$query->select('a.id, ' . $title . ' AS title, a.language, a.ordering');
 				
 				$query->from($db->quoteName($table, 'a'));
 
@@ -200,7 +200,24 @@ class AssociationsModelAssociations extends JModelList
 						);
 					}
 				}
-			}
+
+				// Add the list ordering clause.
+				$orderCol = $this->state->get('list.ordering', 'a.title');
+				$orderDirn = $this->state->get('list.direction', 'asc');
+
+				if ($orderCol == 'a.ordering')
+				{
+					$orderCol = 'title' . $orderDirn . ', a.ordering';
+				}
+
+				// SQL server change
+				if ($orderCol == 'language')
+				{
+					$orderCol = 'l.title';
+				}
+
+				$query->order($db->escape($orderCol . ' ' . $orderDirn));
+			}			
 		}
 		// If it's a category
 		elseif (strpos($component, '|'))
@@ -260,6 +277,12 @@ class AssociationsModelAssociations extends JModelList
 					);
 				}
 			}
+			// Add the list ordering clause
+			$listOrdering = $this->getState('list.ordering', 'a.title');
+			$listDirn = $db->escape($this->getState('list.direction', 'asc'));
+
+			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
+			
 		}
 
 		return $query;
