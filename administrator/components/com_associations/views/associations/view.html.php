@@ -53,7 +53,6 @@ class AssociationsViewAssociations extends JViewLegacy
 		
 		if ($assoc)
 		{
-			AssociationsHelper::loadLanguageFiles();
 			$this->state      = $this->get('State');
 			$this->filterForm = $this->get('FilterForm');
 			$this->pagination    = $this->get('Pagination');
