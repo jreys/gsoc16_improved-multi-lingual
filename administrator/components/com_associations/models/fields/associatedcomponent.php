@@ -10,8 +10,6 @@ defined('JPATH_BASE') or die;
 
 JFormHelper::loadFieldClass('groupedlist');
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * A drop down containing all components that implement associations
  *
