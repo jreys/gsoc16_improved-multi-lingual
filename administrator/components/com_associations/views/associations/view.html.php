@@ -56,6 +56,8 @@ class AssociationsViewAssociations extends JViewLegacy
 			AssociationsHelper::loadLanguageFiles();
 			$this->state      = $this->get('State');
 			$this->filterForm = $this->get('FilterForm');
+			$this->pagination    = $this->get('Pagination');
+			$this->activeFilters = $this->get('ActiveFilters');
 
 			if (!$this->state->get('associationcomponent') == '' && !$this->state->get('associationlanguage') == '')
 			{
@@ -63,7 +65,7 @@ class AssociationsViewAssociations extends JViewLegacy
 			}
 			else
 			{
-				JFactory::getApplication()->enqueueMessage('Please select a Item Type and a reference language to view the associations.', 'notice');
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
 			}
 
 			// Check for errors.
@@ -100,5 +102,8 @@ class AssociationsViewAssociations extends JViewLegacy
 		$bar = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_TITLE'), 'stack article');
+		JToolbarHelper::editList('association.edit');
+		JToolbarHelper::preferences('com_associations');
+		JToolbarHelper::help('JGLOBAL_HELP');
 	}
 }
