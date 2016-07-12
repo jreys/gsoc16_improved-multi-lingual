@@ -48,35 +48,44 @@ class AssociationsViewAssociations extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		AssociationsHelper::loadLanguageFiles();
-
-		$this->state      = $this->get('State');
-		$this->filterForm = $this->get('FilterForm');
-
-		if (!$this->state->get('associationcomponent') == '' && !$this->state->get('associationlanguage') == '')
+		$app    = JFactory::getApplication();
+		$assoc = JLanguageAssociations::isEnabled();
+		
+		if (!$assoc)
 		{
-			$this->items = $this->get('Items');
+			AssociationsHelper::loadLanguageFiles();
+			$this->state      = $this->get('State');
+			$this->filterForm = $this->get('FilterForm');
+
+			if (!$this->state->get('associationcomponent') == '' && !$this->state->get('associationlanguage') == '')
+			{
+				$this->items = $this->get('Items');
+			}
+			else
+			{
+				JFactory::getApplication()->enqueueMessage('Please select a Item Type and a reference language to view the associations.', 'notice');
+			}
+
+			// Check for errors.
+			if (count($errors = $this->get('Errors')))
+			{
+				JError::raiseError(500, implode("\n", $errors));
+
+				return false;
+			}
+
+			/*
+			* @todo Review this later
+			*/
+			$this->addToolbar();
+
+			// Will add sidebar if needed $this->sidebar = JHtmlSidebar::render();
+			parent::display($tpl);
 		}
 		else
 		{
-			JFactory::getApplication()->enqueueMessage('Please select a Item Type and a reference language to view the associations.', 'notice');
+			$app->enqueueMessage(JText::_('COM_ASSOCIATIONS_ERROR_NO_ASSOC'), 'error');
 		}
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
-		}
-
-		/*
-		* @todo Review this later
-		*/
-		$this->addToolbar();
-		
-		// Will add sidebar if needed $this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
 	}
 
 	/**

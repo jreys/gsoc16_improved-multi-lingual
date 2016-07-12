@@ -16,15 +16,10 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('jquery.framework');
 
-$app    = JFactory::getApplication();
 $user   = JFactory::getUser();
 $userId = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-
-$input = $app->input;
-
-$assoc = JLanguageAssociations::isEnabled();
 
 $componentFilter = $this->state->get('associationcomponent');
 
@@ -74,9 +69,6 @@ if ($componentFilter != '')
 	}
 }
 ?>
-
-<?php if ($assoc) : ?>
-
 	<form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
 		<div id="j-main-container">
 
@@ -96,11 +88,9 @@ if ($componentFilter != '')
 						<th width="15%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<?php if ($assoc) : ?>
 						<th width="5%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
-						<?php endif;?>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -138,13 +128,11 @@ if ($componentFilter != '')
 						<td class="small hidden-phone">
 							<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 						</td>
-						<?php if ($assoc) : ?>
 						<td class="hidden-phone hidden-tablet">
 							<?php if ($item->association) : ?>
 								<?php echo JHtml::_($assocValue, $item->id); ?>
 							<?php endif; ?>
 						</td>
-						<?php endif;?>
 						<td class="hidden-phone">
 							<?php echo $item->id; ?>
 						</td>
@@ -160,7 +148,3 @@ if ($componentFilter != '')
 		<?php echo JHtml::_('form.token'); ?>
 		</div>
 	</form>
-
-<?php else : ?>
-    <?php $app->enqueueMessage(JText::_('COM_ASSOCIATIONS_ERROR_NO_ASSOC'), 'error'); ?>
-<?php endif; ?>

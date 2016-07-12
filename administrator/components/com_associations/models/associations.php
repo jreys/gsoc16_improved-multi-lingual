@@ -109,7 +109,6 @@ class AssociationsModelAssociations extends JModelList
 		$query     = $db->getQuery(true);
 		$user      = JFactory::getUser();
 		$app       = JFactory::getApplication();
-		$assoc     = JLanguageAssociations::isEnabled();
 		$component = $this->getState('associationcomponent');
 
 		// If it's not a category
@@ -155,29 +154,26 @@ class AssociationsModelAssociations extends JModelList
 					->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 				// Join over the associations.
-
-				if ($assoc)
-				{
-					$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 as ' . $db->quoteName('association'))
-						->join(
-							'LEFT',
-							$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
-							. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($componentSplit[0] . '.item')
-						)
-						->join(
-							'LEFT',
-							$db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
-						)
-						->group(
-							$db->quoteName(
-								array(
-									'a.id',
-									$title,
-									'a.language'
-								)
+				$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 as ' . $db->quoteName('association'))
+					->join(
+						'LEFT',
+						$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
+						. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($componentSplit[0] . '.item')
+					)
+					->join(
+						'LEFT',
+						$db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
+					)
+					->group(
+						$db->quoteName(
+							array(
+								'a.id',
+								$title,
+								'a.language'
 							)
-						);
-				}
+						)
+					);
+				
 
 				if ($componentSplit[0] == 'com_menus')
 				{
@@ -253,13 +249,10 @@ class AssociationsModelAssociations extends JModelList
 			$query->select('ua.name AS author_name')
 				->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
-			if ($assoc)
-			{
-				$query->select('COUNT(asso2.id)>1 as association')
-					->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_categories.item'))
-					->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-					->group('a.id, l.title, uc.name, ag.title, ua.name');
-			}
+			$query->select('COUNT(asso2.id)>1 as association')
+				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_categories.item'))
+				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->group('a.id, l.title, uc.name, ag.title, ua.name');
 
 			$query->where('a.extension = ' . $db->quote($extension));
 
