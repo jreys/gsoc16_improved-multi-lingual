@@ -32,8 +32,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="COM_ASSOCIATIONS_LIST_FULL_ORDERING"
-			description="COM_ASSOCIATIONS_LIST_FULL_ORDERING_DESC"
 			default="a.name ASC"
 			onchange="this.form.submit();"
 			>
@@ -63,8 +61,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="GLOBAL_LIMIT"
-			description="GLOBAL_LIMIT"
 			default="25"
 			class="input-mini"
 			onchange="this.form.submit();"
