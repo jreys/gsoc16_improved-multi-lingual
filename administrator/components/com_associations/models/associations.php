@@ -134,25 +134,9 @@ class AssociationsModelAssociations extends JModelList
 					$table = str_replace("'", "", substr($componentModel, $start, $end - $start));
 				}
 				
-				$columns = $db->getTableColumns($table);
-
-				if (!isset($columns['title']))
-				{
-					$title = 'a.name';
-				}
-				else
-				{
-					$title = 'a.title';
-				}
-
-				if (isset($columns['lft']))
-				{
-					$ordering = 'a.lft';
-				}
-				else
-				{
-					$ordering = 'a.ordering';
-				}
+				$columns  = $db->getTableColumns($table);
+				$title    = isset($columns['title']) ? 'a.title' : 'a.name';
+				$ordering = isset($columns['lft']) ? 'a.lft' : 'a.ordering';
 
 				$query->select('a.id, ' . $title . ' AS title, a.language, ' . $ordering . ' AS ordering');
 				
@@ -239,12 +223,12 @@ class AssociationsModelAssociations extends JModelList
 			$extension = $componentSplit[1];
 
 			// Select the required fields from the table.
-			$query->select('a.id, a.title AS title, a.language, a.ordering as ordering');
+			$query->select('a.id, a.title AS title, a.language, a.lft AS ordering');
 			$query->from('#__categories AS a');
 
 			// Join over the language
 			$query->select('l.title AS language_title, l.image AS language_image')
-				->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+				->join('LEFT', $db->quoteName('#__languages','l') . ' ON l.lang_code = a.language');
 
 			// Join over the users for the checked out user.
 			$query->select('uc.name AS editor')
@@ -283,7 +267,7 @@ class AssociationsModelAssociations extends JModelList
 				{
 					$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 					$query->where(
-						'(' . $db->quoteName('a.title') . ' LIKE ' . $search . ')'
+						'(' . $db->quoteName('title') . ' LIKE ' . $search . ')'
 					);
 				}
 			}
