@@ -82,13 +82,16 @@ if ($componentFilter != '')
         <table class="table table-striped" id="contactList">
             <thead>
                 <tr>
+                    <th width="1%" class="nowrap center">
+                        <?php echo JHtml::_('grid.checkall'); ?>
+                    </th>
                     <th class="nowrap">
                         <?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
                     </th>
                     <th width="15%" class="nowrap hidden-phone">
                         <?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
                     </th>
-                    <th width="5%" class="nowrap hidden-phone hidden-tablet">
+                    <th width="5%" class="nowrap">
                         <?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
                     </th>
                     <th width="1%" class="nowrap hidden-phone">
@@ -96,17 +99,13 @@ if ($componentFilter != '')
                     </th>
                 </tr>
             </thead>
-            <tfoot>
-                <tr>
-                    <td colspan="10">
-                        <?php //echo $this->pagination->getListFooter(); ?>
-                    </td>
-                </tr>
-            </tfoot>
             <tbody>
             <?php $n = count($this->items); ?>
             <?php foreach ($this->items as $i => $item) : ?>
                 <tr class="row<?php echo $i % 2; ?>">
+                	<td class="center">
+						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+					</td>
                     <td class="nowrap has-context">
                         <div class="pull-left">
                             <a href="<?php echo JRoute::_($link . (int) $item->id); ?>"><?php echo $this->escape($item->title); ?></a>
@@ -115,7 +114,7 @@ if ($componentFilter != '')
                     <td class="small hidden-phone">
                         <?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
                     </td>
-                    <td class="hidden-phone hidden-tablet">
+                    <td>
                         <?php if ($item->association) : ?>
                             <?php echo JHtml::_($assocValue, $item->id); ?>
                         <?php endif; ?>
@@ -126,6 +125,13 @@ if ($componentFilter != '')
                 </tr>
                 <?php endforeach; ?>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <?php echo $this->pagination->getListFooter(); ?>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
 
     <?php endif; ?>
