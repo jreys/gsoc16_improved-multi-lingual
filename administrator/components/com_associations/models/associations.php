@@ -30,7 +30,7 @@ class AssociationsModelAssociations extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
-				'a.name',
+				'title',
 				'a.ordering',
 				'language_title',
 				'association',
@@ -206,7 +206,7 @@ class AssociationsModelAssociations extends JModelList
 				}
 
 				// Add the list ordering clause.
-				$orderCol = $this->state->get('list.ordering', 'a.title');
+				$orderCol = $this->state->get('list.ordering', 'title');
 				$orderDirn = $this->state->get('list.direction', 'asc');
 
 				if ($orderCol == 'a.ordering')
@@ -230,7 +230,7 @@ class AssociationsModelAssociations extends JModelList
 			$extension = $componentSplit[1];
 
 			// Select the required fields from the table.
-			$query->select('a.id, a.title, a.language');
+			$query->select('a.id, a.title AS title, a.language');
 			$query->from('#__categories AS a');
 
 			// Join over the language
@@ -279,7 +279,7 @@ class AssociationsModelAssociations extends JModelList
 				}
 			}
 			// Add the list ordering clause
-			$listOrdering = $this->getState('list.ordering', 'a.title');
+			$listOrdering = $this->getState('list.ordering', 'title');
 			$listDirn = $db->escape($this->getState('list.direction', 'asc'));
 
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
