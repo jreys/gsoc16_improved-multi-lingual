@@ -20,6 +20,8 @@ class AssociationsViewAssociations extends JViewLegacy
 	 * An array of items
 	 *
 	 * @var  array
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $items;
 
@@ -27,6 +29,8 @@ class AssociationsViewAssociations extends JViewLegacy
 	 * The pagination object
 	 *
 	 * @var  JPagination
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $pagination;
 
@@ -34,6 +38,8 @@ class AssociationsViewAssociations extends JViewLegacy
 	 * The model state
 	 *
 	 * @var  object
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $state;
 	
