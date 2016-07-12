@@ -66,8 +66,6 @@ class AssociationsViewAssociations extends JViewLegacy
 				$comp             = $parts[0];
 				$assocItem        = $parts[1];
 
-				JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
-
 				// Get the value in the Association column
 				if ($comp == "com_content")
 				{
@@ -119,9 +117,6 @@ class AssociationsViewAssociations extends JViewLegacy
 				return false;
 			}
 
-			/*
-			* @todo Review this later
-			*/
 			$this->addToolbar();
 
 			// Will add sidebar if needed $this->sidebar = JHtmlSidebar::render();
@@ -142,6 +137,9 @@ class AssociationsViewAssociations extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
+		$user  = JFactory::getUser();
+
+		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_SELECT_REFERENCE'), 'contract');
@@ -149,7 +147,12 @@ class AssociationsViewAssociations extends JViewLegacy
 		 * @todo Verify later if new/edit/select is really needed
 		*/
 		// JToolbarHelper::editList('association.edit');
-		JToolbarHelper::preferences('com_associations');
+
+		if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations'))
+		{
+			JToolbarHelper::preferences('com_associations');
+		}
+
 		JToolbarHelper::help('JGLOBAL_HELP');
 	}
 }
