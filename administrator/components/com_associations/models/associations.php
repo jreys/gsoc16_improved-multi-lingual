@@ -145,7 +145,16 @@ class AssociationsModelAssociations extends JModelList
 					$title = 'a.title';
 				}
 
-				$query->select('a.id, ' . $title . ' AS title, a.language, a.ordering');
+				if (isset($columns['lft']))
+				{
+					$ordering = 'a.lft';
+				}
+				else
+				{
+					$ordering = 'a.ordering';
+				}
+
+				$query->select('a.id, ' . $title . ' AS title, a.language, ' . $ordering);
 				
 				$query->from($db->quoteName($table, 'a'));
 
@@ -209,7 +218,7 @@ class AssociationsModelAssociations extends JModelList
 				$orderCol = $this->state->get('list.ordering', 'title');
 				$orderDirn = $this->state->get('list.direction', 'asc');
 
-				if ($orderCol == 'a.ordering')
+				if ($orderCol == $ordering)
 				{
 					$orderCol = 'title' . $orderDirn . ', a.ordering';
 				}
