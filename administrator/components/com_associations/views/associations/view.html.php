@@ -144,7 +144,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_TITLE'), 'stack article');
+		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_SELECT_REFERENCE'), 'contract');
 		/* 
 		 * @todo Verify later if new/edit/select is really needed
 		*/

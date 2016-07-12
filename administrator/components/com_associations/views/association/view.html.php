@@ -101,7 +101,7 @@ class AssociationsViewAssociation extends JViewLegacy
 	{
 		$jinput = JFactory::getApplication()->input;
 		$associatedView = $jinput->get('aview', '');
-		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_TITLE'), 'stack article');
+		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
 		JToolbarHelper::apply($associatedView . '.apply');
 		JToolbarHelper::save($associatedView . '.save');
