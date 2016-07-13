@@ -141,12 +141,10 @@ class AssociationsViewAssociation extends JViewLegacy
 			$this->link = 'index.php?option=' . $associatedComponent . '&task=category.edit&layout=modal&tmpl=component&id='
 				. $referenceId . '&extension=' . $associatedView;
 		}
-
 		//If it's a menu item
 		elseif ($associatedComponent == 'com_menus') {
 			$this->link = 'index.php?option=com_menus&view=item&layout=modal&task=item.edit&tmpl=component&id=' . $referenceId;
 		}
-
 		// Any other case
 		else {
 			$this->link = 'index.php?option=' . $associatedComponent . '&view=' . $associatedView

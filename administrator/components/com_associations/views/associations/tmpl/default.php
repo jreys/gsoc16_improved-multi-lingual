@@ -41,7 +41,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 					</th>
 					<th width="15%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
+						<?php echo JText::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
 					<th width="5%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
@@ -53,7 +53,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="5">
+					<td colspan="4">
 						<?php echo $this->pagination->getListFooter(); ?>
 					</td>
 				</tr>
