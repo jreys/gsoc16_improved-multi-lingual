@@ -54,89 +54,83 @@ class AssociationsViewAssociations extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app    = JFactory::getApplication();
-		$assoc = JLanguageAssociations::isEnabled();
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
-		if ($assoc)
+		if (!JLanguageAssociations::isEnabled())
 		{
-			$this->state         = $this->get('State');
-			$this->filterForm    = $this->get('FilterForm');
-			$this->activeFilters = $this->get('ActiveFilters');
-
-			if (!$this->state->get('associationcomponent') == '' && !$this->state->get('associationlanguage') == '')
-			{
-				$this->items      = $this->get('Items');
-				$this->pagination = $this->get('Pagination');
-				$componentFilter  = $this->state->get('associationcomponent');
-				$parts            = explode('.', $componentFilter);
-				$comp             = $parts[0];
-				$assocItem        = $parts[1];
-				$this->compLevel  = false;
-
-				JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
-
-				// Get the value in the Association column
-				if ($comp == "com_content")
-				{
-					$this->assocValue = "contentadministrator.association";
-				}
-				elseif ($comp == "com_categories")
-				{
-					$this->assocValue = "categoriesadministrator.association";
-					$this->compLevel  = true;
-				}
-				elseif ($comp == "com_menus")
-				{
-					$this->assocValue = "MenusHtml.Menus.association";
-					$this->compLevel  = true;
-				}
-				else
-				{
-					$this->assocValue = $assocItem . '.association';
-				}
-
-				// If it's not a category
-				if ($componentFilter != '' && !strpos($componentFilter, '|'))
-				{
-					$componentSplit = explode('.', $componentFilter);
-					$aComponent = $componentSplit[0];
-					$aView = $componentSplit[1];
-				}
-				elseif ($componentFilter != '') {
-					$componentSplit = explode('|', $componentFilter);
-					$aComponent = 'com_categories';
-					$aView = $componentSplit[1];
-				}
-
-				if (isset($aComponent) && isset($aView))
-				{
-					$this->link = 'index.php?option=com_associations&view=association&layout=edit&acomponent='
-					. $aComponent . '&aview=' . $aView . '&id=';
-				}
-
-			}
-			else
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
-			}
-
-			// Check for errors.
-			if (count($errors = $this->get('Errors')))
-			{
-				JError::raiseError(500, implode("\n", $errors));
-
-				return false;
-			}
-
-			$this->addToolbar();
-
-			// Will add sidebar if needed $this->sidebar = JHtmlSidebar::render();
-			parent::display($tpl);
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_ERROR_NO_ASSOC'), 'warning');
+		}
+		elseif ($this->state->get('associationcomponent') == '' || $this->state->get('associationlanguage') == '')
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_ASSOCIATIONS_ERROR_NO_ASSOC'), 'error');
+			$this->items      = $this->get('Items');
+			$this->pagination = $this->get('Pagination');
+			$componentFilter  = $this->state->get('associationcomponent');
+			$parts            = explode('.', $componentFilter);
+			$comp             = $parts[0];
+			$assocItem        = $parts[1];
+			$this->compLevel  = false;
+
+			JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
+
+			// Get the value in the Association column
+			if ($comp == "com_content")
+			{
+				$this->assocValue = "contentadministrator.association";
+			}
+			elseif ($comp == "com_categories")
+			{
+				$this->assocValue = "categoriesadministrator.association";
+				$this->compLevel  = true;
+			}
+			elseif ($comp == "com_menus")
+			{
+				$this->assocValue = "MenusHtml.Menus.association";
+				$this->compLevel  = true;
+			}
+			else
+			{
+				$this->assocValue = $assocItem . '.association';
+			}
+
+			// If it's not a category
+			if ($componentFilter != '' && !strpos($componentFilter, '|'))
+			{
+				$componentSplit = explode('.', $componentFilter);
+				$aComponent = $componentSplit[0];
+				$aView = $componentSplit[1];
+			}
+			elseif ($componentFilter != '') {
+				$componentSplit = explode('|', $componentFilter);
+				$aComponent = 'com_categories';
+				$aView = $componentSplit[1];
+			}
+
+			if (isset($aComponent) && isset($aView))
+			{
+				$this->link = 'index.php?option=com_associations&view=association&layout=edit&acomponent='
+				. $aComponent . '&aview=' . $aView . '&id=';
+			}
+
 		}
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
+
+			return false;
+		}
+
+		$this->addToolbar();
+
+		// Will add sidebar if needed $this->sidebar = JHtmlSidebar::render();
+		parent::display($tpl);
 	}
 
 	/**
