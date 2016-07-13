@@ -136,17 +136,19 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		$this->link = "";
 
-		// If it's categories
-		if ($associatedComponent == 'com_categories') {
+		if ($associatedComponent == 'com_categories')
+		{
+			// If it's categories
 			$this->link = 'index.php?option=' . $associatedComponent . '&task=category.edit&layout=modal&tmpl=component&id='
 				. $referenceId . '&extension=' . $associatedView;
 		}
-		//If it's a menu item
-		elseif ($associatedComponent == 'com_menus') {
+		elseif ($associatedComponent == 'com_menus')
+		{
+			// If it's a menu item
 			$this->link = 'index.php?option=com_menus&view=item&layout=modal&task=item.edit&tmpl=component&id=' . $referenceId;
 		}
-		// Any other case
 		else {
+			// Any other case
 			$this->link = 'index.php?option=' . $associatedComponent . '&view=' . $associatedView
 			. '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $referenceId;
 		}
