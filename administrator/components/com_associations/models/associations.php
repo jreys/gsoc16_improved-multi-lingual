@@ -144,7 +144,7 @@ class AssociationsModelAssociations extends JModelList
 			$table          = '#__categories';
 		}
 
-		$columns  = $db->getTableColumns($db->quoteName($table));
+		$columns  = $db->getTableColumns($table);
 		$title    = isset($columns['title']) ? 'a.title' : 'a.name';
 		$ordering = isset($columns['lft']) ? 'a.lft' : 'a.ordering';
 
@@ -181,7 +181,7 @@ class AssociationsModelAssociations extends JModelList
 				$db->quoteName('l.image', 'language_image')
 			)
 		)
-			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON l.lang_code = a.language');
+			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
 
 		// Join over the associations.
 		$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 as ' . $db->quoteName('association'))

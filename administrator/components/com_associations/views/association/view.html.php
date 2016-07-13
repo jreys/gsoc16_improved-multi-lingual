@@ -173,8 +173,8 @@ class AssociationsViewAssociation extends JViewLegacy
 		JToolbarHelper::save($associatedView . '.save');
 		JToolbarHelper::save2new($associatedView . '.save2new');
 		JToolbarHelper::cancel($associatedView . '.cancel', 'JTOOLBAR_CLOSE');
-		JToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
+		JToolbarHelper::help('JGLOBAL_HELP');
 
-		JHtmlSidebar::setAction('index.php?option=com_contact');
+		JHtmlSidebar::setAction('index.php?option=com_associations');
 	}
 }
