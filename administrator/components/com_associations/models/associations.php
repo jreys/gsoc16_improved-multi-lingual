@@ -147,30 +147,20 @@ class AssociationsModelAssociations extends JModelList
 		$columns  = $db->getTableColumns($table);
 		$title    = isset($columns['title']) ? 'a.title' : 'a.name';
 		$ordering = isset($columns['lft']) ? 'a.lft' : 'a.ordering';
+		$select   = array();
 
-		if ($table == '#__menu' || $table == '#__categories')
+		$select[] = $db->quoteName('a.id');
+
+		if (isset($columns['level']))
 		{
-			$query->select(
-				array(
-					$db->quoteName('a.id'), 
-					$db->quoteName('a.level'),
-					$db->quoteName($title, 'title'),
-					$db->quoteName('a.language'), 
-					$db->quoteName($ordering, 'ordering')
-				)
-			);
+			$select[] = $db->quoteName('a.level');
 		}
-		else
-		{
-			$query->select(
-				array(
-					$db->quoteName('a.id'),
-					$db->quoteName($title, 'title'),
-					$db->quoteName('a.language'), 
-					$db->quoteName($ordering, 'ordering')
-				)
-			);
-		}
+
+		$select[] = $db->quoteName($title, 'title');
+		$select[] = $db->quoteName('a.language');
+		$select[] = $db->quoteName($ordering, 'ordering');
+
+		$query->select($select);
 
 		$query->from($db->quoteName($table, 'a'));
 
