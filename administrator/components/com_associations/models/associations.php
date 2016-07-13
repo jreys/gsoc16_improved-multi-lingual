@@ -144,7 +144,7 @@ class AssociationsModelAssociations extends JModelList
 			$table          = '#__categories';
 		}
 
-		$columns  = $db->getTableColumns($table);
+		$columns  = $db->getTableColumns($db->quoteName($table));
 		$title    = isset($columns['title']) ? 'a.title' : 'a.name';
 		$ordering = isset($columns['lft']) ? 'a.lft' : 'a.ordering';
 
