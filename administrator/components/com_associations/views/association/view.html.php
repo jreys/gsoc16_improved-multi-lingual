@@ -67,6 +67,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		/*
 		* @todo Review later
 		*/
+
 		// We don't need toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
 		{
@@ -147,7 +148,8 @@ class AssociationsViewAssociation extends JViewLegacy
 			// If it's a menu item
 			$this->link = 'index.php?option=com_menus&view=item&layout=modal&task=item.edit&tmpl=component&id=' . $referenceId;
 		}
-		else {
+		else
+		{
 			// Any other case
 			$this->link = 'index.php?option=' . $associatedComponent . '&view=' . $associatedView
 			. '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $referenceId;

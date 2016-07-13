@@ -32,7 +32,6 @@ class AssociationsModelAssociations extends JModelList
 				'id', 'a.id',
 				'title',
 				'ordering',
-				'language_title',
 				'level', 'a.level',
 				'association',
 				'associationlanguage',
@@ -147,20 +146,15 @@ class AssociationsModelAssociations extends JModelList
 		$columns  = $db->getTableColumns($table);
 		$title    = isset($columns['title']) ? 'a.title' : 'a.name';
 		$ordering = isset($columns['lft']) ? 'a.lft' : 'a.ordering';
-		$select   = array();
-
-		$select[] = $db->quoteName('a.id');
+		$query->select($db->quoteName('a.id'))
+			->select($db->quoteName($title, 'title'))
+			->select($db->quoteName('a.language'))
+			->select($db->quoteName($ordering, 'ordering'));
 
 		if (isset($columns['level']))
 		{
-			$select[] = $db->quoteName('a.level');
+			$query->select($db->quoteName('a.level'));
 		}
-
-		$select[] = $db->quoteName($title, 'title');
-		$select[] = $db->quoteName('a.language');
-		$select[] = $db->quoteName($ordering, 'ordering');
-
-		$query->select($select);
 
 		$query->from($db->quoteName($table, 'a'));
 

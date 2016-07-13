@@ -105,7 +105,8 @@ class AssociationsViewAssociations extends JViewLegacy
 				$aComponent = $componentSplit[0];
 				$aView = $componentSplit[1];
 			}
-			elseif ($componentFilter != '') {
+			elseif ($componentFilter != '')
+			{
 				$componentSplit = explode('|', $componentFilter);
 				$aComponent = 'com_categories';
 				$aView = $componentSplit[1];
