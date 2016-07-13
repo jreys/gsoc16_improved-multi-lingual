@@ -20,6 +20,8 @@ class AssociationsViewAssociation extends JViewLegacy
 	 * An array of items
 	 *
 	 * @var  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $items;
 
@@ -27,6 +29,8 @@ class AssociationsViewAssociation extends JViewLegacy
 	 * The pagination object
 	 *
 	 * @var  JPagination
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $pagination;
 
@@ -34,6 +38,8 @@ class AssociationsViewAssociation extends JViewLegacy
 	 * The model state
 	 *
 	 * @var  object
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $state;
 
@@ -49,11 +55,6 @@ class AssociationsViewAssociation extends JViewLegacy
 	public function display($tpl = null)
 	{
 		AssociationsHelper::loadLanguageFiles();
-		
-		if ($this->getLayout() !== 'modal')
-		{
-			AssociationsHelper::addSubmenu('articles');
-		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -63,6 +64,9 @@ class AssociationsViewAssociation extends JViewLegacy
 			return false;
 		}
 
+		/*
+		* @todo Review later
+		*/
 		// We don't need toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
 		{
@@ -85,6 +89,68 @@ class AssociationsViewAssociation extends JViewLegacy
 				// One last changes needed is to change the category filter to just show categories with All language or with the forced language.
 				$this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
 			}
+		}
+
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$assoc = JLanguageAssociations::isEnabled();
+
+		$app->getDocument()->addScriptDeclaration("
+			function iframeRef( frameRef ) {
+			return frameRef.contentWindow
+				? frameRef.contentWindow.document
+				: frameRef.contentDocument
+			}
+
+			function triggerSave() {
+				var inside = iframeRef( document.getElementById('target-association') );
+				inside.getElementById('applyBtn').click();
+				return false;
+			}
+		");
+
+		$app->getDocument()->addStyleDeclaration('
+			.sidebyside .outer-panel {
+				float: left;
+				width: 50%;
+			}
+			.sidebyside .left-panel {
+				border-right: 1px solid #999999 !important;
+			}
+			.sidebyside .right-panel {
+				border-left: 1px solid #999999 !important;
+			}
+			.sidebyside .inner-panel {
+				padding: 10px;
+			}
+			.sidebyside iframe {
+				width: 100%;
+				height: 1500px;
+				border: 0 !important;
+		}
+		');
+
+		$referenceId = $input->get('id', '0');
+		$associatedComponent = $input->get('acomponent', '');
+		$associatedView = $input->get('aview', '');
+
+		$this->link = "";
+
+		// If it's categories
+		if ($associatedComponent == 'com_categories') {
+			$this->link = 'index.php?option=' . $associatedComponent . '&task=category.edit&layout=modal&tmpl=component&id='
+				. $referenceId . '&extension=' . $associatedView;
+		}
+
+		//If it's a menu item
+		elseif ($associatedComponent == 'com_menus') {
+			$this->link = 'index.php?option=com_menus&view=item&layout=modal&task=item.edit&tmpl=component&id=' . $referenceId;
+		}
+
+		// Any other case
+		else {
+			$this->link = 'index.php?option=' . $associatedComponent . '&view=' . $associatedView
+			. '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $referenceId;
 		}
 
 		parent::display($tpl);
