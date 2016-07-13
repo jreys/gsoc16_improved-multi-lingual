@@ -42,7 +42,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $state;
-	
+
 	/**
 	 * Display the view
 	 *
@@ -56,7 +56,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	{
 		$app    = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
-		
+
 		if ($assoc)
 		{
 			$this->state         = $this->get('State');
@@ -71,6 +71,7 @@ class AssociationsViewAssociations extends JViewLegacy
 				$parts            = explode('.', $componentFilter);
 				$comp             = $parts[0];
 				$assocItem        = $parts[1];
+				$this->compLevel  = false;
 
 				JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
 
@@ -82,10 +83,12 @@ class AssociationsViewAssociations extends JViewLegacy
 				elseif ($comp == "com_categories")
 				{
 					$this->assocValue = "categoriesadministrator.association";
+					$this->compLevel  = true;
 				}
 				elseif ($comp == "com_menus")
 				{
 					$this->assocValue = "MenusHtml.Menus.association";
+					$this->compLevel  = true;
 				}
 				else
 				{
@@ -148,7 +151,7 @@ class AssociationsViewAssociations extends JViewLegacy
 		$user  = JFactory::getUser();
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_SELECT_REFERENCE'), 'contract');
-		/* 
+		/*
 		 * @todo Verify later if new/edit/select is really needed
 		*/
 		// JToolbarHelper::editList('association.edit');
@@ -158,7 +161,7 @@ class AssociationsViewAssociations extends JViewLegacy
 			JToolbarHelper::preferences('com_associations');
 		}
 
-		/* 
+		/*
 		 * @todo Help page
 		*/
 		JToolbarHelper::help('JGLOBAL_HELP');

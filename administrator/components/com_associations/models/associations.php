@@ -33,6 +33,7 @@ class AssociationsModelAssociations extends JModelList
 				'title',
 				'ordering',
 				'language_title',
+				'level', 'a.level',
 				'association',
 				'associationlanguage',
 				'associationcomponent',
@@ -107,8 +108,6 @@ class AssociationsModelAssociations extends JModelList
 		// Create a new query object.
 		$db             = $this->getDbo();
 		$query          = $db->getQuery(true);
-		$user           = JFactory::getUser();
-		$app            = JFactory::getApplication();
 		$component      = $this->getState('associationcomponent');
 		$table          = '';
 		$extension      = '';
@@ -117,7 +116,7 @@ class AssociationsModelAssociations extends JModelList
 		if (!strpos($component, '|'))
 		{
 			$componentSplit = explode('.', $component);
-			$componentModelPath = JPATH_ADMINISTRATOR . '/components/' . $componentSplit[0]	
+			$componentModelPath = JPATH_ADMINISTRATOR . '/components/' . $componentSplit[0]
 				. '/models/' . $componentSplit[1] . '.php';
 			$componentModel     = file_get_contents($componentModelPath);
 
@@ -126,16 +125,16 @@ class AssociationsModelAssociations extends JModelList
 				// Searching for , '#__table' , after getAssociations(
 				$start = strpos($componentModel, ',', $position) + 2;
 				$end = strpos($componentModel, ',', $start) - 1;
-				
+
 				if ($componentSplit[0] == 'com_menus')
 				{
 					$table = '#__menu';
 				}
-				else 
+				else
 				{
 					$table = str_replace("'", "", substr($componentModel, $start, $end - $start));
 				}
-			}	
+			}
 		}
 		// If it's a category
 		elseif (strpos($component, '|'))
@@ -149,12 +148,40 @@ class AssociationsModelAssociations extends JModelList
 		$title    = isset($columns['title']) ? 'a.title' : 'a.name';
 		$ordering = isset($columns['lft']) ? 'a.lft' : 'a.ordering';
 
-		$query->select('a.id, ' . $title . ' AS title, a.language, ' . $ordering . ' AS ordering');
+		if ($table == '#__menu' || $table == '#__categories')
+		{
+			$query->select(
+				array(
+					$db->quoteName('a.id'), 
+					$db->quoteName('a.level'),
+					$db->quoteName($title, 'title'),
+					$db->quoteName('a.language'), 
+					$db->quoteName($ordering, 'ordering')
+				)
+			);
+		}
+		else
+		{
+			$query->select(
+				array(
+					$db->quoteName('a.id'),
+					$db->quoteName($title, 'title'),
+					$db->quoteName('a.language'), 
+					$db->quoteName($ordering, 'ordering')
+				)
+			);
+		}
+
 		$query->from($db->quoteName($table, 'a'));
 
 		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
-			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+		$query->select(
+			array(
+				$db->quoteName('l.title', 'language_title'),
+				$db->quoteName('l.image', 'language_image')
+			)
+		)
+			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON l.lang_code = a.language');
 
 		// Join over the associations.
 		$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 as ' . $db->quoteName('association'))
@@ -186,7 +213,7 @@ class AssociationsModelAssociations extends JModelList
 
 		if ($table == '#__categories')
 		{
-			$query->where('a.extension = ' . $db->quote($extension));
+			$query->where($db->quoteName('a.extension') . ' = ' . $db->quote($extension));
 		}
 
 		// Filter on the language.
@@ -213,19 +240,8 @@ class AssociationsModelAssociations extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'title');
+		$orderCol = $this->state->get('list.ordering', 'ordering');
 		$orderDirn = $this->state->get('list.direction', 'asc');
-
-		if ($orderCol == 'ordering')
-		{
-			$orderCol = 'title ' . $orderDirn . ', ordering';
-		}
-
-		// SQL server change
-		if ($orderCol == 'language')
-		{
-			$orderCol = 'l.title';
-		}
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
