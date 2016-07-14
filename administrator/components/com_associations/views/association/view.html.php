@@ -92,11 +92,6 @@ class AssociationsViewAssociation extends JViewLegacy
 			}
 		}
 
-<<<<<<< HEAD
-		$this->app = JFactory::getApplication();
-		$input = $this->app->input;
-		$assoc = JLanguageAssociations::isEnabled();
-=======
 		$this->form  = $this->get('Form');
 
 		$this->app = JFactory::getApplication();
@@ -105,7 +100,6 @@ class AssociationsViewAssociation extends JViewLegacy
 		
 		$formData             = new JInput($input->get('jform', '', 'array'));
 		$targetId = $formData->getInt('itemlanguage', 0);
->>>>>>> side-by-side
 
 		$referenceId = $input->get('id', '0');
 		$associatedComponent = $input->get('acomponent', '');
