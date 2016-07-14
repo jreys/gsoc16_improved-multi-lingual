@@ -13,6 +13,40 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
+$this->app->getDocument()->addScriptDeclaration("
+	function iframeRef( frameRef ) {
+	return frameRef.contentWindow
+		? frameRef.contentWindow.document
+		: frameRef.contentDocument
+	}
+
+	function triggerSave() {
+		var inside = iframeRef( document.getElementById('target-association') );
+		inside.getElementById('applyBtn').click();
+		return false;
+	}
+");
+
+$this->app->getDocument()->addStyleDeclaration('
+	.sidebyside .outer-panel {
+		float: left;
+		width: 50%;
+	}
+	.sidebyside .left-panel {
+		border-right: 1px solid #999999 !important;
+	}
+	.sidebyside .right-panel {
+		border-left: 1px solid #999999 !important;
+	}
+	.sidebyside .inner-panel {
+		padding: 10px;
+	}
+	.sidebyside iframe {
+		width: 100%;
+		height: 1500px;
+		border: 0 !important;
+}
+');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=association'); ?>"
