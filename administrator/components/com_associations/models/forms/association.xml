@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="itemlanguage"
+			type="itemlanguage"
+			label="COM_ASSOCIATIONS_ITEM_FIELD_LANGUAGE_LABEL"
+			description="COM_ASSOCIATIONS_ITEM_FIELD_LANGUAGE_DESC">
+			
+			<option value="">COM_ASSOCIATIONS_SELECT_LANGUAGE</option>
+		</field>
+	</fieldset>
+
+	<fields name="params">
+	</fields>
+</form>
