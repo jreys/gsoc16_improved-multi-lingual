@@ -53,18 +53,34 @@ class JFormFieldItemLanguage extends JFormFieldList
 		}
 		else
 		{
-			$class = str_replace('com_', '', $associatedComponent . 'HelperAssociation');
-			JLoader::register($class, JPATH_SITE . '/components/' . $associatedComponent . '/helpers/association.php');
-			JLoader::register($class, JPATH_SITE . '/components/' . $associatedComponent . '/helpers/route.php');
-			if (class_exists($class) && is_callable(array($class, 'getAssociations')))
+			$helpAssoc = str_replace('com_', '', $associatedComponent . 'HelperAssociation');
+			JLoader::register($helpAssoc, JPATH_SITE . '/components/' . $associatedComponent . '/helpers/association.php');
+			$helpRoute = str_replace('com_', '', $associatedComponent . 'HelperRoute');
+			JLoader::register($helpRoute, JPATH_SITE . '/components/' . $associatedComponent . '/helpers/route.php');
+			if (class_exists($helpAssoc) && is_callable(array($helpAssoc, 'getAssociations')))
 			{
-				$cassociations = call_user_func(array($class, 'getAssociations'), $referenceId, $associatedView);
+				$associations = call_user_func(array($helpAssoc, 'getAssociations'), $referenceId, $associatedView);
+				$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
+
+				foreach ($existingLanguages as $lang)
+				{
+ 					if (isset($associations[$lang->value]))
+					{
+						parse_str($associations[$lang->value], $contents);
+						$associatedID = $contents['id'];
+						$removeExtra = explode(":", $associatedID);
+						$lang->value = $removeExtra[0];
+					}
+					else
+					{
+						$lang->value = 0;
+					}
+				}
 			}
-			print_r($cassociations);
+			
 		}
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
+		$options = array_merge(parent::getOptions(), $existingLanguages);
 
 		return $options;
 	}

@@ -5,9 +5,10 @@
 			name="itemlanguage"
 			type="itemlanguage"
 			label="COM_ASSOCIATIONS_ITEM_FIELD_LANGUAGE_LABEL"
-			description="COM_ASSOCIATIONS_ITEM_FIELD_LANGUAGE_DESC">
+			description="COM_ASSOCIATIONS_ITEM_FIELD_LANGUAGE_DESC"
+			onchange="this.form.submit();">
 			
-			<option value="">COM_ASSOCIATIONS_SELECT_LANGUAGE</option>
+			<option value="">COM_ASSOCIATIONS_SELECT_TARGET_LANGUAGE</option>
 		</field>
 	</fieldset>
 
