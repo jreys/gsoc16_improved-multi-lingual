@@ -39,9 +39,10 @@ class JFormFieldItemLanguage extends JFormFieldList
 
 		$input = JFactory::getApplication()->input;
 
-		$referenceId = $input->get('id', '');
+		$referenceId         = $input->get('id', '');
 		$associatedComponent = $input->get('acomponent', '');
-		$associatedView = $input->get('aview', '');
+		$associatedView      = $input->get('aview', '');
+		$forcedLanguage      = $input->get('forcedlanguage', '');
 
 		if ($associatedComponent == 'com_categories')
 		{
@@ -62,8 +63,12 @@ class JFormFieldItemLanguage extends JFormFieldList
 				$associations = call_user_func(array($helpAssoc, 'getAssociations'), $referenceId, $associatedView);
 				$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 
-				foreach ($existingLanguages as $lang)
+				foreach ($existingLanguages as $key => $lang)
 				{
+					if ($lang->value == $forcedLanguage)
+					{
+						unset($existingLanguages[$key]);
+					}
  					if (isset($associations[$lang->value]))
 					{
 						parse_str($associations[$lang->value], $contents);
