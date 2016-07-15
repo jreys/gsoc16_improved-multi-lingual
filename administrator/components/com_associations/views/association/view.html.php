@@ -92,46 +92,36 @@ class AssociationsViewAssociation extends JViewLegacy
 			}
 		}
 
-		$this->form  = $this->get('Form');
-
 		$this->app = JFactory::getApplication();
+		$this->form  = $this->get('Form');
 		$input     = $this->app->input;
 		$assoc     = JLanguageAssociations::isEnabled();
 		
-		$formData             = new JInput($input->get('jform', '', 'array'));
-		$targetId = $formData->getInt('itemlanguage', 0);
+		$formData = new JInput($input->get('jform', '', 'array'));
 
-		$referenceId = $input->get('id', '0');
-		$associatedComponent = $input->get('acomponent', '');
-		$associatedView = $input->get('aview', '');
+		$associatedComponent = $input->get('acomponent', '', 'string');
+		$associatedView      = $input->get('aview', '', 'string');
 
-		$this->link = "";
-		$this->targetLink = "";
+		$options = array(
+			'option'    => $associatedComponent,
+			'view'      => $associatedView,
+			'task'      => $associatedView . '.edit',
+			'layout'    => 'edit',
+			'tmpl'      => 'component',
+			'id'        => $input->get('id', 0, 'int')
+		);
 
-		if ($associatedComponent == 'com_categories')
+		// Special cases for categories.
+		if ($associatedComponent === 'com_categories')
 		{
-			// If it's categories
-			$this->link = 'index.php?option=' . $associatedComponent . '&task=category.edit&layout=modal&tmpl=component&id='
-				. $referenceId . '&extension=' . $associatedView;
-			$this->targetLink = 'index.php?option=' . $associatedComponent . '&task=category.edit&layout=modal&tmpl=component&id='
-				. $targetId . '&extension=' . $associatedView;
+			$options['task']      = 'category.edit';
+			$options['extension'] = $associatedView;
 		}
-		elseif ($associatedComponent == 'com_menus')
-		{
-			// If it's a menu item
-			$this->link = 'index.php?option=com_menus&view=item&layout=modal&task=item.edit&tmpl=component&id='
-				. $referenceId;
-			$this->targetLink = 'index.php?option=com_menus&view=item&layout=modal&task=item.edit&tmpl=component&id='
-				. $targetId;
-		}
-		else
-		{
-			// Any other case
-			$this->link = 'index.php?option=' . $associatedComponent . '&view=' . $associatedView
-			. '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $referenceId;
-			$this->targetLink = 'index.php?option=' . $associatedComponent . '&view=' . $associatedView
-			. '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $targetId;
-		}
+		// Reference item edit link.
+		$this->link = 'index.php?' . http_build_query($options);
+		$options['id'] = $formData->getInt('itemlanguage', 0);
+		$this->targetLink = 'index.php?' . http_build_query($options);
+
 
 		parent::display($tpl);
 	}
