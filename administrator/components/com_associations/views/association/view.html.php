@@ -93,6 +93,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		}
 
 		$this->app = JFactory::getApplication();
+
 		$this->form  = $this->get('Form');
 		$input     = $this->app->input;
 		$assoc     = JLanguageAssociations::isEnabled();
