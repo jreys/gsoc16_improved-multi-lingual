@@ -92,45 +92,32 @@ class AssociationsViewAssociation extends JViewLegacy
 			}
 		}
 
-		$this->form  = $this->get('Form');
-
 		$this->app = JFactory::getApplication();
-		$input     = $this->app->input;
-		$assoc     = JLanguageAssociations::isEnabled();
-		
-		$formData             = new JInput($input->get('jform', '', 'array'));
-		$targetId = $formData->getInt('itemlanguage', 0);
+		$input = $this->app->input;
+		$assoc = JLanguageAssociations::isEnabled();
 
 		$referenceId = $input->get('id', '0');
 		$associatedComponent = $input->get('acomponent', '');
 		$associatedView = $input->get('aview', '');
 
 		$this->link = "";
-		$this->targetLink = "";
 
 		if ($associatedComponent == 'com_categories')
 		{
 			// If it's categories
 			$this->link = 'index.php?option=' . $associatedComponent . '&task=category.edit&layout=modal&tmpl=component&id='
 				. $referenceId . '&extension=' . $associatedView;
-			$this->targetLink = 'index.php?option=' . $associatedComponent . '&task=category.edit&layout=modal&tmpl=component&id='
-				. $targetId . '&extension=' . $associatedView;
 		}
 		elseif ($associatedComponent == 'com_menus')
 		{
 			// If it's a menu item
-			$this->link = 'index.php?option=com_menus&view=item&layout=modal&task=item.edit&tmpl=component&id='
-				. $referenceId;
-			$this->targetLink = 'index.php?option=com_menus&view=item&layout=modal&task=item.edit&tmpl=component&id='
-				. $targetId;
+			$this->link = 'index.php?option=com_menus&view=item&layout=modal&task=item.edit&tmpl=component&id=' . $referenceId;
 		}
 		else
 		{
 			// Any other case
 			$this->link = 'index.php?option=' . $associatedComponent . '&view=' . $associatedView
 			. '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $referenceId;
-			$this->targetLink = 'index.php?option=' . $associatedComponent . '&view=' . $associatedView
-			. '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $targetId;
 		}
 
 		parent::display($tpl);
