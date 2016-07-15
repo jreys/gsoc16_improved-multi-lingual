@@ -111,7 +111,6 @@ class AssociationsModelAssociations extends JModelList
 		$component      = $this->getState('associationcomponent');
 		$table          = '';
 		$extension      = '';
-		$menuType       = false;
 
 		// If it's not a category
 		if (!strpos($component, '|'))
@@ -130,7 +129,6 @@ class AssociationsModelAssociations extends JModelList
 				if ($componentSplit[0] == 'com_menus')
 				{
 					$table = '#__menu';
-					$menuType = true;
 				}
 				else
 				{

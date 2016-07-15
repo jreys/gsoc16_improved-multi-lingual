@@ -18,11 +18,6 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 $colSpan = $this->menuType == true ? 5 : 4;
-
-if ($this->menuType == '')
-{
-	$colSpan--;
-}
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
 
