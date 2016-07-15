@@ -16,6 +16,8 @@ JHtml::_('jquery.framework');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
+$colSpan = $this->menuType == true ? 5 : 4;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
 
@@ -43,6 +45,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="15%" class="nowrap hidden-phone">
 						<?php echo JText::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
+					<?php if ($this->menuType == true) : ?>
+					<th width="5%" class="nowrap">
+						<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'a.menutype', $listDirn, $listOrder); ?>
+					</th>
+					<?php endif; ?>
 					<th width="5%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 					</th>
@@ -53,7 +60,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="4">
+					<td colspan="<?php echo $colSpan; ?>">
 						<?php echo $this->pagination->getListFooter(); ?>
 					</td>
 				</tr>
@@ -70,6 +77,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td class="small hidden-phone">
 						<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 					</td>
+					<?php if ($this->menuType == true) : ?>
+						<td>
+							<?php echo $this->escape($item->menutype); ?>
+						</td>
+					<?php endif; ?>
 					<td>
 						<?php if ($item->association) : ?>
 							<?php echo JHtml::_($this->assocValue, $item->id); ?>

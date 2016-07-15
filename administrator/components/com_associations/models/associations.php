@@ -33,6 +33,7 @@ class AssociationsModelAssociations extends JModelList
 				'title',
 				'ordering',
 				'level', 'a.level',
+				'menutype', 'a.menutype',
 				'association',
 				'associationlanguage',
 				'associationcomponent',
@@ -156,6 +157,11 @@ class AssociationsModelAssociations extends JModelList
 			$query->select($db->quoteName('a.level'));
 		}
 
+		if ($table == '#__menu')
+		{
+			$query->select($db->quoteName('a.menutype'));
+		}
+
 		$query->from($db->quoteName($table, 'a'));
 
 		// Join over the language
@@ -224,6 +230,11 @@ class AssociationsModelAssociations extends JModelList
 		}
 
 		// Add the list ordering clause.
+		if ($table != '#__menu')
+		{
+			$this->setState('list.ordering', 'ordering');
+		}
+
 		$orderCol = $this->state->get('list.ordering', 'ordering');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 

@@ -57,6 +57,7 @@ class AssociationsViewAssociations extends JViewLegacy
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->menuType      = false;
 
 		if (!JLanguageAssociations::isEnabled())
 		{
@@ -92,6 +93,7 @@ class AssociationsViewAssociations extends JViewLegacy
 			{
 				$this->assocValue = "MenusHtml.Menus.association";
 				$this->compLevel  = true;
+				$this->menuType   = true;
 			}
 			else
 			{
