@@ -133,6 +133,8 @@ class AssociationsModelAssociations extends JModelList
 				{
 					$table = str_replace("'", "", substr($componentModel, $start, $end - $start));
 				}
+
+				$assocQuery = $componentSplit[0];
 			}
 		}
 		// If it's a category
@@ -141,6 +143,7 @@ class AssociationsModelAssociations extends JModelList
 			$componentSplit = explode('|', $component);
 			$extension      = $componentSplit[1];
 			$table          = '#__categories';
+			$assocQuery     = 'com_categories';
 		}
 
 		$columns  = $db->getTableColumns($table);
@@ -172,7 +175,7 @@ class AssociationsModelAssociations extends JModelList
 			->join(
 				'LEFT',
 				$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
-				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($componentSplit[0] . '.item')
+				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($assocQuery . '.item')
 			)
 			->join(
 				'LEFT',
