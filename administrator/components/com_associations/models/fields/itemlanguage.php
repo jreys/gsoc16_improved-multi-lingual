@@ -69,6 +69,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 					{
 						unset($existingLanguages[$key]);
 					}
+					
  					if (isset($associations[$lang->value]))
 					{
 						parse_str($associations[$lang->value], $contents);
