@@ -67,7 +67,7 @@ $this->app->getDocument()->addStyleDeclaration('
 ?>
 <button id="toogle-left-panel">Show/Hide Reference (PoC)</button>
 
-<form action="<?php echo JRoute::_('index.php?option=com_associations&view=association'); ?>"
+<form action="<?php echo JRoute::_(JFactory::getURI()->toString()); ?>"
  method="post" name="adminForm" id="item-form" class="form-validate">
 
 <div class="sidebyside">
@@ -82,14 +82,12 @@ $this->app->getDocument()->addStyleDeclaration('
 	<div class="outer-panel" id="right-panel">
 		<div class="inner-panel">
 			<h3><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
-			<select id="ref-language" name="ref-language">
-				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', false, true), 'value', 'text'); ?>
-			</select>
+			<?php echo $this->form->getInput('itemlanguage'); ?>
 			<button onclick="return triggerSave();" class="btn btn-small btn-success">
 				<span class="icon-apply icon-white"></span>Save
 			</button>
 			<iframe id="target-association" name="target-association" 
-				src="<?php echo JRoute::_($this->link); ?>" 
+				src="<?php echo JRoute::_($this->targetLink); ?>" 
 				name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no"></iframe>
 		</div>
 	</div>

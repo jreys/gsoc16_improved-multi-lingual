@@ -93,32 +93,36 @@ class AssociationsViewAssociation extends JViewLegacy
 		}
 
 		$this->app = JFactory::getApplication();
-		$input = $this->app->input;
-		$assoc = JLanguageAssociations::isEnabled();
 
-		$referenceId = $input->get('id', '0');
-		$associatedComponent = $input->get('acomponent', '');
-		$associatedView = $input->get('aview', '');
+		$this->form  = $this->get('Form');
+		$input     = $this->app->input;
+		$assoc     = JLanguageAssociations::isEnabled();
+		
+		$formData = new JInput($input->get('jform', '', 'array'));
 
-		$this->link = "";
+		$associatedComponent = $input->get('acomponent', '', 'string');
+		$associatedView      = $input->get('aview', '', 'string');
 
-		if ($associatedComponent == 'com_categories')
+		$options = array(
+			'option'    => $associatedComponent,
+			'view'      => $associatedView,
+			'task'      => $associatedView . '.edit',
+			'layout'    => 'edit',
+			'tmpl'      => 'component',
+			'id'        => $input->get('id', 0, 'int')
+		);
+
+		// Special cases for categories.
+		if ($associatedComponent === 'com_categories')
 		{
-			// If it's categories
-			$this->link = 'index.php?option=' . $associatedComponent . '&task=category.edit&layout=modal&tmpl=component&id='
-				. $referenceId . '&extension=' . $associatedView;
+			$options['task']      = 'category.edit';
+			$options['extension'] = $associatedView;
 		}
-		elseif ($associatedComponent == 'com_menus')
-		{
-			// If it's a menu item
-			$this->link = 'index.php?option=com_menus&view=item&layout=modal&task=item.edit&tmpl=component&id=' . $referenceId;
-		}
-		else
-		{
-			// Any other case
-			$this->link = 'index.php?option=' . $associatedComponent . '&view=' . $associatedView
-			. '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $referenceId;
-		}
+		// Reference item edit link.
+		$this->link = 'index.php?' . http_build_query($options);
+		$options['id'] = $formData->getInt('itemlanguage', 0);
+		$this->targetLink = 'index.php?' . http_build_query($options);
+
 
 		parent::display($tpl);
 	}
