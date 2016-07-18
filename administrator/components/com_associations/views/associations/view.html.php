@@ -44,6 +44,15 @@ class AssociationsViewAssociations extends JViewLegacy
 	protected $state;
 
 	/**
+	 * Selected component
+	 *
+	 * @var  Registry
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public $component = null;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -62,62 +71,76 @@ class AssociationsViewAssociations extends JViewLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_ERROR_NO_ASSOC'), 'warning');
 		}
-		elseif ($this->state->get('associationcomponent') == '' || $this->state->get('associationlanguage') == '')
+		elseif ($this->state->get('component') == '' || $this->state->get('language') == '')
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
 		}
 		else
 		{
+			$this->component  = AssociationsHelper::getComponentProperties($this->state->get('component'));
+
+			// Dynamic filter form.
+			// This selectors doesn't have to activate the filter bar.
+			unset($this->activeFilters['component']);
+			unset($this->activeFilters['language']);
+			
+			// Remove filters options depending on selected component.
+			if (is_null($this->component) || is_null($this->component->fields->published))
+			{
+				unset($this->activeFilters['published']);
+				$this->filterForm->removeField('published', 'filter');
+			}
+			if (is_null($this->component) || is_null($this->component->fields->catid))
+			{
+				unset($this->activeFilters['category_id']);
+				$this->filterForm->removeField('category_id', 'filter');
+			}
+			if (is_null($this->component) || is_null($this->component->fields->menutype))
+			{
+				unset($this->activeFilters['menutype']);
+				$this->filterForm->removeField('menutype', 'filter');
+			}
+			if (is_null($this->component)
+				|| (is_null($this->component->fields->catid) && !in_array($this->component->component, array('com_categories', 'com_menus'))))
+			{
+				unset($this->activeFilters['level']);
+				$this->filterForm->removeField('level', 'filter');
+			}
+			if (is_null($this->component) || is_null($this->component->fields->access))
+			{
+				unset($this->activeFilters['access']);
+				$this->filterForm->removeField('access', 'filter');
+			}
+
+			// Add extension attribute to category filter.
+			if (!is_null($this->component) && !is_null($this->component->fields->catid))
+			{
+				$this->filterForm->setFieldAttribute('category_id', 'extension', $this->component->component, 'filter');
+			}
+	
+			// Only allow ordering by what the component allows.
+			if (in_array($this->state->get('list.ordering', 'ordering'), $this->component->excludeOrdering))
+			{
+				$this->state->set('list.ordering', 'ordering');
+				$this->state->set('list.direction', 'ASC');
+				$this->filterForm->setValue('fullordering', 'list', 'ordering ASC');
+			}
+
 			$this->items      = $this->get('Items');
 			$this->pagination = $this->get('Pagination');
-			$componentFilter  = $this->state->get('associationcomponent');
-			$parts            = explode('.', $componentFilter);
-			$comp             = $parts[0];
-			$assocItem        = $parts[1];
-			$this->compLevel  = false;
 
-			JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $comp . '/helpers/html');
+			$linkParameters = array(
+				'layout'     => 'edit',
+				'acomponent' => $this->component->component,
+				'aview'      => $this->component->item,
+			);
 
-			// Get the value in the Association column
-			if ($comp == "com_content")
+			if (!is_null($this->component->extension))
 			{
-				$this->assocValue = "contentadministrator.association";
-			}
-			elseif ($comp == "com_categories")
-			{
-				$this->assocValue = "categoriesadministrator.association";
-				$this->compLevel  = true;
-			}
-			elseif ($comp == "com_menus")
-			{
-				$this->assocValue = "MenusHtml.Menus.association";
-				$this->compLevel  = true;
-			}
-			else
-			{
-				$this->assocValue = $assocItem . '.association';
+				$linkParameters['extension'] = $this->component->extension;
 			}
 
-			// If it's not a category
-			if ($componentFilter != '' && !strpos($componentFilter, '|'))
-			{
-				$componentSplit = explode('.', $componentFilter);
-				$aComponent = $componentSplit[0];
-				$aView = $componentSplit[1];
-			}
-			elseif ($componentFilter != '')
-			{
-				$componentSplit = explode('|', $componentFilter);
-				$aComponent = 'com_categories';
-				$aView = $componentSplit[1];
-			}
-
-			if (isset($aComponent) && isset($aView))
-			{
-				$this->link = 'index.php?option=com_associations&view=association&layout=edit&forcedlanguage='
-				. $this->state->get('associationlanguage') . '&acomponent='	. $aComponent . '&aview=' . $aView . '&id=';
-			}
-
+			$this->editLink = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
 		}
 
 		// Check for errors.
