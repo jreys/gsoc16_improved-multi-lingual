@@ -16,9 +16,7 @@ $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
 if ($data['view'] instanceof AssociationsViewAssociations)
 {
-	$doc = JFactory::getDocument();
-
-	$doc->addStyleDeclaration("
+	JFactory::getDocument()->addStyleDeclaration("
 		/* Fixed filter field in search bar */
 		.js-stools .js-stools-selector {
 			float: left;
@@ -34,10 +32,6 @@ if ($data['view'] instanceof AssociationsViewAssociations)
 			padding: 3px 0;
 		}
 	");
-
-	// This selectors doesn't have to activate the filter bar
-	unset($data['view']->activeFilters['associationcomponent']);
-	unset($data['view']->activeFilters['associationlanguage']);
 }
 
 // Display the main joomla layout
