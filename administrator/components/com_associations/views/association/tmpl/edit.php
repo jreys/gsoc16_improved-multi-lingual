@@ -22,7 +22,7 @@ $this->app->getDocument()->addScriptDeclaration("
 
 	function triggerSave() {
 		var inside = iframeRef( document.getElementById('target-association') );
-		inside.getElementById('applyBtn').click();
+		window.frames[1].Joomla.submitbutton('article.apply');
 		return false;
 	}
 ");
@@ -68,7 +68,7 @@ $this->app->getDocument()->addStyleDeclaration('
 <button id="toogle-left-panel">Show/Hide Reference (PoC)</button>
 
 <form action="<?php echo JRoute::_(JFactory::getURI()->toString()); ?>"
- method="post" name="adminForm" id="item-form" class="form-validate">
+ method="post" name="adminForm" id="adminForm" class="form-validate">
 
 <div class="sidebyside">
 	<div class="outer-panel" id="left-panel">
@@ -92,4 +92,5 @@ $this->app->getDocument()->addStyleDeclaration('
 		</div>
 	</div>
 </div>
+<input type="hidden" name="task" value=""/>
 </form>

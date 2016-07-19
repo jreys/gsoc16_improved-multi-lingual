@@ -14,21 +14,17 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class AssociationsControllerAssociation extends JControllerAdmin
+class AssociationsControllerAssociation extends JControllerForm
 {
 	/**
-	 * Proxy for getModel.
+	 * Method for closing the template.
 	 *
-	 * @param   string  $name    The name of the model.
-	 * @param   string  $prefix  The prefix for the PHP class name.
-	 * @param   array   $config  Array of configuration parameters.
+	 * @return  void.
 	 *
-	 * @return  JModelLegacy
-	 *
-	 * @since   @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getModel($name = 'Association', $prefix = 'AssociationsModel', $config = array('ignore_request' => true))
+	public function cancel()
 	{
-		return parent::getModel($name, $prefix, $config);
+		$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
 	}
 }
