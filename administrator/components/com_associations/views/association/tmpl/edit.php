@@ -34,6 +34,19 @@ $this->app->getDocument()->addScriptDeclaration("
 			$('#right-panel').toggleClass('full-width');
 		});
 	});
+
+	function loadFrame(id) {
+		var oldSrc = document.getElementById('target-association').src;
+		lastStrIndex = oldSrc.length-1;
+
+		while(oldSrc.charAt(lastStrIndex) != '=') {
+			lastStrIndex--;
+		}
+
+		newSrc = oldSrc.substring(0, lastStrIndex) + '=' + id;
+
+		document.getElementById('target-association').src = newSrc;
+	}
 ");
 
 $this->app->getDocument()->addStyleDeclaration('
