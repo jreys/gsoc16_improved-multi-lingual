@@ -89,10 +89,16 @@ class JFormFieldItemLanguage extends JFormFieldList
 			}
 			if (isset($associations[$lang->value]))
 			{
-				parse_str($associations[$lang->value], $contents);
-				$associatedID = $contents['id'];
-				$removeExtra  = explode(":", $associatedID);
-				$lang->value  = $associatedComponent == 'com_menus' ? $associations[$lang->value] : $removeExtra[0];
+				if ($associatedComponent != 'com_menus')
+				{
+					parse_str($associations[$lang->value], $contents);
+					$removeExtra  = explode(":", $contents['id']);
+					$lang->value  = $removeExtra[0];
+				}
+				else
+				{
+					$lang->value = $associations[$lang->value];
+				}
 			}
 			else
 			{
