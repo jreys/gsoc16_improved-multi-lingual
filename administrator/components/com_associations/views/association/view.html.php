@@ -123,6 +123,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		$options['id'] = $formData->getInt('itemlanguage', 0);
 		$this->targetLink = 'index.php?' . http_build_query($options);
 
+		$this->associatedView = $associatedView;
 
 		parent::display($tpl);
 	}

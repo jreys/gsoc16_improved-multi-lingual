@@ -22,7 +22,7 @@ $this->app->getDocument()->addScriptDeclaration("
 
 	function triggerSave() {
 		var inside = iframeRef( document.getElementById('target-association') );
-		window.frames[1].Joomla.submitbutton('article.apply');
+		window.frames[1].Joomla.submitbutton('" . $this->associatedView . ".apply');
 		return false;
 	}
 ");
