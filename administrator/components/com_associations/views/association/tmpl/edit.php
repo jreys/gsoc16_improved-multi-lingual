@@ -33,6 +33,8 @@ $this->app->getDocument()->addScriptDeclaration("
 			$('#left-panel').toggle();
 			$('#right-panel').toggleClass('full-width');
 		});
+
+		$('.btn-success').attr('onclick','return triggerSave()');
 	});
 
 	function loadFrame(id) {
@@ -76,6 +78,11 @@ $this->app->getDocument()->addStyleDeclaration('
 		height: 1500px;
 		border: 0 !important;
 	}
+
+	.reference-side h3 {
+		float: left;
+		width: 50%;
+	}
 ');
 ?>
 <button id="toogle-left-panel">Show/Hide Reference (PoC)</button>
@@ -94,11 +101,10 @@ $this->app->getDocument()->addStyleDeclaration('
 	</div>
 	<div class="outer-panel" id="right-panel">
 		<div class="inner-panel">
-			<h3><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
-			<?php echo $this->form->getInput('itemlanguage'); ?>
-			<button onclick="return triggerSave();" class="btn btn-small btn-success">
-				<span class="icon-apply icon-white"></span>Save
-			</button>
+			<div class="reference-side">
+				<h3><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
+				<?php echo $this->form->getInput('itemlanguage'); ?>
+			</div>
 			<iframe id="target-association" name="target-association" 
 				src="<?php echo JRoute::_($this->targetLink); ?>" 
 				name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no"></iframe>
