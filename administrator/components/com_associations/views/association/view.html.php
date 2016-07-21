@@ -145,6 +145,7 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		JToolbarHelper::apply('reference', 'COM_ASSOCIATIONS_SAVE_REFERENCE');
 		JToolbarHelper::apply('target', 'COM_ASSOCIATIONS_SAVE_TARGET');
+		JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
 		JToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		JToolbarHelper::help('JGLOBAL_HELP');
 
