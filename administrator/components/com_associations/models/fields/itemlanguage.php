@@ -63,9 +63,9 @@ class JFormFieldItemLanguage extends JFormFieldList
 		elseif ($associatedComponent == 'com_menus')
 		{
 			$helpAssoc = 'MenusHelper';
-            JLoader::register($helpAssoc, JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-            $associations = call_user_func(array($helpAssoc, 'getAssociations'), $referenceId);
-            $existingLanguages = JHtml::_('contentlanguage.existing', false, true);
+			JLoader::register($helpAssoc, JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+			$associations = call_user_func(array($helpAssoc, 'getAssociations'), $referenceId);
+			$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 		}
 		else
 		{
@@ -91,8 +91,8 @@ class JFormFieldItemLanguage extends JFormFieldList
 			{
 				parse_str($associations[$lang->value], $contents);
 				$associatedID = $contents['id'];
-				$removeExtra = explode(":", $associatedID);
-				$lang->value = $removeExtra[0];
+				$removeExtra  = explode(":", $associatedID);
+				$lang->value  = $associatedComponent == 'com_menus' ? $associations[$lang->value] : $removeExtra[0];
 			}
 			else
 			{
