@@ -23,7 +23,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function cancel()
+	public function cancel($key = NULL)
 	{
 		$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
 	}
