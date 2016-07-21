@@ -30,23 +30,17 @@ $this->app->getDocument()->addScriptDeclaration("
 		$('.btn-success').attr('onclick','return triggerSave()');
 
 		$('#reference-association').load(function (){
-    		//var refForm = document.getElementById('reference-association').contentWindow.document.body.innerHTML;
-			//refForm = jQuery('#reference-association').contents().find('html').html();
-
-			/*var inputs = window.frames[0].document.getElementsByTagName('INPUT');
-			for (var i = 0; i < inputs.length; i++) {
-				inputs[i].disabled = true;
-			}*/
 			$('#reference-association').each(function () {
 				$(this).contents().find('.chzn-single').css('background', 'transparent');
 				$(this).contents().find('.chzn-single').css('background-color', '#eee');
 				$(this).contents().find('.controls').css( 'pointer-events', 'none' );
     			$(this).contents().find('input').attr('disabled', 'disabled');
-
-    			//$(this).contents().find('input[type=text]').attr('disabled', 'disabled');
 			});
 		});
-		
+
+		$('#target-association').load(function (){		
+			$(this).contents().find('a[href=#associations]').parent().hide();
+		});
 	});
 
 	function loadFrame(id) {
