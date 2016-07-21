@@ -14,8 +14,13 @@ JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
 $this->app->getDocument()->addScriptDeclaration("
-	function triggerSave() {
-		window.frames[1].Joomla.submitbutton('" . $this->associatedView . ".apply');
+	function triggerSave(frame) {
+		if (frame == 'reference') {
+			window.frames[0].Joomla.submitbutton('" . $this->associatedView . ".apply');
+		}
+		if (frame == 'target') {
+			window.frames[1].Joomla.submitbutton('" . $this->associatedView . ".apply');
+		}
 		return false;
 	}
 ");
@@ -27,14 +32,19 @@ $this->app->getDocument()->addScriptDeclaration("
 			$('#right-panel').toggleClass('full-width');
 		});
 
-		$('.btn-success').attr('onclick','return triggerSave()');
+		$('.btn-success').attr('onclick', function(){
+   			var frame = $(this).attr('onclick');
+
+			frame = frame.substring(frame.lastIndexOf('(')+1,frame.lastIndexOf(')'));
+			return 'return triggerSave(' + frame + ')';
+		});
 
 		$('#reference-association').load(function (){
 			$('#reference-association').each(function () {
 				$(this).contents().find('.chzn-single').css('background', 'transparent');
 				$(this).contents().find('.chzn-single').css('background-color', '#eee');
 				$(this).contents().find('.controls').css( 'pointer-events', 'none' );
-    			$(this).contents().find('input').attr('disabled', 'disabled');
+				$(this).contents().find('input').attr('disabled', 'disabled');
 			});
 		});
 
