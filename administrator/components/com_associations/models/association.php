@@ -34,6 +34,9 @@ class AssociationsModelAssociation extends JModelList
 		{
 			return false;
 		}
-		else return $form;
+		else
+		{
+			return $form;
+		}
 	}
 }

@@ -19,11 +19,13 @@ class AssociationsControllerAssociation extends JControllerForm
 	/**
 	 * Method for closing the template.
 	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
 	 * @return  void.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function cancel($key = NULL)
+	public function cancel($key = null)
 	{
 		$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
 	}
