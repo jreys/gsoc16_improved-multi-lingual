@@ -143,8 +143,8 @@ class AssociationsViewAssociation extends JViewLegacy
 		$associatedView = $jinput->get('aview', '');
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
-		JToolbarHelper::apply('reference', 'Save Reference');
-		JToolbarHelper::apply('target', 'Save Target');
+		JToolbarHelper::apply('reference', 'COM_ASSOCIATIONS_SAVE_REFERENCE');
+		JToolbarHelper::apply('target', 'COM_ASSOCIATIONS_SAVE_TARGET');
 		JToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		JToolbarHelper::help('JGLOBAL_HELP');
 
