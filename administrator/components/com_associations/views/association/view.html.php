@@ -106,6 +106,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		$options = array(
 			'option'    => $associatedComponent,
 			'view'      => $associatedView,
+			'extension' => '',
 			'task'      => $associatedView . '.edit',
 			'layout'    => 'edit',
 			'tmpl'      => 'component',
@@ -115,8 +116,9 @@ class AssociationsViewAssociation extends JViewLegacy
 		// Special cases for categories.
 		if ($associatedComponent === 'com_categories')
 		{
+			$options['view']      = '';
 			$options['task']      = 'category.edit';
-			$options['extension'] = $associatedView;
+			$options['extension'] = $input->get('extension', '', 'string');
 		}
 		// Reference item edit link.
 		$this->link = 'index.php?' . http_build_query($options);
