@@ -14,14 +14,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
 $this->app->getDocument()->addScriptDeclaration("
-	function iframeRef( frameRef ) {
-	return frameRef.contentWindow
-		? frameRef.contentWindow.document
-		: frameRef.contentDocument
-	}
-
 	function triggerSave() {
-		var inside = iframeRef( document.getElementById('target-association') );
 		window.frames[1].Joomla.submitbutton('" . $this->associatedView . ".apply');
 		return false;
 	}
@@ -35,6 +28,25 @@ $this->app->getDocument()->addScriptDeclaration("
 		});
 
 		$('.btn-success').attr('onclick','return triggerSave()');
+
+		$('#reference-association').load(function (){
+    		//var refForm = document.getElementById('reference-association').contentWindow.document.body.innerHTML;
+			//refForm = jQuery('#reference-association').contents().find('html').html();
+
+			/*var inputs = window.frames[0].document.getElementsByTagName('INPUT');
+			for (var i = 0; i < inputs.length; i++) {
+				inputs[i].disabled = true;
+			}*/
+			$('#reference-association').each(function () {
+				$(this).contents().find('.chzn-single').css('background', 'transparent');
+				$(this).contents().find('.chzn-single').css('background-color', '#eee');
+				$(this).contents().find('.controls').css( 'pointer-events', 'none' );
+    			$(this).contents().find('input').attr('disabled', 'disabled');
+
+    			//$(this).contents().find('input[type=text]').attr('disabled', 'disabled');
+			});
+		});
+		
 	});
 
 	function loadFrame(id) {
@@ -94,7 +106,7 @@ $this->app->getDocument()->addStyleDeclaration('
 	<div class="outer-panel" id="left-panel">
 		<div class="inner-panel">
 			<h3><?php echo JText::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
-			<iframe src="<?php echo JRoute::_($this->link); ?>" 
+			<iframe id="reference-association" src="<?php echo JRoute::_($this->link); ?>" class="reference-association"
 				name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no">
 			</iframe>
 		</div>
