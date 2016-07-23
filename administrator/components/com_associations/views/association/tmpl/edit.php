@@ -49,9 +49,35 @@ $this->app->getDocument()->addScriptDeclaration("
 			$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
 		});
 
-		//Hide associations tab
-		$('#target-association').load(function (){		
-			$(this).contents().find('a[href=#associations]').parent().hide();
+		$('#target-association').load(function () {
+			target = $(this);
+			//Hide associations tab	
+			//$(this).contents().find('a[href=#associations]').parent().hide();
+
+			langAssociation = '" . str_replace('-', '_', $this->referenceLanguage) . "';
+			langID = " . $this->referenceID . ";
+			target.contents().find('#jform_associations_' + langAssociation + '_id').val(langID);
+
+			selectedLang = $('#jform_itemlanguage').val();
+			split = selectedLang.split('|');
+			selectedLang = split[0];
+
+
+			target.contents().find('#jform_language option[value='+selectedLang+']').attr('selected','selected');
+			target.contents().find('#jform_language').chosen();
+			target.contents().find('#jform_language').trigger('liszt:updated');
+			target.contents().find('#jform_language').parent().find('div:gt(2)').remove();
+
+			$('#jform_itemlanguage option').each(function()
+			{
+				split = $(this).val().split('|');
+				if (typeof split[1] !== 'undefined' && split[1] !== '0') {
+					langAssociation = split[0].replace('-','_');
+					langID = split[1];
+					target.contents().find('#jform_associations_' + langAssociation + '_id').val(langID);
+				}
+			});
+
 			$(this).contents().find('#jform_language_chzn').css( 'pointer-events', 'none' );
 			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background', 'transparent');
 			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background-color', '#eee');
@@ -60,6 +86,8 @@ $this->app->getDocument()->addScriptDeclaration("
 	});
 
 	function loadFrame(id) {
+		split = id.split('|');
+		id = split[1];
 		var oldSrc = document.getElementById('target-association').src;
 		lastStrIndex = oldSrc.length-1;
 

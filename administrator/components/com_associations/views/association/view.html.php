@@ -102,6 +102,7 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		$associatedComponent = $input->get('acomponent', '', 'string');
 		$associatedView      = $input->get('aview', '', 'string');
+		$this->referenceID   = $input->get('id', 0, 'int');
 
 		$options = array(
 			'option'    => $associatedComponent,
@@ -110,7 +111,7 @@ class AssociationsViewAssociation extends JViewLegacy
 			'task'      => $associatedView . '.edit',
 			'layout'    => 'edit',
 			'tmpl'      => 'component',
-			'id'        => $input->get('id', 0, 'int')
+			'id'        => $this->referenceID
 		);
 
 		// Special cases for categories.
@@ -125,7 +126,8 @@ class AssociationsViewAssociation extends JViewLegacy
 		$options['id'] = $formData->getInt('itemlanguage', 0);
 		$this->targetLink = 'index.php?' . http_build_query($options);
 
-		$this->associatedView = $associatedView;
+		$this->referenceLanguage = $input->get('forcedlanguage', '', 'string');
+		$this->associatedView    = $associatedView;
 
 		parent::display($tpl);
 	}
