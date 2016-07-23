@@ -139,8 +139,9 @@ class AssociationsViewAssociation extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$jinput = JFactory::getApplication()->input;
-		$associatedView = $jinput->get('aview', '');
+		$input = JFactory::getApplication()->input;
+		$input->set('hidemainmenu', 1);
+
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
 		JToolbarHelper::apply('reference', 'COM_ASSOCIATIONS_SAVE_REFERENCE');
