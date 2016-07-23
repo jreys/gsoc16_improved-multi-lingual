@@ -46,11 +46,17 @@ $this->app->getDocument()->addScriptDeclaration("
 				$(this).contents().find('.controls').css( 'pointer-events', 'none' );
 				$(this).contents().find('input').attr('disabled', 'disabled');
 			});
+			$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
 		});
 
+		//Hide associations tab
 		$('#target-association').load(function (){		
 			$(this).contents().find('a[href=#associations]').parent().hide();
+			$(this).contents().find('#jform_language_chzn').css( 'pointer-events', 'none' );
+			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background', 'transparent');
+			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background-color', '#eee');
 		});
+
 	});
 
 	function loadFrame(id) {
@@ -64,6 +70,16 @@ $this->app->getDocument()->addScriptDeclaration("
 		newSrc = oldSrc.substring(0, lastStrIndex) + '=' + id;
 
 		document.getElementById('target-association').src = newSrc;
+	}
+
+	function copyRefToTarget() {
+		var ref = document.getElementById('reference-association').contentWindow.document.getElementsByName('checkbox');
+		jQuery('#reference-association').contents().find('input').each(function () {
+			//console.log(jQuery('#target-association').contents().find(this.id).text());
+			id = '#'+this.id;
+			jQuery('#target-association').contents().find(id).val((jQuery(this).val()));
+		});
+		return false;
 	}
 ");
 
