@@ -38,7 +38,7 @@ class AssociationsControllerAssociation extends JControllerForm
 
 		if (!is_null($checkOutComponent->fields->checked_out))
 		{
-			$checkOutComponent->table->checkin(4);
+			$checkOutComponent->table->checkin($refID);
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
