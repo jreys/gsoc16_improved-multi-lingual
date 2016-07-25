@@ -122,7 +122,7 @@ class AssociationsModelAssociations extends JModelList
 			->select($db->quoteName('a.' . $component->fields->title, 'title'))
 			->select($db->quoteName('a.' . $component->fields->alias, 'alias'))
 			->select($db->quoteName('a.' . $component->fields->ordering, 'ordering'))
-			->from($db->quoteName($component->table, 'a'));
+			->from($db->quoteName($component->dbtable, 'a'));
 
 		// Join over the language
 		$query->select($db->quoteName('a.' . $component->fields->language, 'language'))
@@ -183,13 +183,13 @@ class AssociationsModelAssociations extends JModelList
 		}
 
 		// If component is menus we need to remove the root item and the administrator menu.
-		if ($component->table === '#__menu')
+		if ($component->dbtable === '#__menu')
 		{
 			$query->where($db->quoteName('a.id') . ' > 1')
 				->where($db->quoteName('a.client_id') . ' = 0');
 		}
 		// If component is categories we need to remove all other component categories.
-		elseif ($component->table === '#__categories')
+		elseif ($component->dbtable === '#__categories')
 		{
 			$query->where($db->quoteName('a.extension') . ' = ' . $db->quote($component->extension));
 		}
