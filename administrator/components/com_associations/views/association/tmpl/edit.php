@@ -74,11 +74,15 @@ $this->app->getDocument()->addScriptDeclaration("
 
 			split = selectedLang.split('|');
 
-			$('#target-id').val('');
 			if (typeof split[1] !== 'undefined') {
 				selectedLang = split[0];
 				if (split[1] != '0') {
-					$('#target-id').val(split[1]);
+					if (!$('#target-id').val()) {
+						$('#target-id').val(split[1]);
+					}
+					else {
+						$('#target-id').val($('#target-id').val()+','+split[1]);
+					}
 				}
 
 				target.contents().find('#jform_language option[value='+selectedLang+']').attr('selected','selected');
@@ -86,8 +90,6 @@ $this->app->getDocument()->addScriptDeclaration("
 				target.contents().find('#jform_language').trigger('liszt:updated');
 				target.contents().find('#jform_language').parent().find('div:gt(2)').remove();
 			}
-
-			$('#toolbar-cancel').children().attr('onclick', action);
 
 			$('#jform_itemlanguage option').each(function()
 			{

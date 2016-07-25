@@ -31,7 +31,7 @@ class AssociationsControllerAssociation extends JControllerForm
 		$view      = $this->input->get('aview', '', 'string');
 		$extension = $this->input->get('extension', '', 'string');
 		$refID     = $this->input->get('id', '', 'int');
-		$targetID  = $this->input->get('target-id', '', 'int');
+		$targetID  = $this->input->get('target-id', '', 'string');
 
 		$getCP = $extension != '' ? ('com_categories.category|' . $extension) : ($component . '.' . $view);
 
@@ -39,9 +39,18 @@ class AssociationsControllerAssociation extends JControllerForm
 
 		if (!is_null($checkOutComponent->fields->checked_out))
 		{
+			$split = array_unique(explode(",", $targetID));
+
+			//Always check-in reference id
 			$checkOutComponent->table->checkin($refID);
-			if ($targetID != '' || $targetID != 0) {
+
+			if ($targetID != '')
+			{
 				$checkOutComponent->table->checkin($targetID);
+				foreach ($split as $key => $id)
+				{
+					$checkOutComponent->table->checkin(intval($id));
+				}
 			}
 		}
 
