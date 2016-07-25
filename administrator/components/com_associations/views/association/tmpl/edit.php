@@ -32,41 +32,56 @@ $this->app->getDocument()->addScriptDeclaration("
 			$('#right-panel').toggleClass('full-width');
 		});
 
+		selectedLang = $('#jform_itemlanguage').val();
+			
+		if (selectedLang == '')
+		{
+			$('#target-association').hide();
+		}
+		else
+		{
+			$('#target-association').show();
+		}
+
+
 		$('.btn-success').attr('onclick', function(){
-   			var frame = $(this).attr('onclick');
+			var frame = $(this).attr('onclick');
 
 			frame = frame.substring(frame.lastIndexOf('(')+1,frame.lastIndexOf(')'));
 			return 'return triggerSave(' + frame + ')';
 		});
 
 		$('#reference-association').load(function (){
-			$('#reference-association').each(function () {
+			//Disable reference fields, commented out just to keep the code for ACL
+			/*$('#reference-association').each(function () {
 				$(this).contents().find('.chzn-single').css('background', 'transparent');
 				$(this).contents().find('.chzn-single').css('background-color', '#eee');
 				$(this).contents().find('.controls').css( 'pointer-events', 'none' );
 				$(this).contents().find('input').attr('disabled', 'disabled');
-			});
+			});*/
 			$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
 		});
 
 		$('#target-association').load(function () {
 			target = $(this);
+
 			//Hide associations tab	
-			//$(this).contents().find('a[href=#associations]').parent().hide();
+			target.contents().find('a[href=#associations]').parent().hide();
 
 			langAssociation = '" . str_replace('-', '_', $this->referenceLanguage) . "';
 			langID = " . $this->referenceID . ";
 			target.contents().find('#jform_associations_' + langAssociation + '_id').val(langID);
 
-			selectedLang = $('#jform_itemlanguage').val();
 			split = selectedLang.split('|');
-			selectedLang = split[0];
 
+			if (typeof split[1] !== 'undefined') {
+				selectedLang = split[0];
 
-			target.contents().find('#jform_language option[value='+selectedLang+']').attr('selected','selected');
-			target.contents().find('#jform_language').chosen();
-			target.contents().find('#jform_language').trigger('liszt:updated');
-			target.contents().find('#jform_language').parent().find('div:gt(2)').remove();
+				target.contents().find('#jform_language option[value='+selectedLang+']').attr('selected','selected');
+				target.contents().find('#jform_language').chosen();
+				target.contents().find('#jform_language').trigger('liszt:updated');
+				target.contents().find('#jform_language').parent().find('div:gt(2)').remove();
+			}
 
 			$('#jform_itemlanguage option').each(function()
 			{
@@ -88,6 +103,7 @@ $this->app->getDocument()->addScriptDeclaration("
 	function loadFrame(id) {
 		split = id.split('|');
 		id = split[1];
+	
 		var oldSrc = document.getElementById('target-association').src;
 		lastStrIndex = oldSrc.length-1;
 
@@ -98,6 +114,17 @@ $this->app->getDocument()->addScriptDeclaration("
 		newSrc = oldSrc.substring(0, lastStrIndex) + '=' + id;
 
 		document.getElementById('target-association').src = newSrc;
+
+		selectedLang = jQuery('#jform_itemlanguage').val();
+
+		if (selectedLang == '')
+		{
+			jQuery('#target-association').hide();
+		}
+		else
+		{
+			jQuery('#target-association').show();
+		}
 	}
 
 	function copyRefToTarget() {
@@ -145,7 +172,7 @@ $this->app->getDocument()->addStyleDeclaration('
 	}
 ');
 ?>
-<button id="toogle-left-panel">Show/Hide Reference (PoC)</button>
+<button id="toogle-left-panel" class="btn btn-small">Show/Hide Reference (PoC)</button>
 
 <form action="<?php echo JRoute::_(JFactory::getURI()->toString()); ?>"
  method="post" name="adminForm" id="adminForm" class="form-validate">
