@@ -55,34 +55,35 @@ class AssociationsHelper extends JHelperContent
 			$modelsPath    = JPATH_ADMINISTRATOR . '/components/' . $properties->component . '/models';
 
 			JLoader::register($componentName . 'Model' . $itemName, $modelsPath . '/' . $properties->item . '.php');
-			$model = JModelLegacy::getInstance($itemName, $componentName . 'Model', array('ignore_request' => true));
+			$properties->model = JModelLegacy::getInstance($itemName, $componentName . 'Model', array('ignore_request' => true));
 
-			$properties->associationsContext = $model->get('associationsContext');
-			$properties->typeAlias           = $model->get('typeAlias');
+			$properties->associationsContext = $properties->model->get('associationsContext');
+			$properties->typeAlias           = $properties->model->get('typeAlias');
 
 			// Get the database table.
-			$model->addTablePath(JPATH_ADMINISTRATOR . '/components/' . $properties->component . '/tables');
-			$table             = $model->getTable();
-			$properties->table = $table->get('_tbl');
+			$properties->model->addTablePath(JPATH_ADMINISTRATOR . '/components/' . $properties->component . '/tables');
+			$properties->table   = $properties->model->getTable();
+			$properties->dbtable = $properties->table->get('_tbl');
 
 			// Get the table fields.
-			$properties->tableFields = $table->getFields();
+			$properties->tableFields = $properties->table->getFields();
 
 			// Component fields
 			// @todo This need should be checked hardcoding.
-			$properties->fields            = new Registry;
-			$properties->fields->title     = isset($properties->tableFields['name']) ? 'name' : null;
-			$properties->fields->title     = isset($properties->tableFields['title']) ? 'title' : $properties->fields->title;
-			$properties->fields->alias     = isset($properties->tableFields['alias']) ? 'alias' : null;
-			$properties->fields->ordering  = isset($properties->tableFields['ordering']) ? 'ordering' : null;
-			$properties->fields->ordering  = isset($properties->tableFields['lft']) ? 'lft' : $properties->fields->ordering;
-			$properties->fields->menutype  = isset($properties->tableFields['menutype']) ? 'menutype' : null;
-			$properties->fields->level     = isset($properties->tableFields['level']) ? 'level' : null;
-			$properties->fields->catid     = isset($properties->tableFields['catid']) ? 'catid' : null;
-			$properties->fields->language  = isset($properties->tableFields['language']) ? 'language' : null;
-			$properties->fields->access    = isset($properties->tableFields['access']) ? 'access' : null;
-			$properties->fields->published = isset($properties->tableFields['state']) ? 'state' : null;
-			$properties->fields->published = isset($properties->tableFields['published']) ? 'published' : $properties->fields->published;
+			$properties->fields              = new Registry;
+			$properties->fields->title       = isset($properties->tableFields['name']) ? 'name' : null;
+			$properties->fields->title       = isset($properties->tableFields['title']) ? 'title' : $properties->fields->title;
+			$properties->fields->alias       = isset($properties->tableFields['alias']) ? 'alias' : null;
+			$properties->fields->ordering    = isset($properties->tableFields['ordering']) ? 'ordering' : null;
+			$properties->fields->ordering    = isset($properties->tableFields['lft']) ? 'lft' : $properties->fields->ordering;
+			$properties->fields->menutype    = isset($properties->tableFields['menutype']) ? 'menutype' : null;
+			$properties->fields->level       = isset($properties->tableFields['level']) ? 'level' : null;
+			$properties->fields->catid       = isset($properties->tableFields['catid']) ? 'catid' : null;
+			$properties->fields->language    = isset($properties->tableFields['language']) ? 'language' : null;
+			$properties->fields->access      = isset($properties->tableFields['access']) ? 'access' : null;
+			$properties->fields->published   = isset($properties->tableFields['state']) ? 'state' : null;
+			$properties->fields->published   = isset($properties->tableFields['published']) ? 'published' : $properties->fields->published;
+			$properties->fields->checked_out = isset($properties->tableFields['checked_out']) ? 'checked_out' : null;
 
 			// Disallow ordering according to component.
 			$properties->excludeOrdering = array();
