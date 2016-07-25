@@ -74,14 +74,20 @@ $this->app->getDocument()->addScriptDeclaration("
 
 			split = selectedLang.split('|');
 
+			$('#target-id').val('');
 			if (typeof split[1] !== 'undefined') {
 				selectedLang = split[0];
+				if (split[1] != '0') {
+					$('#target-id').val(split[1]);
+				}
 
 				target.contents().find('#jform_language option[value='+selectedLang+']').attr('selected','selected');
 				target.contents().find('#jform_language').chosen();
 				target.contents().find('#jform_language').trigger('liszt:updated');
 				target.contents().find('#jform_language').parent().find('div:gt(2)').remove();
 			}
+
+			$('#toolbar-cancel').children().attr('onclick', action);
 
 			$('#jform_itemlanguage option').each(function()
 			{
@@ -199,4 +205,5 @@ $this->app->getDocument()->addStyleDeclaration('
 	</div>
 </div>
 <input type="hidden" name="task" value=""/>
+<input id="target-id" type="hidden" name="target-id" value=""/>
 </form>

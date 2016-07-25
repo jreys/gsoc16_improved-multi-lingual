@@ -31,6 +31,7 @@ class AssociationsControllerAssociation extends JControllerForm
 		$view      = $this->input->get('aview', '', 'string');
 		$extension = $this->input->get('extension', '', 'string');
 		$refID     = $this->input->get('id', '', 'int');
+		$targetID  = $this->input->get('target-id', '', 'int');
 
 		$getCP = $extension != '' ? ('com_categories.category|' . $extension) : ($component . '.' . $view);
 
@@ -39,6 +40,9 @@ class AssociationsControllerAssociation extends JControllerForm
 		if (!is_null($checkOutComponent->fields->checked_out))
 		{
 			$checkOutComponent->table->checkin($refID);
+			if ($targetID != '' || $targetID != 0) {
+				$checkOutComponent->table->checkin($targetID);
+			}
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
