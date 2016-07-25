@@ -27,6 +27,20 @@ class AssociationsControllerAssociation extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
+		$component = $this->input->get('acomponent', '', 'string');
+		$view      = $this->input->get('aview', '', 'string');
+		$extension = $this->input->get('extension', '', 'string');
+		$refID     = $this->input->get('id', '', 'int');
+
+		$getCP = $extension != '' ? ('com_categories.category|' . $extension) : ($component . '.' . $view);
+
+		$checkOutComponent = AssociationsHelper::getComponentProperties($getCP);
+
+		if (!is_null($checkOutComponent->fields->checked_out))
+		{
+			$checkOutComponent->table->checkin(4);
+		}
+
 		$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
 	}
 }
