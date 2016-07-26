@@ -21,6 +21,7 @@ $this->app->getDocument()->addScriptDeclaration("
 		if (frame == 'target') {
 			window.frames[1].Joomla.submitbutton('" . $this->associatedView . ".apply');
 
+			//Will only execute this AFTER save to get the ID in case it's a new item
 			jQuery('#target-association').load(function () {
 				target = jQuery('#reference-association').contents();
 				selectedLang = jQuery('#jform_itemlanguage').val();
