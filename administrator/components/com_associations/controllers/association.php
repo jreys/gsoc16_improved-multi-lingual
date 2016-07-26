@@ -41,7 +41,7 @@ class AssociationsControllerAssociation extends JControllerForm
 		{
 			$split = array_unique(explode(",", $targetID));
 
-			//Always check-in reference id
+			// Always check-in reference id
 			$checkOutComponent->table->checkin($refID);
 
 			if ($targetID != '')
