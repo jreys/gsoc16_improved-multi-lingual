@@ -17,10 +17,10 @@ $this->app->getDocument()->addScriptDeclaration("
 	function triggerSave(frame) {
 		if (frame == 'reference') {
 			window.frames[0].Joomla.submitbutton('" . $this->associatedView . ".apply');
-			location.reload();
 		}
 		if (frame == 'target') {
 			window.frames[1].Joomla.submitbutton('" . $this->associatedView . ".apply');
+			window.frames[0].location.reload();
 		}
 		return false;
 	}
@@ -44,7 +44,7 @@ $this->app->getDocument()->addScriptDeclaration("
 			$('#target-association').show();
 		}
 
-
+		//Save button action, replacing the fault Joomla.submitbutton() with custom function
 		$('.btn-success').attr('onclick', function(){
 			var frame = $(this).attr('onclick');
 
@@ -54,18 +54,18 @@ $this->app->getDocument()->addScriptDeclaration("
 
 		$('#reference-association').load(function (){
 			//Disable reference fields, commented out just to keep the code for ACL
-			/*$('#reference-association').each(function () {
-				$(this).contents().find('.chzn-single').css('background', 'transparent');
-				$(this).contents().find('.chzn-single').css('background-color', '#eee');
-				$(this).contents().find('.controls').css( 'pointer-events', 'none' );
-				$(this).contents().find('input').attr('disabled', 'disabled');
-			});*/
-			$(this).contents().find('#jform_language_chzn').css( 'pointer-events', 'none' );
-			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background', 'transparent');
-			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background-color', '#eee');
-			$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
+			$('#reference-association').each(function () {
+				//$(this).contents().find('.chzn-single').css('background', 'transparent');
+				//$(this).contents().find('.chzn-single').css('background-color', '#eee');
+				//$(this).contents().find('.controls').css( 'pointer-events', 'none' );
+				//$(this).contents().find('input').attr('disabled', 'disabled');
+				$(this).contents().find('#jform_language_chzn').css( 'pointer-events', 'none' );
+				$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background', 'transparent');
+				$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background-color', '#eee');
+				$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
 
-			$(this).contents().find('#associations .controls').css( 'pointer-events', 'auto' );
+				$(this).contents().find('#associations .controls').css( 'pointer-events', 'auto' );
+			});
 		});
 
 		$('#target-association').load(function () {
@@ -82,6 +82,8 @@ $this->app->getDocument()->addScriptDeclaration("
 
 			if (typeof split[1] !== 'undefined') {
 				selectedLang = split[0];
+
+				//Adding checkin IDs to an hidden input
 				if (split[1] != '0') {
 					if (!$('#target-id').val()) {
 						$('#target-id').val(split[1]);
@@ -91,12 +93,14 @@ $this->app->getDocument()->addScriptDeclaration("
 					}
 				}
 
+				//Auto-picking the selected language on the switcher
 				target.contents().find('#jform_language option[value='+selectedLang+']').attr('selected','selected');
 				target.contents().find('#jform_language').chosen();
 				target.contents().find('#jform_language').trigger('liszt:updated');
 				target.contents().find('#jform_language').parent().find('div:gt(2)').remove();
 			}
 
+			//Storing existing associations on target
 			$('#jform_itemlanguage option').each(function()
 			{
 				split = $(this).val().split('|');
@@ -107,6 +111,7 @@ $this->app->getDocument()->addScriptDeclaration("
 				}
 			});
 
+			//Disabling language selector on the target
 			$(this).contents().find('#jform_language_chzn').css( 'pointer-events', 'none' );
 			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background', 'transparent');
 			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background-color', '#eee');
