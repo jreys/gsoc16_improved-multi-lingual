@@ -83,6 +83,7 @@ class AssociationsHelper extends JHelperContent
 			$properties->fields->access      = isset($properties->tableFields['access']) ? 'access' : null;
 			$properties->fields->published   = isset($properties->tableFields['state']) ? 'state' : null;
 			$properties->fields->published   = isset($properties->tableFields['published']) ? 'published' : $properties->fields->published;
+			$properties->fields->created_by  = isset($properties->tableFields['created_by']) ? 'created_by' : $properties->fields->created_by;
 			$properties->fields->checked_out = isset($properties->tableFields['checked_out']) ? 'checked_out' : null;
 
 			// Disallow ordering according to component.

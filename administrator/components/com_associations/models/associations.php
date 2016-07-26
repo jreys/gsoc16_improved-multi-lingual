@@ -122,6 +122,7 @@ class AssociationsModelAssociations extends JModelList
 			->select($db->quoteName('a.' . $component->fields->title, 'title'))
 			->select($db->quoteName('a.' . $component->fields->alias, 'alias'))
 			->select($db->quoteName('a.' . $component->fields->ordering, 'ordering'))
+			->select($db->quoteName('a.' . $component->fields->created_by, 'created_by'))
 			->from($db->quoteName($component->dbtable, 'a'));
 
 		// Join over the language
