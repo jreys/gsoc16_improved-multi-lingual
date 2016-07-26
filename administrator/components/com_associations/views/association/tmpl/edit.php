@@ -17,6 +17,7 @@ $this->app->getDocument()->addScriptDeclaration("
 	function triggerSave(frame) {
 		if (frame == 'reference') {
 			window.frames[0].Joomla.submitbutton('" . $this->associatedView . ".apply');
+			location.reload();
 		}
 		if (frame == 'target') {
 			window.frames[1].Joomla.submitbutton('" . $this->associatedView . ".apply');
@@ -59,7 +60,12 @@ $this->app->getDocument()->addScriptDeclaration("
 				$(this).contents().find('.controls').css( 'pointer-events', 'none' );
 				$(this).contents().find('input').attr('disabled', 'disabled');
 			});*/
+			$(this).contents().find('#jform_language_chzn').css( 'pointer-events', 'none' );
+			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background', 'transparent');
+			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background-color', '#eee');
 			$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
+
+			$(this).contents().find('#associations .controls').css( 'pointer-events', 'auto' );
 		});
 
 		$('#target-association').load(function () {
