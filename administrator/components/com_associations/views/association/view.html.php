@@ -123,7 +123,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		}
 		// Reference item edit link.
 		$this->link = 'index.php?' . http_build_query($options);
-		$options['id'] = $formData->getInt('itemlanguage', 0);
+		$options['id'] = '';
 		$this->targetLink = 'index.php?' . http_build_query($options);
 
 		$this->referenceLanguage = $input->get('forcedlanguage', '', 'string');

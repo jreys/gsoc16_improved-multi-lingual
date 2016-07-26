@@ -34,14 +34,10 @@ $this->app->getDocument()->addScriptDeclaration("
 		});
 
 		selectedLang = $('#jform_itemlanguage').val();
-			
+
 		if (selectedLang == '')
 		{
-			$('#target-association').hide();
-		}
-		else
-		{
-			$('#target-association').show();
+			document.getElementById('target-association').src = '';
 		}
 
 		//Save button action, replacing the fault Joomla.submitbutton() with custom function
@@ -122,27 +118,18 @@ $this->app->getDocument()->addScriptDeclaration("
 	function loadFrame(id) {
 		split = id.split('|');
 		id = split[1];
-	
-		var oldSrc = document.getElementById('target-association').src;
-		lastStrIndex = oldSrc.length-1;
 
-		while(oldSrc.charAt(lastStrIndex) != '=') {
-			lastStrIndex--;
-		}
-
-		newSrc = oldSrc.substring(0, lastStrIndex) + '=' + id;
-
-		document.getElementById('target-association').src = newSrc;
+		newSrc = '" . $this->targetLink . "' + id;
 
 		selectedLang = jQuery('#jform_itemlanguage').val();
 
 		if (selectedLang == '')
 		{
-			jQuery('#target-association').hide();
+			document.getElementById('target-association').src = '';
 		}
 		else
 		{
-			jQuery('#target-association').show();
+			document.getElementById('target-association').src = newSrc;
 		}
 	}
 
