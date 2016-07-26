@@ -20,7 +20,16 @@ $this->app->getDocument()->addScriptDeclaration("
 		}
 		if (frame == 'target') {
 			window.frames[1].Joomla.submitbutton('" . $this->associatedView . ".apply');
-			window.frames[0].location.reload();
+
+			jQuery('#target-association').load(function () {
+				target = jQuery('#reference-association').contents();
+				selectedLang = jQuery('#jform_itemlanguage').val();
+				split = selectedLang.split('|');
+				langAssociation = split[0].replace('-','_');
+				langID = jQuery(this).contents().find('#jform_id').val();
+				console.log(target.find('#jform_associations_' + langAssociation + '_id').html());
+				target.find('#jform_associations_' + langAssociation + '_id').val(langID);
+			});
 		}
 		return false;
 	}
