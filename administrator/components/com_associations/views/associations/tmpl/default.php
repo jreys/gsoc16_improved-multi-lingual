@@ -41,7 +41,6 @@ $iconStates = array(
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 	<?php else : ?>
-		<?php JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $this->component->component . '/helpers/html'); ?>
 		<table class="table table-striped" id="associationsList">
 			<thead>
 				<tr>
@@ -112,7 +111,7 @@ $iconStates = array(
 					</td>
 					<td>
 						<?php if ($item->association) : ?>
-							<?php echo JHtml::_($this->component->associationKey, $item->id, $this->component->extension); ?>
+							<?php echo JHtml::_($this->component->associations->htmlhelper->key, $item->id, $this->component->extension); ?>
 						<?php endif; ?>
 					</td>
 					<?php if (!is_null($this->component->fields->menutype)) : ?>
