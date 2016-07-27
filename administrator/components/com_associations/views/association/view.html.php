@@ -96,7 +96,6 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		$this->form  = $this->get('Form');
 		$input     = $this->app->input;
-		$assoc     = JLanguageAssociations::isEnabled();
 		
 		$formData = new JInput($input->get('jform', '', 'array'));
 
