@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register($this->component->associations->htmlhelper->class, $this->component->associations->htmlhelper->file);
-
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
