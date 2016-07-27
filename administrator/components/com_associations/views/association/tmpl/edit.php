@@ -28,8 +28,16 @@ $this->app->getDocument()->addScriptDeclaration("
 				split = selectedLang.split('|');
 				langAssociation = split[0].replace('-','_');
 				langID = jQuery(this).contents().find('#jform_id').val();
-				console.log(target.find('#jform_associations_' + langAssociation + '_id').html());
 				target.find('#jform_associations_' + langAssociation + '_id').val(langID);
+
+				if (langID != '0') {
+					if (!jQuery('#target-id').val()) {
+						jQuery('#target-id').val(langID);
+					}
+					else {
+						jQuery('#target-id').val(jQuery('#target-id').val()+','+langID);
+					}
+				}
 			});
 		}
 		return false;
