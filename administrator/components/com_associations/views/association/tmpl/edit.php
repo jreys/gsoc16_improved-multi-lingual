@@ -214,8 +214,8 @@ $this->app->getDocument()->addStyleDeclaration('
 	<div class="outer-panel" id="left-panel">
 		<div class="inner-panel">
 			<h3><?php echo JText::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
-			<iframe id="reference-association" src="<?php echo JRoute::_($this->link); ?>" class="reference-association"
-				name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no">
+			<iframe id="reference-association" src="<?php echo JRoute::_($this->link); ?>"
+				height="100%" width="400px" scrolling="no">
 			</iframe>
 		</div>
 	</div>
@@ -227,7 +227,7 @@ $this->app->getDocument()->addStyleDeclaration('
 			</div>
 			<iframe id="target-association" name="target-association" 
 				src="<?php echo JRoute::_($this->targetLink); ?>" 
-				name="<?php echo JText::_('COM_ASSOCIATIONS_TITLE_MODAL'); ?>" height="100%" width="400px" scrolling="no"></iframe>
+				height="100%" width="400px" scrolling="no"></iframe>
 		</div>
 	</div>
 </div>
