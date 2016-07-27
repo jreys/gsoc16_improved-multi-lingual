@@ -42,23 +42,14 @@ class JFormFieldItemLanguage extends JFormFieldList
 		$referenceId         = $input->get('id', '');
 		$associatedComponent = $input->get('acomponent', '');
 		$associatedView      = $input->get('aview', '');
-		$extension           = $input->get('extension', '');	
-
+		$extension           = $input->get('extension', '');
 		$forcedLanguage      = $input->get('forcedlanguage', '');
+		$realView            = $extension !== '' ? $extension : $associatedView;
 
-		$key               = $extension !== '' ? 'com_categories.category|' . $extension : $associatedComponent . '.' . $associatedView;
-		$cp                = AssociationsHelper::getComponentProperties($key);
+		$key = $extension !== '' ? 'com_categories.category|' . $extension : $associatedComponent . '.' . $associatedView;
+		$cp  = AssociationsHelper::getComponentProperties($key);
+		$associations      = call_user_func(array($cp->associations->gethelper->class, $cp->associations->gethelper->method), $referenceId, $realView);
 
-		// Categories is a special case
-		if ($associatedComponent == 'com_categories')
-		{
-			$associations      = call_user_func(array($cp->associations->gethelper->class, $cp->associations->gethelper->method), $referenceId, $extension);
-		}
-		else
-		{
-			$associations      = call_user_func(array($cp->associations->gethelper->class, $cp->associations->gethelper->method), $referenceId, $associatedView);
-		}
-		
 		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 
 		foreach ($existingLanguages as $key => $lang)
