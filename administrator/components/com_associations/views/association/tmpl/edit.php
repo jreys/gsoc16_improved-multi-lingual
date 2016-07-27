@@ -30,6 +30,15 @@ $this->app->getDocument()->addScriptDeclaration("
 				langID = jQuery(this).contents().find('#jform_id').val();
 				target.find('#jform_associations_' + langAssociation + '_id').val(langID);
 
+				//Updating language selector when a new item is saved
+				if (split[1] == '0') {
+					jQuery('#jform_itemlanguage option').each(function() {
+						if(jQuery(this).val() == selectedLang) {
+							jQuery(this).val(split[0] + '|' + langID);    
+						}
+					});
+				}
+
 				if (langID != '0') {
 					if (!jQuery('#target-id').val()) {
 						jQuery('#target-id').val(langID);
