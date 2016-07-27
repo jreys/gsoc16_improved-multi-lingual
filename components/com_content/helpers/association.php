@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/association.php');
 
 /**
@@ -32,8 +33,6 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 
 	public static function getAssociations($id = 0, $view = null)
 	{
-		jimport('helper.route', JPATH_COMPONENT_SITE);
-
 		$app = JFactory::getApplication();
 		$jinput = $app->input;
 		$view = is_null($view) ? $jinput->get('view') : $view;
