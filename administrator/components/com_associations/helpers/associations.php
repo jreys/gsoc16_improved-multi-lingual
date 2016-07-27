@@ -154,14 +154,6 @@ class AssociationsHelper extends JHelperContent
 				}
 			}
 
-			// If association html helper cannot loaded, component does not support associations.
-			if (!isset($cp[$key]->associations->htmlhelper->class))
-			{
-				$cp[$key]->associations->support = false;
-
-				return $cp[$key];
-			}
-
 			// Get component title.
 			$lang = JFactory::getLanguage();
 			$lang->load($cp[$key]->component . '.sys', JPATH_ADMINISTRATOR) || $lang->load($cp[$key]->component . '.sys', $cp[$key]->adminPath);
@@ -178,6 +170,15 @@ class AssociationsHelper extends JHelperContent
 			// If we are fetching only the main component info don't do anything else.
 			if (is_null($cp[$key]->item))
 			{
+				return $cp[$key];
+			}
+
+			// If association html helper cannot loaded, component items does not support associations.
+			if (!isset($cp[$key]->associations->htmlhelper->class))
+			{
+				$cp[$key]->associations->support     = false;
+				$cp[$key]->associations->supportItem = false;
+
 				return $cp[$key];
 			}
 
