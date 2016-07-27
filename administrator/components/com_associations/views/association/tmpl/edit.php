@@ -75,20 +75,16 @@ $this->app->getDocument()->addScriptDeclaration("
 			return 'return triggerSave(' + frame + ')';
 		});
 
-		$('#reference-association').load(function (){
-			//Disable reference fields, commented out just to keep the code for ACL
-			$('#reference-association').each(function () {
-				//$(this).contents().find('.chzn-single').css('background', 'transparent');
-				//$(this).contents().find('.chzn-single').css('background-color', '#eee');
-				//$(this).contents().find('.controls').css( 'pointer-events', 'none' );
-				//$(this).contents().find('input').attr('disabled', 'disabled');
-				$(this).contents().find('#jform_language_chzn').css( 'pointer-events', 'none' );
-				$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background', 'transparent');
-				$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background-color', '#eee');
-				$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
+		$('#reference-association').load(function ()
+		{
+			var referenceContents = $(this).contents();
 
-				$(this).contents().find('#associations .controls').css( 'pointer-events', 'auto' );
-			});
+			// Disable reference fields.
+			referenceContents.find('#jform_language_chzn').remove();
+			referenceContents.find('#jform_language').attr('disabled', true).chosen();
+
+			$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
+			referenceContents.find('#associations .controls').css( 'pointer-events', 'auto' );
 		});
 
 		$('#target-association').load(function () {
