@@ -49,7 +49,7 @@ class AssociationsHelper extends JHelperContent
 			$cp[$key]->item                             = isset($matches[1]) ? $matches[1] : null;
 			$cp[$key]->extension                        = isset($matches[2]) ? $matches[2] : null;
 			$cp[$key]->realcomponent                    = !is_null($cp[$key]->extension) ? $cp[$key]->extension : $cp[$key]->component;
-			$cp[$key]->sitePath                         = JPATH_ADMINISTRATOR . '/components/' . $cp[$key]->component;
+			$cp[$key]->sitePath                         = JPATH_SITE . '/components/' . $cp[$key]->realcomponent;
 			$cp[$key]->adminPath                        = JPATH_ADMINISTRATOR . '/components/' . $cp[$key]->component;
 			$cp[$key]->associations                     = new Registry;
 			$cp[$key]->associations->support            = true;
@@ -71,9 +71,9 @@ class AssociationsHelper extends JHelperContent
 			// Association get items Helper.
 			$cp[$key]->associations->gethelper = new Registry;
 
-			if (file_exists(JPATH_SITE . '/components/' . $cp[$key]->realcomponent . '/helpers/association.php'))
+			if (file_exists($cp[$key]->sitePath . '/helpers/association.php'))
 			{
-				$cp[$key]->associations->gethelper->file   = JPATH_SITE . '/components/' . $cp[$key]->realcomponent . '/helpers/association.php';
+				$cp[$key]->associations->gethelper->file   = $cp[$key]->sitePath . '/helpers/association.php';
 
 				// For items.
 				if (is_null($cp[$key]->extension))
@@ -155,14 +155,6 @@ class AssociationsHelper extends JHelperContent
 				}
 			}
 
-			// If association html helper cannot loaded, component does not support associations.
-			if (!isset($cp[$key]->associations->htmlhelper->class))
-			{
-				$cp[$key]->associations->support = false;
-
-				return $cp[$key];
-			}
-
 			// Get component title.
 			$lang = JFactory::getLanguage();
 			$lang->load($cp[$key]->component . '.sys', JPATH_ADMINISTRATOR) || $lang->load($cp[$key]->component . '.sys', $cp[$key]->adminPath);
@@ -179,6 +171,15 @@ class AssociationsHelper extends JHelperContent
 			// If we are fetching only the main component info don't do anything else.
 			if (is_null($cp[$key]->item))
 			{
+				return $cp[$key];
+			}
+
+			// If association html helper cannot loaded, component items does not support associations.
+			if (!isset($cp[$key]->associations->htmlhelper->class))
+			{
+				$cp[$key]->associations->support     = false;
+				$cp[$key]->associations->supportItem = false;
+
 				return $cp[$key];
 			}
 
