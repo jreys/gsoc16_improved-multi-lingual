@@ -73,7 +73,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 			}
 			else
 			{
-				$lang->value = $lang->value . "|" . 0;
+				$lang->value .= '|0';
 			}
 		}
 
