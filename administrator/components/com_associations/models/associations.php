@@ -125,7 +125,7 @@ class AssociationsModelAssociations extends JModelList
 			->from($db->quoteName($component->dbtable, 'a'));
 
 		// Select author for ACL checks
-		if ($component->dbtable != '#__menu')
+		if (!is_null($component->fields->created_by))
 		{
 			$query->select($db->quoteName('a.' . $component->fields->created_by, 'created_by'));
 		}
