@@ -30,13 +30,12 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	 *
 	 * @since  3.0
 	 */
-
 	public static function getAssociations($id = 0, $view = null)
 	{
-		$app = JFactory::getApplication();
+		$app    = JFactory::getApplication();
 		$jinput = $app->input;
-		$view = is_null($view) ? $jinput->get('view') : $view;
-		$id = empty($id) ? $jinput->getInt('id') : $id;
+		$view   = is_null($view) ? $jinput->get('view') : $view;
+		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
 		if ($view == 'article')
 		{
