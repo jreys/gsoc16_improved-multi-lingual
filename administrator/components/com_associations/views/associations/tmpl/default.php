@@ -85,7 +85,10 @@ $iconStates = array(
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
 				$canEdit    = $user->authorise('core.edit', $this->state->get('component') . $item->id);
-				$canEditOwn = $user->authorise('core.edit.own', $this->state->get('component') . $item->id) && $item->created_by == $userId;
+				if (isset($item->created_by))
+				{
+					$canEditOwn = $user->authorise('core.edit.own', $this->state->get('component') . $item->id) && $item->created_by == $userId;
+				}
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<?php if (!is_null($this->component->fields->published)) : ?>
