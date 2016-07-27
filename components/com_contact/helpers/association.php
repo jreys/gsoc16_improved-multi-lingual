@@ -32,10 +32,9 @@ abstract class ContactHelperAssociation extends CategoryHelperAssociation
 	 */
 	public static function getAssociations($id = 0, $view = null)
 	{
-		$app = JFactory::getApplication();
-		$jinput = $app->input;
-		$view = is_null($view) ? $jinput->get('view') : $view;
-		$id = empty($id) ? $jinput->getInt('id') : $id;
+		$jinput = JFactory::getApplication()->input;
+		$view   = is_null($view) ? $jinput->get('view') : $view;
+		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
 		if ($view == 'contact')
 		{
