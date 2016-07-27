@@ -89,6 +89,9 @@ $this->app->getDocument()->addScriptDeclaration("
 
 				$(this).contents().find('#associations .controls').css( 'pointer-events', 'auto' );
 			});
+
+			// Iframe load finished, hide Joomla loading layer.
+			Joomla.loadingLayer('hide');
 		});
 
 		$('#target-association').load(function () {
@@ -138,6 +141,9 @@ $this->app->getDocument()->addScriptDeclaration("
 			$(this).contents().find('#jform_language_chzn').css( 'pointer-events', 'none' );
 			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background', 'transparent');
 			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background-color', '#eee');
+
+			// Iframe load finished, hide Joomla loading layer.
+			Joomla.loadingLayer('hide');
 		});
 
 	});
@@ -156,6 +162,9 @@ $this->app->getDocument()->addScriptDeclaration("
 		}
 		else
 		{
+			// Iframe load finished, hide Joomla loading layer.
+			Joomla.loadingLayer('show');
+
 			document.getElementById('target-association').src = newSrc;
 		}
 	}
