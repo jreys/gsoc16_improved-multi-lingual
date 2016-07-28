@@ -85,8 +85,7 @@ class AssociationsHelper extends JHelperContent
 				// For categories.
 				else
 				{
-					$catExtension = ucfirst(substr($cp[$key]->extension, 4));
-					$cp[$key]->associations->gethelper->class  = $catExtension . 'HelperAssociation';
+					$cp[$key]->associations->gethelper->class  = ucfirst(substr($cp[$key]->realcomponent, 4)) . 'HelperAssociation';
 					$cp[$key]->associations->gethelper->method = 'getCategoryAssociations';
 				}
 			}
