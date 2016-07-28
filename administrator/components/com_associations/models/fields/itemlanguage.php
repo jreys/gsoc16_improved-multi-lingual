@@ -9,7 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
-JLoader::register('AssociationsHelper', __DIR__ . '/helper.php');
+JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -44,7 +44,6 @@ class JFormFieldItemLanguage extends JFormFieldList
 		$associatedComponent = $input->get('acomponent', '');
 		$associatedView      = $input->get('aview', '');
 		$extension           = $input->get('extension', '');
-		$forcedLanguage      = $input->get('forcedlanguage', '');
 		$realView            = $extension !== '' ? $extension : $associatedView;
 
 		$key = $extension !== '' ? 'com_categories.category|' . $extension : $associatedComponent . '.' . $associatedView;
