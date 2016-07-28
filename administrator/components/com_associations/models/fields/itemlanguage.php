@@ -42,47 +42,39 @@ class JFormFieldItemLanguage extends JFormFieldList
 		$referenceId         = $input->get('id', '');
 		$associatedComponent = $input->get('acomponent', '');
 		$associatedView      = $input->get('aview', '');
+		$extension           = $input->get('extension', '');
 		$forcedLanguage      = $input->get('forcedlanguage', '');
+		$realView            = $extension !== '' ? $extension : $associatedView;
 
-		if ($associatedComponent == 'com_categories')
-		{
+		$key = $extension !== '' ? 'com_categories.category|' . $extension : $associatedComponent . '.' . $associatedView;
+		$cp  = AssociationsHelper::getComponentProperties($key);
+		$associations      = call_user_func(array($cp->associations->gethelper->class, $cp->associations->gethelper->method), $referenceId, $realView);
 
-		}
-		elseif ($associatedComponent == 'com_menus')
-		{
+		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 
-		}
-		else
+		foreach ($existingLanguages as $key => $lang)
 		{
-			$helpAssoc = str_replace('com_', '', $associatedComponent . 'HelperAssociation');
-			JLoader::register($helpAssoc, JPATH_SITE . '/components/' . $associatedComponent . '/helpers/association.php');
-			$helpRoute = str_replace('com_', '', $associatedComponent . 'HelperRoute');
-			JLoader::register($helpRoute, JPATH_SITE . '/components/' . $associatedComponent . '/helpers/route.php');
-			if (class_exists($helpAssoc) && is_callable(array($helpAssoc, 'getAssociations')))
+			if ($lang->value == $forcedLanguage)
 			{
-				$associations = call_user_func(array($helpAssoc, 'getAssociations'), $referenceId, $associatedView);
-				$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
-
-				foreach ($existingLanguages as $key => $lang)
+				unset($existingLanguages[$key]);
+			}
+			if (isset($associations[$lang->value]))
+			{
+				if ($associatedComponent != 'com_menus')
 				{
-					if ($lang->value == $forcedLanguage)
-					{
-						unset($existingLanguages[$key]);
-					}
- 					if (isset($associations[$lang->value]))
-					{
-						parse_str($associations[$lang->value], $contents);
-						$associatedID = $contents['id'];
-						$removeExtra = explode(":", $associatedID);
-						$lang->value = $removeExtra[0];
-					}
-					else
-					{
-						$lang->value = 0;
-					}
+					parse_str($associations[$lang->value], $contents);
+					$removeExtra  = explode(":", $contents['id']);
+					$lang->value  = $lang->value . "|" . $removeExtra[0];
+				}
+				else
+				{
+					$lang->value = $lang->value . "|" . $associations[$lang->value];
 				}
 			}
-			
+			else
+			{
+				$lang->value .= '|0';
+			}
 		}
 
 		$options = array_merge(parent::getOptions(), $existingLanguages);

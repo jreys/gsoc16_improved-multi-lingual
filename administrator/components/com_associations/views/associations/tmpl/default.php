@@ -14,6 +14,8 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $colSpan    =  4;
@@ -81,8 +83,13 @@ $iconStates = array(
 				</tr>
 			</tfoot>
 			<tbody>
-			<?php foreach ($this->items as $i => $item) : ?>
-				<?php // @todo ACL check ?>
+			<?php foreach ($this->items as $i => $item) :
+				$canEdit    = $user->authorise('core.edit', $this->state->get('component') . $item->id);
+				if (isset($item->created_by))
+				{
+					$canEditOwn = $user->authorise('core.edit.own', $this->state->get('component') . $item->id) && $item->created_by == $userId;
+				}
+				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<?php if (!is_null($this->component->fields->published)) : ?>
 						<td class="center">
@@ -92,9 +99,13 @@ $iconStates = array(
 					<td class="nowrap has-context">
 						<?php if (!is_null($this->component->fields->level)) : ?>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
-						<?php endif; ?>	
-						<a href="<?php echo JRoute::_($this->editLink . '&forcedlanguage=' . $item->language . '&id=' . (int) $item->id); ?>">
+						<?php endif; ?>
+						<?php if ($canEdit || $canEditOwn) : ?>
+							<a href="<?php echo JRoute::_($this->editLink . '&id=' . (int) $item->id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
+						<?php else : ?>
+							<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
+						<?php endif; ?>
 						<?php if (!is_null($this->component->fields->alias)) : ?>
 							<span class="small">
 								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>

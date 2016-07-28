@@ -96,33 +96,34 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		$this->form  = $this->get('Form');
 		$input     = $this->app->input;
-		$assoc     = JLanguageAssociations::isEnabled();
-		
-		$formData = new JInput($input->get('jform', '', 'array'));
 
 		$associatedComponent = $input->get('acomponent', '', 'string');
 		$associatedView      = $input->get('aview', '', 'string');
+		$this->referenceId   = $input->get('id', 0, 'int');
 
 		$options = array(
 			'option'    => $associatedComponent,
 			'view'      => $associatedView,
+			'extension' => '',
 			'task'      => $associatedView . '.edit',
 			'layout'    => 'edit',
 			'tmpl'      => 'component',
-			'id'        => $input->get('id', 0, 'int')
+			'id'        => $this->referenceId
 		);
 
 		// Special cases for categories.
 		if ($associatedComponent === 'com_categories')
 		{
+			$options['view']      = '';
 			$options['task']      = 'category.edit';
-			$options['extension'] = $associatedView;
+			$options['extension'] = $input->get('extension', '', 'string');
 		}
 		// Reference item edit link.
 		$this->link = 'index.php?' . http_build_query($options);
-		$options['id'] = $formData->getInt('itemlanguage', 0);
+		$options['id'] = '';
 		$this->targetLink = 'index.php?' . http_build_query($options);
 
+		$this->associatedView    = $associatedView;
 
 		parent::display($tpl);
 	}
@@ -136,14 +137,15 @@ class AssociationsViewAssociation extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$jinput = JFactory::getApplication()->input;
-		$associatedView = $jinput->get('aview', '');
+		$input = JFactory::getApplication()->input;
+		$input->set('hidemainmenu', 1);
+
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
-		JToolbarHelper::apply($associatedView . '.apply');
-		JToolbarHelper::save($associatedView . '.save');
-		JToolbarHelper::save2new($associatedView . '.save2new');
-		JToolbarHelper::cancel($associatedView . '.cancel', 'JTOOLBAR_CLOSE');
+		JToolbarHelper::apply('reference', 'COM_ASSOCIATIONS_SAVE_REFERENCE');
+		JToolbarHelper::apply('target', 'COM_ASSOCIATIONS_SAVE_TARGET');
+		JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+		JToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		JToolbarHelper::help('JGLOBAL_HELP');
 
 		JHtmlSidebar::setAction('index.php?option=com_associations');
