@@ -58,6 +58,7 @@ $this->app->getDocument()->addScriptDeclaration("
 
 $this->app->getDocument()->addScriptDeclaration("
 	jQuery(document).ready(function($) {
+		Joomla.loadingLayer('load');
 		$('#toogle-left-panel').on('click', function() {
 			$('#left-panel').toggle();
 			$('#right-panel').toggleClass('full-width');
@@ -158,7 +159,7 @@ $this->app->getDocument()->addScriptDeclaration("
 		}
 		else
 		{
-			// Iframe load finished, hide Joomla loading layer.
+			// Iframe load start, show Joomla loading layer.
 			Joomla.loadingLayer('show');
 
 			document.getElementById('target-association').src = newSrc;
