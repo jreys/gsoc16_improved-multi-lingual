@@ -93,32 +93,37 @@ class AssociationsViewAssociation extends JViewLegacy
 		}
 
 		$this->app = JFactory::getApplication();
-		$input = $this->app->input;
-		$assoc = JLanguageAssociations::isEnabled();
 
-		$referenceId = $input->get('id', '0');
-		$associatedComponent = $input->get('acomponent', '');
-		$associatedView = $input->get('aview', '');
+		$this->form  = $this->get('Form');
+		$input     = $this->app->input;
 
-		$this->link = "";
+		$associatedComponent = $input->get('acomponent', '', 'string');
+		$associatedView      = $input->get('aview', '', 'string');
+		$this->referenceId   = $input->get('id', 0, 'int');
 
-		if ($associatedComponent == 'com_categories')
+		$options = array(
+			'option'    => $associatedComponent,
+			'view'      => $associatedView,
+			'extension' => '',
+			'task'      => $associatedView . '.edit',
+			'layout'    => 'edit',
+			'tmpl'      => 'component',
+			'id'        => $this->referenceId
+		);
+
+		// Special cases for categories.
+		if ($associatedComponent === 'com_categories')
 		{
-			// If it's categories
-			$this->link = 'index.php?option=' . $associatedComponent . '&task=category.edit&layout=modal&tmpl=component&id='
-				. $referenceId . '&extension=' . $associatedView;
+			$options['view']      = '';
+			$options['task']      = 'category.edit';
+			$options['extension'] = $input->get('extension', '', 'string');
 		}
-		elseif ($associatedComponent == 'com_menus')
-		{
-			// If it's a menu item
-			$this->link = 'index.php?option=com_menus&view=item&layout=modal&task=item.edit&tmpl=component&id=' . $referenceId;
-		}
-		else
-		{
-			// Any other case
-			$this->link = 'index.php?option=' . $associatedComponent . '&view=' . $associatedView
-			. '&layout=modal&tmpl=component&task=' . $associatedView . '.edit&id=' . $referenceId;
-		}
+		// Reference item edit link.
+		$this->link = 'index.php?' . http_build_query($options);
+		$options['id'] = '';
+		$this->targetLink = 'index.php?' . http_build_query($options);
+
+		$this->associatedView    = $associatedView;
 
 		parent::display($tpl);
 	}
@@ -132,14 +137,15 @@ class AssociationsViewAssociation extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$jinput = JFactory::getApplication()->input;
-		$associatedView = $jinput->get('aview', '');
+		$input = JFactory::getApplication()->input;
+		$input->set('hidemainmenu', 1);
+
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
-		JToolbarHelper::apply($associatedView . '.apply');
-		JToolbarHelper::save($associatedView . '.save');
-		JToolbarHelper::save2new($associatedView . '.save2new');
-		JToolbarHelper::cancel($associatedView . '.cancel', 'JTOOLBAR_CLOSE');
+		JToolbarHelper::apply('reference', 'COM_ASSOCIATIONS_SAVE_REFERENCE');
+		JToolbarHelper::apply('target', 'COM_ASSOCIATIONS_SAVE_TARGET');
+		JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+		JToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		JToolbarHelper::help('JGLOBAL_HELP');
 
 		JHtmlSidebar::setAction('index.php?option=com_associations');

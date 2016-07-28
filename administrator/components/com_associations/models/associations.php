@@ -124,6 +124,12 @@ class AssociationsModelAssociations extends JModelList
 			->select($db->quoteName('a.' . $component->fields->ordering, 'ordering'))
 			->from($db->quoteName($component->dbtable, 'a'));
 
+		// Select author for ACL checks
+		if (!is_null($component->fields->created_by))
+		{
+			$query->select($db->quoteName('a.' . $component->fields->created_by, 'created_by'));
+		}
+
 		// Join over the language
 		$query->select($db->quoteName('a.' . $component->fields->language, 'language'))
 			->select($db->quoteName('l.title', 'language_title'))
