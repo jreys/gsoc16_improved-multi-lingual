@@ -98,7 +98,7 @@ $this->app->getDocument()->addScriptDeclaration("
 			target = $(this).contents();
 
 			//Hide associations tab	
-			//target.find('a[href=#associations]').parent().hide();
+			target.find('a[href=#associations]').parent().hide();
 
 			langAssociation = '" . str_replace('-', '_', $this->referenceLanguage) . "';
 			langID = " . $this->referenceId . ";
@@ -215,7 +215,7 @@ $input      = $this->app->input;
 $layout     = $input->get('layout', '', 'string');
 $aComponent = $input->get('acomponent', '', 'string');
 $aView      = $input->get('aview', '', 'string');
-$rLanguage  = $input->get('referencelanguage', '', 'string');
+$rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->get('referencelanguage', '', 'string') : '';
 
 ?>
 <button id="toogle-left-panel" class="btn btn-small">Show/Hide Reference (PoC)</button>
@@ -224,7 +224,7 @@ $rLanguage  = $input->get('referencelanguage', '', 'string');
 			'index.php?option=com_associations&view=association&layout=' . $layout . '&acomponent='
 			. $aComponent . '&aview=' . $aView . '&referencelanguage=' . $rLanguage . '&id='
 			. $this->referenceId
-		); ?>""
+		); ?>"
  method="post" name="adminForm" id="adminForm" class="form-validate">
 
 <div class="sidebyside">

@@ -92,23 +92,33 @@ class AssociationsViewAssociation extends JViewLegacy
 			}
 		}
 
-		$this->app = JFactory::getApplication();
+		$this->app   = JFactory::getApplication();
 
 		$this->form  = $this->get('Form');
-		$input     = $this->app->input;
+		$input       = $this->app->input;
 
-		$associatedComponent = $input->get('acomponent', '', 'string');
-		$associatedView      = $input->get('aview', '', 'string');
-		$this->referenceId   = $input->get('id', 0, 'int');
+		$associatedComponent  = $input->get('acomponent', '', 'string');
+		$this->associatedView = $input->get('aview', '', 'string');
+		$extension            = $input->get('extension', '', 'string');
+		$this->referenceId    = $input->get('id', 0, 'int');
+
+		$key = $extension !== '' ? 'com_categories.category|' . $extension : $associatedComponent . '.' . $this->associatedView;
+		$this->component  = AssociationsHelper::getComponentProperties($key);
+
+		// Get reference language.
+		$table = clone $this->component->table;
+		$table->load($this->referenceId);
+
+		$this->referenceLanguage = $table->{$this->component->fields->language};
 
 		$options = array(
 			'option'    => $associatedComponent,
-			'view'      => $associatedView,
+			'view'      => $this->associatedView,
 			'extension' => '',
-			'task'      => $associatedView . '.edit',
+			'task'      => $this->associatedView . '.edit',
 			'layout'    => 'edit',
 			'tmpl'      => 'component',
-			'id'        => $this->referenceId
+			'id'        => $this->referenceId,
 		);
 
 		// Special cases for categories.
@@ -116,14 +126,13 @@ class AssociationsViewAssociation extends JViewLegacy
 		{
 			$options['view']      = '';
 			$options['task']      = 'category.edit';
-			$options['extension'] = $input->get('extension', '', 'string');
+			$options['extension'] = $extension;
 		}
+
 		// Reference item edit link.
 		$this->link = 'index.php?' . http_build_query($options);
 		$options['id'] = '';
 		$this->targetLink = 'index.php?' . http_build_query($options);
-
-		$this->associatedView    = $associatedView;
 
 		parent::display($tpl);
 	}

@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -43,18 +44,23 @@ class JFormFieldItemLanguage extends JFormFieldList
 		$associatedComponent = $input->get('acomponent', '');
 		$associatedView      = $input->get('aview', '');
 		$extension           = $input->get('extension', '');
-		$forcedLanguage      = $input->get('forcedlanguage', '');
 		$realView            = $extension !== '' ? $extension : $associatedView;
 
 		$key = $extension !== '' ? 'com_categories.category|' . $extension : $associatedComponent . '.' . $associatedView;
 		$cp  = AssociationsHelper::getComponentProperties($key);
 		$associations      = call_user_func(array($cp->associations->gethelper->class, $cp->associations->gethelper->method), $referenceId, $realView);
 
+		// Get reference language.
+		$table = clone $cp->table;
+		$table->load($referenceId);
+
+		$referenceLanguage = $table->{$cp->fields->language};
+
 		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 
 		foreach ($existingLanguages as $key => $lang)
 		{
-			if ($lang->value == $forcedLanguage)
+			if ($lang->value == $referenceLanguage)
 			{
 				unset($existingLanguages[$key]);
 			}
