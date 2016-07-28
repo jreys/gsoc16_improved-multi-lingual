@@ -98,7 +98,7 @@ $this->app->getDocument()->addScriptDeclaration("
 			target = $(this).contents();
 
 			//Hide associations tab	
-			//target.find('a[href=#associations]').parent().hide();
+			target.find('a[href=#associations]').parent().hide();
 
 			langAssociation = '" . str_replace('-', '_', $this->referenceLanguage) . "';
 			langID = " . $this->referenceId . ";
