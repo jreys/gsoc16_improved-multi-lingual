@@ -101,7 +101,7 @@ $this->app->getDocument()->addScriptDeclaration("
 			//target.find('a[href=#associations]').parent().hide();
 
 			langAssociation = '" . str_replace('-', '_', $this->referenceLanguage) . "';
-			langID = " . $this->referenceID . ";
+			langID = " . $this->referenceId . ";
 			target.find('#jform_associations_' + langAssociation + '_id').val(langID);
 
 			split = selectedLang.split('|');
@@ -220,9 +220,11 @@ $rLanguage  = $input->get('referencelanguage', '', 'string');
 ?>
 <button id="toogle-left-panel" class="btn btn-small">Show/Hide Reference (PoC)</button>
 
-<form action="<?php echo JRoute::_('index.php?option=com_associations&view=association&layout=' . $layout . '&acomponent=' 
-		. $aComponent . '&aview=' . $aView . '&referencelanguage=' . $rLanguage . '&id='
-		. $this->referenceID); ?>""
+<form action="<?php echo JRoute::_(
+			'index.php?option=com_associations&view=association&layout=' . $layout . '&acomponent='
+			. $aComponent . '&aview=' . $aView . '&referencelanguage=' . $rLanguage . '&id='
+			. $this->referenceId
+		); ?>""
  method="post" name="adminForm" id="adminForm" class="form-validate">
 
 <div class="sidebyside">

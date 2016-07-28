@@ -108,7 +108,7 @@ class AssociationsViewAssociation extends JViewLegacy
 			'task'      => $associatedView . '.edit',
 			'layout'    => 'edit',
 			'tmpl'      => 'component',
-			'id'        => $this->referenceID
+			'id'        => $this->referenceId
 		);
 
 		// Special cases for categories.
