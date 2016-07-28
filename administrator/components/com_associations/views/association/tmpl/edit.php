@@ -215,13 +215,13 @@ $input      = $this->app->input;
 $layout     = $input->get('layout', '', 'string');
 $aComponent = $input->get('acomponent', '', 'string');
 $aView      = $input->get('aview', '', 'string');
-$fLanguage  = $input->get('forcedlanguage', '', 'string');
+$rLanguage  = $input->get('referencelanguage', '', 'string');
 
 ?>
 <button id="toogle-left-panel" class="btn btn-small">Show/Hide Reference (PoC)</button>
 
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=association&layout=' . $layout . '&acomponent=' 
-		. $aComponent . '&aview=' . $aView . '&forcedlanguage=' . $fLanguage . '&id='
+		. $aComponent . '&aview=' . $aView . '&referencelanguage=' . $rLanguage . '&id='
 		. $this->referenceID); ?>""
  method="post" name="adminForm" id="adminForm" class="form-validate">
 

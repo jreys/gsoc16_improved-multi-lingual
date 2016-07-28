@@ -101,7 +101,7 @@ $iconStates = array(
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 						<?php endif; ?>
 						<?php if ($canEdit || $canEditOwn) : ?>
-							<a href="<?php echo JRoute::_($this->editLink . '&forcedlanguage=' . $item->language . '&id=' . (int) $item->id); ?>">
+							<a href="<?php echo JRoute::_($this->editLink . '&id=' . (int) $item->id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
 						<?php else : ?>
 							<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
