@@ -16,10 +16,10 @@ JHtml::_('formbehavior.chosen', 'select');
 $this->app->getDocument()->addScriptDeclaration("
 	function triggerSave(frame) {
 		if (frame == 'reference') {
-			window.frames[0].Joomla.submitbutton('" . $this->associatedView . ".apply');
+			window.frames['reference-association'].Joomla.submitbutton('" . $this->associatedView . ".apply');
 		}
 		if (frame == 'target') {
-			window.frames[1].Joomla.submitbutton('" . $this->associatedView . ".apply');
+			window.frames['target-association'].Joomla.submitbutton('" . $this->associatedView . ".apply');
 
 			//Will only execute this AFTER save to get the ID in case it's a new item
 			jQuery('#target-association').load(function () {
