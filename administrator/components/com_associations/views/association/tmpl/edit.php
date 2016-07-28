@@ -219,7 +219,7 @@ $this->app->getDocument()->addStyleDeclaration('
 	<div class="outer-panel" id="left-panel">
 		<div class="inner-panel">
 			<h3><?php echo JText::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
-			<iframe id="reference-association" src="<?php echo JRoute::_($this->link); ?>"
+			<iframe id="reference-association" name="reference-association" src="<?php echo JRoute::_($this->link); ?>"
 				height="100%" width="400px" scrolling="no">
 			</iframe>
 		</div>
