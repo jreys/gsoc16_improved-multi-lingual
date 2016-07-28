@@ -19,6 +19,9 @@ $this->app->getDocument()->addScriptDeclaration("
 			window.frames['reference-association'].Joomla.submitbutton('" . $this->associatedView . ".apply');
 		}
 		if (frame == 'target') {
+			//The field needs to be re-enabled or the language field won't be saved
+			jQuery('#target-association').contents().find('#jform_language').attr('disabled', false);
+
 			window.frames['target-association'].Joomla.submitbutton('" . $this->associatedView . ".apply');
 
 			//Will only execute this AFTER save to get the ID in case it's a new item
@@ -75,34 +78,30 @@ $this->app->getDocument()->addScriptDeclaration("
 			return 'return triggerSave(' + frame + ')';
 		});
 
-		$('#reference-association').load(function (){
-			//Disable reference fields, commented out just to keep the code for ACL
-			$('#reference-association').each(function () {
-				//$(this).contents().find('.chzn-single').css('background', 'transparent');
-				//$(this).contents().find('.chzn-single').css('background-color', '#eee');
-				//$(this).contents().find('.controls').css( 'pointer-events', 'none' );
-				//$(this).contents().find('input').attr('disabled', 'disabled');
-				$(this).contents().find('#jform_language_chzn').css( 'pointer-events', 'none' );
-				$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background', 'transparent');
-				$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background-color', '#eee');
-				$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
-
-				$(this).contents().find('#associations .controls').css( 'pointer-events', 'auto' );
-			});
-
+		$('#reference-association').load(function ()
+		{
+			var referenceContents = $(this).contents();
+ 
+			// Disable reference fields.
+			referenceContents.find('#jform_language_chzn').remove();
+			referenceContents.find('#jform_language').attr('disabled', true).chosen();
+ 
+			$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
+			referenceContents.find('#associations .controls').css('pointer-events', 'auto');
+		
 			// Iframe load finished, hide Joomla loading layer.
 			Joomla.loadingLayer('hide');
 		});
 
 		$('#target-association').load(function () {
-			target = $(this);
+			target = $(this).contents();
 
 			//Hide associations tab	
-			target.contents().find('a[href=#associations]').parent().hide();
+			//target.find('a[href=#associations]').parent().hide();
 
 			langAssociation = '" . str_replace('-', '_', $this->referenceLanguage) . "';
 			langID = " . $this->referenceID . ";
-			target.contents().find('#jform_associations_' + langAssociation + '_id').val(langID);
+			target.find('#jform_associations_' + langAssociation + '_id').val(langID);
 
 			split = selectedLang.split('|');
 
@@ -120,11 +119,13 @@ $this->app->getDocument()->addScriptDeclaration("
 				}
 
 				//Auto-picking the selected language on the switcher
-				target.contents().find('#jform_language option[value='+selectedLang+']').attr('selected','selected');
-				target.contents().find('#jform_language').chosen();
-				target.contents().find('#jform_language').trigger('liszt:updated');
-				target.contents().find('#jform_language').parent().find('div:gt(2)').remove();
+				target.find('#jform_language option[value='+selectedLang+']').attr('selected','selected');
+				target.find('#jform_language').trigger('liszt:updated');
 			}
+
+			// Disable target fields.
+			target.find('#jform_language_chzn').remove();
+			target.find('#jform_language').attr('disabled', true).chosen();
 
 			//Storing existing associations on target
 			$('#jform_itemlanguage option').each(function()
@@ -133,14 +134,9 @@ $this->app->getDocument()->addScriptDeclaration("
 				if (typeof split[1] !== 'undefined' && split[1] !== '0') {
 					langAssociation = split[0].replace('-','_');
 					langID = split[1];
-					target.contents().find('#jform_associations_' + langAssociation + '_id').val(langID);
+					target.find('#jform_associations_' + langAssociation + '_id').val(langID);
 				}
 			});
-
-			//Disabling language selector on the target
-			$(this).contents().find('#jform_language_chzn').css( 'pointer-events', 'none' );
-			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background', 'transparent');
-			$(this).contents().find('#jform_language_chzn').find('.chzn-single').css('background-color', '#eee');
 
 			// Iframe load finished, hide Joomla loading layer.
 			Joomla.loadingLayer('hide');
