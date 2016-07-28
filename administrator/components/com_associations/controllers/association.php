@@ -14,21 +14,46 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class AssociationsControllerAssociation extends JControllerAdmin
+class AssociationsControllerAssociation extends JControllerForm
 {
 	/**
-	 * Proxy for getModel.
+	 * Method for closing the template.
 	 *
-	 * @param   string  $name    The name of the model.
-	 * @param   string  $prefix  The prefix for the PHP class name.
-	 * @param   array   $config  Array of configuration parameters.
+	 * @param   string  $key  The name of the primary key of the URL variable.
 	 *
-	 * @return  JModelLegacy
+	 * @return  void.
 	 *
-	 * @since   @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getModel($name = 'Association', $prefix = 'AssociationsModel', $config = array('ignore_request' => true))
+	public function cancel($key = null)
 	{
-		return parent::getModel($name, $prefix, $config);
+		$component = $this->input->get('acomponent', '', 'string');
+		$view      = $this->input->get('aview', '', 'string');
+		$extension = $this->input->get('extension', '', 'string');
+		$refID     = $this->input->get('id', '', 'int');
+		$targetID  = $this->input->get('target-id', '', 'string');
+
+		$getCP = $extension != '' ? ('com_categories.category|' . $extension) : ($component . '.' . $view);
+
+		$checkOutComponent = AssociationsHelper::getComponentProperties($getCP);
+
+		if (!is_null($checkOutComponent->fields->checked_out))
+		{
+			$split = array_unique(explode(",", $targetID));
+
+			// Always check-in reference id
+			$checkOutComponent->table->checkin($refID);
+
+			if ($targetID != '')
+			{
+				$checkOutComponent->table->checkin($targetID);
+				foreach ($split as $key => $id)
+				{
+					$checkOutComponent->table->checkin(intval($id));
+				}
+			}
+		}
+
+		$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
 	}
 }
