@@ -54,8 +54,6 @@ class AssociationsViewAssociation extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		AssociationsHelper::loadLanguageFiles();
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
