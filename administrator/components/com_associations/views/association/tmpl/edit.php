@@ -209,10 +209,19 @@ $this->app->getDocument()->addStyleDeclaration('
 		width: 50%;
 	}
 ');
+
+$input      = $this->app->input;
+$layout     = $input->get('layout', '', 'string');
+$aComponent = $input->get('acomponent', '', 'string');
+$aView      = $input->get('aview', '', 'string');
+$fLanguage  = $input->get('forcedlanguage', '', 'string');
+
 ?>
 <button id="toogle-left-panel" class="btn btn-small">Show/Hide Reference (PoC)</button>
 
-<form action="<?php echo JRoute::_(JFactory::getURI()->toString()); ?>"
+<form action="<?php echo JRoute::_('index.php?option=com_associations&view=association&layout=' . $layout . '&acomponent=' 
+		. $aComponent . '&aview=' . $aView . '&forcedlanguage=' . $fLanguage . '&id='
+		. $this->referenceID); ?>""
  method="post" name="adminForm" id="adminForm" class="form-validate">
 
 <div class="sidebyside">
