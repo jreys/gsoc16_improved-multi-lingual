@@ -96,12 +96,10 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		$this->form  = $this->get('Form');
 		$input     = $this->app->input;
-		
-		$formData = new JInput($input->get('jform', '', 'array'));
 
 		$associatedComponent = $input->get('acomponent', '', 'string');
 		$associatedView      = $input->get('aview', '', 'string');
-		$this->referenceID   = $input->get('id', 0, 'int');
+		$this->referenceId   = $input->get('id', 0, 'int');
 
 		$options = array(
 			'option'    => $associatedComponent,
