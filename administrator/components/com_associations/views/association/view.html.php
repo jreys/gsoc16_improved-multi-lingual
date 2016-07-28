@@ -105,6 +105,12 @@ class AssociationsViewAssociation extends JViewLegacy
 		$key = $extension !== '' ? 'com_categories.category|' . $extension : $associatedComponent . '.' . $this->associatedView;
 		$this->component  = AssociationsHelper::getComponentProperties($key);
 
+		// Get reference language.
+		$table = clone $this->component->table;
+		$table->load($this->referenceId);
+
+		$this->referenceLanguage = $table->{$this->component->fields->language};
+
 		$options = array(
 			'option'    => $associatedComponent,
 			'view'      => $this->associatedView,
