@@ -34,32 +34,40 @@ $assoc = JLanguageAssociations::isEnabled();
 $app->getDocument()->addScriptDeclaration(
 "
 jQuery(document).ready(function($) {
+	function changeBg(item, color) {
+		item.find('td').each (function()
+		{
+			$(this).css('background-color', color);
+		}); 
+	}
+
+	$('input[name=\"checkall-toggle\"]').click(function(event)
+	{
+		if($('input[name=\"checkall-toggle\"]').attr('checked')) {
+			changeBg($('tr[class^=\"row\"]'), '#d9edf7');
+		}
+		else {
+			changeBg($('tr[class^=\"row\"]'), '');
+		}
+	});
 	$('tr[class^=\"row\"]').click(function(event)
 	{
-		index   = jQuery(this).index();
-		clicked = 'cb'+index;
-		cbChecked = document.getElementById(clicked).checked;
+		clicked = 'cb' + $(this).index();
+		cbClicked = document.getElementById(clicked);
 
 		if (!(event.target.id == clicked))
 		{
-			document.getElementById(clicked).checked = !cbChecked;
-			Joomla.isChecked(document.getElementById(clicked).checked);
+			cbClicked.checked = !cbClicked.checked;
+			Joomla.isChecked(cbClicked.checked);
 		}
-
-		//refresh checked status
-		cbChecked = document.getElementById(clicked).checked;
 		
-		if (cbChecked) {
-			$(this).find('td').each (function()
-			{
-				$(this).css('background-color', '#d9edf7');
-			}); 
+		if (cbClicked.checked)
+		{
+			changeBg($(this), '#d9edf7');
 		}
-		else {
-			$(this).find('td').each (function()
-			{
-				$(this).css('background-color', '');
-			});
+		else
+		{
+			changeBg($(this), '');
 		}
 	});
 });
