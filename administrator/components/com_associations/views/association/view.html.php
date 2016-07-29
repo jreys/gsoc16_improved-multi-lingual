@@ -76,10 +76,10 @@ class AssociationsViewAssociation extends JViewLegacy
 		$this->component  = AssociationsHelper::getComponentProperties($key);
 
 		// Get reference language.
-		$table = clone $this->component->table;
-		$table->load($this->referenceId);
+		$this->table = clone $this->component->table;
+		$this->table->load($this->referenceId);
 
-		$this->referenceLanguage = $table->{$this->component->fields->language};
+		$this->referenceLanguage = $this->table->{$this->component->fields->language};
 
 		$options = array(
 			'option'    => $associatedComponent,
@@ -147,11 +147,28 @@ class AssociationsViewAssociation extends JViewLegacy
 		$input = JFactory::getApplication()->input;
 		$input->set('hidemainmenu', 1);
 
+		$user       = JFactory::getUser();
+		$userId     = $user->id;
+		$checkedOut = !($this->table->checked_out == 0 || $this->table->checked_out == $userId);
+		$component  = $input->get('acomponent', '', 'string');
+
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
-		JToolbarHelper::apply('reference', 'COM_ASSOCIATIONS_SAVE_REFERENCE');
+		$canEdit = $user->authorise('core.edit', $component . $this->referenceId);
+		if (isset($this->table->created_by))
+		{
+			$canEditOwn = $user->authorise('core.edit.own', $component . $this->referenceId) && $this->table->created_by == $userId;
+		}
+
+		// ACL for the Save Reference button
+		if (!$checkedOut && ($canEdit || $canEditOwn)) {
+			JToolbarHelper::apply('reference', 'COM_ASSOCIATIONS_SAVE_REFERENCE');
+		}
+		
+		// @todo apply ACL on the target
 		JToolbarHelper::apply('target', 'COM_ASSOCIATIONS_SAVE_TARGET');
 		JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+
 		JToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		JToolbarHelper::help('JGLOBAL_HELP');
 
