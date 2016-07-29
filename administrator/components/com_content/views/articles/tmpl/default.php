@@ -30,6 +30,40 @@ if ($saveOrder)
 }
 
 $assoc = JLanguageAssociations::isEnabled();
+
+$app->getDocument()->addScriptDeclaration(
+"
+jQuery(document).ready(function($) {
+	$('tr[class^=\"row\"]').click(function(event)
+	{
+		index   = jQuery(this).index();
+		clicked = 'cb'+index;
+		cbChecked = document.getElementById(clicked).checked;
+
+		if (!(event.target.id == clicked))
+		{
+			document.getElementById(clicked).checked = !cbChecked;
+			Joomla.isChecked(document.getElementById(clicked).checked);
+		}
+
+		//refresh checked status
+		cbChecked = document.getElementById(clicked).checked;
+		
+		if (cbChecked) {
+			$(this).find('td').each (function()
+			{
+				$(this).css('background-color', '#d9edf7');
+			}); 
+		}
+		else {
+			$(this).find('td').each (function()
+			{
+				$(this).css('background-color', '');
+			});
+		}
+	});
+});
+");
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
