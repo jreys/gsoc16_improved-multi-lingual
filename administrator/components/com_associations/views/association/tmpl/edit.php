@@ -37,7 +37,7 @@ $this->app->getDocument()->addScriptDeclaration("
 				if (split[1] == '0') {
 					jQuery('#jform_itemlanguage option').each(function() {
 						if(jQuery(this).val() == selectedLang) {
-							jQuery(this).val(split[0] + '|' + langID);    
+							jQuery(this).val(split[0] + '|' + langID);
 						}
 					});
 				}
@@ -82,22 +82,23 @@ $this->app->getDocument()->addScriptDeclaration("
 		$('#reference-association').load(function ()
 		{
 			var referenceContents = $(this).contents();
- 
+
 			// Disable reference fields.
 			referenceContents.find('#jform_language_chzn').remove();
 			referenceContents.find('#jform_language').attr('disabled', true).chosen();
- 
+
 			$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
 			referenceContents.find('#associations .controls').css('pointer-events', 'auto');
-		
+
 			// Iframe load finished, hide Joomla loading layer.
 			Joomla.loadingLayer('hide');
 		});
 
 		$('#target-association').load(function () {
 			target = $(this).contents();
+			selectedLang = $('#jform_itemlanguage').val();
 
-			//Hide associations tab	
+			//Hide associations tab
 			target.find('a[href=#associations]').parent().hide();
 
 			langAssociation = '" . str_replace('-', '_', $this->referenceLanguage) . "';
@@ -106,7 +107,7 @@ $this->app->getDocument()->addScriptDeclaration("
 
 			split = selectedLang.split('|');
 
-			if (typeof split[1] !== 'undefined') {
+			if (typeof split[1] !== undefined) {
 				selectedLang = split[0];
 
 				//Adding checkin IDs to an hidden input
@@ -118,7 +119,6 @@ $this->app->getDocument()->addScriptDeclaration("
 						$('#target-id').val($('#target-id').val()+','+split[1]);
 					}
 				}
-
 				//Auto-picking the selected language on the switcher
 				target.find('#jform_language option[value='+selectedLang+']').attr('selected','selected');
 				target.find('#jform_language').trigger('liszt:updated');
@@ -216,7 +216,6 @@ $layout     = $input->get('layout', '', 'string');
 $aComponent = $input->get('acomponent', '', 'string');
 $aView      = $input->get('aview', '', 'string');
 $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->get('referencelanguage', '', 'string') : '';
-
 ?>
 <button id="toogle-left-panel" class="btn btn-small">Show/Hide Reference (PoC)</button>
 
@@ -231,7 +230,8 @@ $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->g
 	<div class="outer-panel" id="left-panel">
 		<div class="inner-panel">
 			<h3><?php echo JText::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
-			<iframe id="reference-association" name="reference-association" src="<?php echo JRoute::_($this->link); ?>"
+			<iframe id="reference-association" name="reference-association"
+				src="<?php echo JRoute::_($this->link); ?>"
 				height="100%" width="400px" scrolling="no">
 			</iframe>
 		</div>
@@ -242,9 +242,10 @@ $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->g
 				<h3><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
 				<?php echo $this->form->getInput('itemlanguage'); ?>
 			</div>
-			<iframe id="target-association" name="target-association" 
-				src="<?php echo JRoute::_($this->targetLink); ?>" 
-				height="100%" width="400px" scrolling="no"></iframe>
+			<iframe id="target-association" name="target-association"
+				src="<?php echo JRoute::_($this->targetLink); ?>"
+				height="100%" width="400px" scrolling="no">
+			</iframe>
 		</div>
 	</div>
 </div>
