@@ -64,40 +64,46 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 			'com_users',
 		);
 
+		$user       = JFactory::getUser();
+		$userId     = $user->id;
+
 		// Get all admin components.
 		foreach (glob(JPATH_ADMINISTRATOR . '/components/*', GLOB_NOSORT | GLOB_ONLYDIR) as $componentAdminPath)
 		{
 			$component           = basename($componentAdminPath);
 			$componentModelsPath = $componentAdminPath . '/models';
 
-			// Only components that exist also in the site client, aren't in the excluded components array and have models.
-			if (!is_dir($componentModelsPath) || in_array($component, $excludeComponents))
+			if ($user->authorise('core.manage', $component . $this->referenceId))
 			{
-				continue;
-			}
-
-			// Check if component uses associations, by checking is models.
-			foreach (glob($componentModelsPath . '/*.php', GLOB_NOSORT) as $modelFile)
-			{
-				$cp = AssociationsHelper::getComponentProperties($component . '.' . strtolower(basename($modelFile, '.php')));
-
-				// Check if component supports associations.
-				if ($cp->associations->support && $cp->associations->supportItem && !in_array($cp->typeAlias, $typeAliasList))
+				// Only components that exist also in the site client, aren't in the excluded components array and have models.
+				if (!is_dir($componentModelsPath) || in_array($component, $excludeComponents))
 				{
-					// Add component option select box.
-					$options[$cp->title][] = JHtml::_('select.option', $cp->typeAlias, $cp->title);
-
-					array_push($typeAliasList, $cp->typeAlias);
+					continue;
 				}
-			}
 
-			// Check if component uses categories with associations. Add category option to select box if so.
-			$cp = AssociationsHelper::getComponentProperties($component);
+				// Check if component uses associations, by checking is models.
+				foreach (glob($componentModelsPath . '/*.php', GLOB_NOSORT) as $modelFile)
+				{
+					$cp = AssociationsHelper::getComponentProperties($component . '.' . strtolower(basename($modelFile, '.php')));
 
-			// Check if component uses categories with associations. Add category option to select box if so.
-			if ($cp->associations->supportCategories)
-			{
-				$options[$cp->title][] = JHtml::_('select.option', 'com_categories.category|' . $cp->component, JText::_($cp->component . '_CATEGORIES'));
+					// Check if component supports associations.
+					if ($cp->associations->support && $cp->associations->supportItem && !in_array($cp->typeAlias, $typeAliasList))
+					{
+						// Add component option select box.
+						$options[$cp->title][] = JHtml::_('select.option', $cp->typeAlias, $cp->title);
+
+						array_push($typeAliasList, $cp->typeAlias);
+					}
+				}
+
+				// Check if component uses categories with associations. Add category option to select box if so.
+				$cp = AssociationsHelper::getComponentProperties($component);
+
+				// Check if component uses categories with associations. Add category option to select box if so.
+				if ($cp->associations->supportCategories)
+				{
+					$options[$cp->title][] = JHtml::_('select.option', 'com_categories.category|' . $cp->component, JText::_($cp->component . '_CATEGORIES'));
+				}
 			}
 		}
 
