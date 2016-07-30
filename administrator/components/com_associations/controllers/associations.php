@@ -41,7 +41,6 @@ class AssociationsControllerAssociations extends JControllerAdmin
 		return parent::getModel($name, $prefix, $config);
 	}
 
-
 	/**
 	 * Check in of one or more records.
 	 *
