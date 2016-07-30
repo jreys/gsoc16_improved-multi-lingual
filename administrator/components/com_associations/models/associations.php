@@ -135,6 +135,10 @@ class AssociationsModelAssociations extends JModelList
 		{
 			$query->select($db->quoteName('a.' . $component->fields->checked_out, 'checked_out'))
 				->select($db->quoteName('a.' . $component->fields->checked_out_time, 'checked_out_time'));
+
+			// Join over the users.
+			$query->select($db->quoteName('u.name', 'editor'))
+				->join('LEFT', $db->quoteName('#__users', 'u') . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('a.' . $component->fields->checked_out));
 		}
 
 		// Join over the language
