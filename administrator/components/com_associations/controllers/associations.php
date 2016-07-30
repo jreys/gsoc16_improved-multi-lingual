@@ -63,16 +63,21 @@ class AssociationsControllerAssociations extends JControllerAdmin
 			$ids    = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 			$return = $cp->model->checkin($ids);
 
+			// Load component language files.
+			$lang = JFactory::getLanguage();
+			$lang->load($cp->component . '.sys', JPATH_ADMINISTRATOR) || $lang->load($cp->component . '.sys', $cp->adminPath);
+			$lang->load($cp->component, JPATH_ADMINISTRATOR) || $lang->load($cp->component, $cp->adminPath);
+
 			// Checkin failed.
 			if ($return === false)
 			{
-				$message     = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
+				$message     = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $cp->model->getError());
 				$messageType = 'error';
 			}
 			// Checkin succeeded.
 			else
 			{
-				$message     = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+				$message     = JText::plural(strtoupper($cp->component) . '_N_ITEMS_CHECKED_IN', count($ids));
 				$messageType = 'message';
 			}
 
