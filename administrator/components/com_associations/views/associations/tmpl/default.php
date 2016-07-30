@@ -92,7 +92,7 @@ $iconStates = array(
 				{
 					$canEditOwn = $user->authorise('core.edit.own', $this->state->get('component') . $item->id) && $item->created_by == $userId;
 				}
-				$canCheckin = isset($item->checked_out) && ($user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0);
+				$canCheckin = !isset($item->checked_out) || $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">
