@@ -177,6 +177,11 @@ class AssociationsViewAssociations extends JViewLegacy
 		*/
 		// JToolbarHelper::editList('association.edit');
 
+		if ($user->authorise('core.admin', $this->component->component))
+		{
+			JToolbarHelper::checkin('associations.checkin', 'JTOOLBAR_CHECKIN', true);
+		}
+
 		if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations'))
 		{
 			JToolbarHelper::preferences('com_associations');
