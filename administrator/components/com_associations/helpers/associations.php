@@ -204,7 +204,7 @@ class AssociationsHelper extends JHelperContent
 			$cp[$key]->associations->context = $cp[$key]->model->get('associationsContext');
 
 			// Get the database table.
-			$cp[$key]->model->addTablePath(JPATH_ADMINISTRATOR . '/components/' . $cp[$key]->component . '/tables');
+			$cp[$key]->model->addTablePath($cp[$key]->adminPath . '/tables');
 			$cp[$key]->table   = $cp[$key]->model->getTable();
 			$cp[$key]->dbtable = $cp[$key]->table->get('_tbl');
 
@@ -249,6 +249,9 @@ class AssociationsHelper extends JHelperContent
 			{
 				array_push($cp[$key]->excludeOrdering, 'ordering');
 			}
+
+			// Flag that indicates if the component allow modal layout and so have a custom target button.
+			$cp[$key]->customTarget = (int) file_exists($cp[$key]->adminPath . '/views/' . $cp[$key]->item . 's/tmpl/modal.php');
 		}
 
 		return $cp[$key];
