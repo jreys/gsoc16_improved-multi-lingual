@@ -85,6 +85,7 @@ $iconStates = array(
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
 				$canEdit    = $user->authorise('core.edit', $this->state->get('component') . $item->id);
+				
 				if (isset($item->created_by))
 				{
 					$canEditOwn = $user->authorise('core.edit.own', $this->state->get('component') . $item->id) && $item->created_by == $userId;
