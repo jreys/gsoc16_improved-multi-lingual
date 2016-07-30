@@ -89,6 +89,7 @@ $iconStates = array(
 				{
 					$canEditOwn = $user->authorise('core.edit.own', $this->state->get('component') . $item->id) && $item->created_by == $userId;
 				}
+				$canCheckin = 1;
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<?php if (!is_null($this->component->fields->published)) : ?>
@@ -99,6 +100,9 @@ $iconStates = array(
 					<td class="nowrap has-context">
 						<?php if (!is_null($this->component->fields->level)) : ?>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+						<?php endif; ?>
+						<?php if (!is_null($this->component->fields->checked_out) && $item->checked_out) : ?>
+							<?php echo JHtml::_('jgrid.checkedout', $i, 'editor', $item->checked_out_time, $this->component->item . 's.', $canCheckin); ?>
 						<?php endif; ?>
 						<?php if ($canEdit || $canEditOwn) : ?>
 							<a href="<?php echo JRoute::_($this->editLink . '&id=' . (int) $item->id); ?>">
