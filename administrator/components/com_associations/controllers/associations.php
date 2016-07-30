@@ -54,14 +54,14 @@ class AssociationsControllerAssociations extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$ids    = JFactory::getApplication()->input->post->get('cid', array(), 'array');
-		$model  = $this->getModel();
-		$cp     = AssociationsHelper::getComponentProperties($model->getState('component'));
+		$key    = JFactory::getApplication()->getUserState('com_associations.associations.component');
+		$cp     = AssociationsHelper::getComponentProperties($key);
 		$return = false;
 
 		// Only check in, if component allows to check out.
 		if (!is_null($cp->fields->checked_out))
 		{
+			$ids    = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 			$return = $cp->model->checkin($ids);
 
 			// Checkin failed.
@@ -77,7 +77,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 				$messageType = 'message';
 			}
 
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list), false), $message,	$messageType);
+			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list), false, $message, $messageType);
 		}
 
 		return (boolean) $return;
