@@ -126,6 +126,19 @@ jQuery(document).ready(function($) {
 				$(this).contents().find('#jform_associations_' + languageCode + '_id').val(referenceId);
 				$(this).contents().find('#jform_associations_' + languageCode + '_name').val($(reference).contents().find('#jform_title').val());
 
+				target = $(this).contents();
+
+				$('#jform_itemlanguage option').each(function()
+				{
+					parse = $(this).val().split('|');
+
+					if (typeof parse[1] !== 'undefined' && parse[1] !== '0')
+					{
+	 					langAssociation = parse[0].replace(/-/,'_');
+	 					target.find('#jform_associations_' + langAssociation + '_id').val(parse[1]);
+	 				}
+				});
+
 				// - For chosen association selectors (menus).
 				$(this).contents().find('div[id^=\"jform_associations_' + languageCode + '_chzn\"]').remove();
 				$(this).contents().find('select[id^=\"jform_associations_' + languageCode + '\"]').val(referenceId).change().chosen();
