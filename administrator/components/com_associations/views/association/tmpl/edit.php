@@ -121,12 +121,19 @@ jQuery(document).ready(function($) {
 				var reference     = document.getElementById('reference-association');
 				var referenceId   = reference.getAttribute('data-id');
 				var languageCode  = reference.getAttribute('data-language').replace(/-/, '_');
+				var title         = $(reference).contents().find('#jform_title').val();
+				target = $(this).contents();
 
 				// - For modal association selectors.
-				$(this).contents().find('#jform_associations_' + languageCode + '_id').val(referenceId);
-				$(this).contents().find('#jform_associations_' + languageCode + '_name').val($(reference).contents().find('#jform_title').val());
+				target.find('#jform_associations_' + languageCode + '_id').val(referenceId);
+				target.find('#jform_associations_' + languageCode + '_name').val(title);
 
-				target = $(this).contents();
+				// - For chosen association selectors (menus).
+				target.find('#jform_associations_' + languageCode + '_chzn').remove();
+				chznField = target.find('#jform_associations_' + languageCode);
+				chznField.append('<option value=\"'+ referenceId + '\">' + title + '</option>');
+				chznField.val(referenceId).change().chosen();
+
 
 				$('#jform_itemlanguage option').each(function()
 				{
@@ -134,14 +141,17 @@ jQuery(document).ready(function($) {
 
 					if (typeof parse[1] !== 'undefined' && parse[1] !== '0')
 					{
+						// - For modal association selectors.
 	 					langAssociation = parse[0].replace(/-/,'_');
 	 					target.find('#jform_associations_' + langAssociation + '_id').val(parse[1]);
+
+	 					// - For chosen association selectors (menus).
+						target.find('#jform_associations_' + langAssociation + '_chzn').remove();
+						chznField = target.find('#jform_associations_' + langAssociation);
+						chznField.append('<option value=\"'+ parse[1] + '\"></option>');
+						chznField.val(parse[1]).change().chosen();
 	 				}
 				});
-
-				// - For chosen association selectors (menus).
-				$(this).contents().find('div[id^=\"jform_associations_' + languageCode + '_chzn\"]').remove();
-				$(this).contents().find('select[id^=\"jform_associations_' + languageCode + '\"]').val(referenceId).change().chosen();
 			}
 			// If we are editing a association.
 			else 
@@ -163,14 +173,17 @@ jQuery(document).ready(function($) {
 					// Update the reference item associations tab.
 					var reference     = document.getElementById('reference-association');
 					var languageCode  = targetLanguage.replace(/-/, '_');
+					var title         = $(this).contents().find('#jform_title').val()
 
 					// - For modal association selectors.
 					$(reference).contents().find('#jform_associations_' + languageCode + '_id').val(targetLoadedId);
-					$(reference).contents().find('#jform_associations_' + languageCode + '_name').val($(this).contents().find('#jform_title').val());
+					$(reference).contents().find('#jform_associations_' + languageCode + '_name').val(title);
 
 					// - For chosen association selectors (menus).
-					$(reference).contents().find('div[id^=\"jform_associations_' + languageCode + '_chzn\"]').remove();
-					$(reference).contents().find('select[id^=\"jform_associations_' + languageCode + '\"]').val(targetLoadedId).change().chosen();
+					$(reference).contents().find('#jform_associations_' + languageCode + '_chzn').remove();
+					$(reference).contents().find('#jform_associations_' + languageCode).append('<option value=\"'+ targetLoadedId + '\">' + title + '</option>');
+					$(reference).contents().find('#jform_associations_' + languageCode).val(targetLoadedId).change().chosen();
+
 				}
 			}
 
