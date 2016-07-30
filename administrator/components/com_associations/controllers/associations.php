@@ -76,7 +76,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 				$messageType = 'message';
 			}
 
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list), true, $message, $messageType);
+			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, $messageType);
 		}
 
 		return (boolean) $return;
