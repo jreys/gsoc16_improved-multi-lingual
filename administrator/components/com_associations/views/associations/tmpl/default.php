@@ -14,11 +14,11 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user      = JFactory::getUser();
-$userId    = $user->get('id');
+$user       = JFactory::getUser();
+$userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$colSpan    =  4;
+$colSpan    =  5;
 $iconStates = array(
 	-2 => 'icon-trash',
 	0  => 'icon-unpublish',
@@ -46,6 +46,9 @@ $iconStates = array(
 		<table class="table table-striped" id="associationsList">
 			<thead>
 				<tr>
+					<th width="1%" class="nowrap center">
+						<?php echo JHtml::_('grid.checkall'); ?>
+					</th>
 					<?php if (!is_null($this->component->fields->published)) : ?>
 						<th width="1%" class="center nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'published', $listDirn, $listOrder); $colSpan++; ?>
@@ -89,16 +92,23 @@ $iconStates = array(
 				{
 					$canEditOwn = $user->authorise('core.edit.own', $this->state->get('component') . $item->id) && $item->created_by == $userId;
 				}
+				$canCheckin = !isset($item->checked_out) || $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
+					<td class="center">
+						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+					</td>
 					<?php if (!is_null($this->component->fields->published)) : ?>
 						<td class="center">
 							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
 						</td>
 					<?php endif; ?>
 					<td class="nowrap has-context">
-						<?php if (!is_null($this->component->fields->level)) : ?>
+						<?php if (isset($item->level)) : ?>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+						<?php endif; ?>
+						<?php if (isset($item->checked_out) && $item->checked_out) : ?>
+							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
 						<?php endif; ?>
 						<?php if ($canEdit || $canEditOwn) : ?>
 							<a href="<?php echo JRoute::_($this->editLink . '&id=' . (int) $item->id); ?>">
