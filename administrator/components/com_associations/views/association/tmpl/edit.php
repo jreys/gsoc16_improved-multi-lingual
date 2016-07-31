@@ -273,4 +273,5 @@ $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->g
 </div>
 <input type="hidden" name="task" value=""/>
 <input type="hidden" name="target-id" id="target-id" value=""/>
+<?php echo JHtml::_('form.token'); ?>
 </form>
