@@ -281,8 +281,8 @@ class AssociationsModelAssociations extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', $this->component->defaultOrdering[0])) . ' '
-			. $db->escape($this->getState('list.direction', $this->component->defaultOrdering[1])));
+		$query->order($db->escape($this->getState('list.ordering', $component->defaultOrdering[0])) . ' '
+			. $db->escape($this->getState('list.direction', $component->defaultOrdering[1])));
 
 		return $query;
 	}
