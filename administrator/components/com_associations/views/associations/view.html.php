@@ -122,9 +122,8 @@ class AssociationsViewAssociations extends JViewLegacy
 			if (in_array($this->state->get('list.ordering', $this->component->defaultOrdering[0]), $this->component->excludeOrdering))
 			{
 				$this->state->set('list.ordering', $this->component->defaultOrdering[0]);
-				$this->state->set('list.direction', $this->component->defaultOrdering[1]);
-				$this->filterForm->setValue('fullordering', 'list', $this->component->defaultOrdering[0]. ' ' . $this->component->defaultOrdering[1]);
-			}
+				$this->state->set('list.direction', strtoupper($this->component->defaultOrdering[1]));
+				$this->filterForm->setValue('fullordering', 'list', $this->component->defaultOrdering[0]. ' ' . strtoupper($this->component->defaultOrdering[1]));			}
 
 			$this->items      = $this->get('Items');
 			$this->pagination = $this->get('Pagination');
