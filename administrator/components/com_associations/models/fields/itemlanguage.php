@@ -45,10 +45,12 @@ class JFormFieldItemLanguage extends JFormFieldList
 		$this->referenceId   = $input->get('id', 0, 'int');
 		$associatedComponent = $this->component->component;
 		$associatedView      = $this->component->item;
-		$realView            = isset($this->component->extension) ? $this->component->extension : $associatedView;
 
 		$associations      = call_user_func(
-				array($this->component->associations->gethelper->class, $this->component->associations->gethelper->method), $this->referenceId, $realView
+				array(
+					$this->component->associations->gethelper->class, 
+					$this->component->associations->gethelper->method), 
+					$this->referenceId, $this->component->realcomponent
 			);
 
 		// Get reference language.
