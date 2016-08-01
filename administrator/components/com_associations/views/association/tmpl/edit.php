@@ -52,7 +52,20 @@ jQuery(document).ready(function($) {
 	Joomla.loadingLayer('load');
 
 	// Attach behaviour to toggle button.
-	$('body').on('click', '#toogle-left-panel', function() {
+	$('body').on('click', '#toogle-left-panel', function()
+	{
+		referenceHide = $('#adminForm').attr('data-hide-reference');
+		referenceShow = $('#adminForm').attr('data-show-reference');
+
+		if ($('#toogle-left-panel').text() === referenceHide)
+		{
+			$('#toogle-left-panel').text(referenceShow);
+		}
+		else
+		{
+			$('#toogle-left-panel').text(referenceHide);
+		}
+		
 		$('#left-panel').toggle();
 		$('#right-panel').toggleClass('full-width');
 	});
@@ -238,13 +251,15 @@ $aView      = $input->get('aview', '', 'string');
 $extension  = $input->get('extension', '', 'string');
 $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->get('referencelanguage', '', 'string') : '';
 ?>
-<button id="toogle-left-panel" class="btn btn-small">Show/Hide Reference (PoC)</button>
+<button id="toogle-left-panel" class="btn btn-small"><?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?></button>
 
 <form action="<?php echo JRoute::_(
 			'index.php?option=com_associations&view=association&layout=' . $layout . '&acomponent='
 			. $aComponent . '&aview=' . $aView . '&extension=' . $extension . '&referencelanguage=' . $rLanguage . '&id='
 			. $this->referenceId
-		); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->associatedView; ?>">
+		); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->associatedView; ?>"
+		data-show-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
+		data-hide-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>">
 
 <div class="sidebyside">
 	<div class="outer-panel" id="left-panel">
