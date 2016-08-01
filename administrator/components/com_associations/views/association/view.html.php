@@ -154,10 +154,11 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
-		$canEdit = $user->authorise('core.edit', $component . "." . $this->associatedView . $this->referenceId);
+		$canEdit = $user->authorise('core.edit', 'core.edit', $this->component->assetKey . '.' . $this->referenceId);
+		
 		if (isset($this->table->{$created_by}))
 		{
-			$canEditOwn = $user->authorise('core.edit.own', $component . $this->referenceId) && $this->table->{$created_by} == $userId;
+			$canEditOwn = $user->authorise('core.edit.own', 'core.edit', $this->component->assetKey . '.' . $this->referenceId) && $this->table->{$created_by} == $userId;
 		}
 
 		// ACL for the Save Reference button

@@ -87,7 +87,7 @@ $iconStates = array(
 			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
-				$canEdit    = $user->authorise('core.edit', $this->component->assetKey . $item->id);
+				$canEdit    = $user->authorise('core.edit', $this->component->assetKey . '.' . $this->item->id);
 				
 				if (isset($item->created_by))
 				{
@@ -111,7 +111,7 @@ $iconStates = array(
 						<?php if (isset($item->checked_out) && $item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
 						<?php endif; ?>
-						<?php if ($canEdit || $canEditOwn) : ?>
+						<?php if ($canEdit || $canEditOwn && $canCheckin) : ?>
 							<a href="<?php echo JRoute::_($this->editLink . '&id=' . (int) $item->id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
 						<?php else : ?>

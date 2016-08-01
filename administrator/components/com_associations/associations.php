@@ -15,10 +15,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_associations'))
 	throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
-$input     = JFactory::getApplication()->input;
-$component = $input->get('component', '', 'string');
-$splitcpnt = explode('.', $component);
-$component = $splitcpnt[0];
 JLoader::register('AssociationsHelper', __DIR__ . '/helpers/associations.php');
 
 // Check if user has permission to access the component
@@ -36,8 +32,6 @@ if ($component = JFactory::getApplication()->input->get('component', '', 'string
 		throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 	}
 }
-
-JLoader::register('AssociationsHelper', __DIR__ . '/helpers/associations.php');
 
 $controller = JControllerLegacy::getInstance('Associations');
 $controller->execute(JFactory::getApplication()->input->get('task'));
