@@ -230,17 +230,14 @@ $this->app->getDocument()->addStyleDeclaration('
 
 $input      = $this->app->input;
 $layout     = $input->get('layout', '', 'string');
-$aComponent = $input->get('acomponent', '', 'string');
-$aView      = $input->get('aview', '', 'string');
-$extension  = $input->get('extension', '', 'string');
+$component = $input->get('component', '', 'string');
 $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->get('referencelanguage', '', 'string') : '';
 ?>
 <button id="toogle-left-panel" class="btn btn-small">Show/Hide Reference (PoC)</button>
 
 <form action="<?php echo JRoute::_(
-			'index.php?option=com_associations&view=association&layout=' . $layout . '&acomponent='
-			. $aComponent . '&aview=' . $aView . '&extension=' . $extension . '&referencelanguage=' . $rLanguage . '&id='
-			. $this->referenceId
+			'index.php?option=com_associations&view=association&layout=' . $layout . '&component='
+			. $component . $rLanguage . '&id=' . $this->referenceId
 		); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->associatedView; ?>">
 
 <div class="sidebyside">

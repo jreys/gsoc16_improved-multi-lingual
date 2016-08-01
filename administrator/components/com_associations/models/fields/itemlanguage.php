@@ -40,21 +40,22 @@ class JFormFieldItemLanguage extends JFormFieldList
 
 		$input = JFactory::getApplication()->input;
 
-		$referenceId         = $input->get('id', '');
-		$associatedComponent = $input->get('acomponent', '');
-		$associatedView      = $input->get('aview', '');
-		$extension           = $input->get('extension', '');
-		$realView            = $extension !== '' ? $extension : $associatedView;
+		$component           = $input->get('component', '', 'string');
+		$this->component     = AssociationsHelper::getComponentProperties($component);
+		$this->referenceId   = $input->get('id', 0, 'int');
+		$associatedComponent = $this->component->component;
+		$associatedView      = $this->component->item;
+		$realView            = isset($this->component->extension) ? $this->component->extension : $associatedView;
 
-		$key = $extension !== '' ? 'com_categories.category|' . $extension : $associatedComponent . '.' . $associatedView;
-		$cp  = AssociationsHelper::getComponentProperties($key);
-		$associations      = call_user_func(array($cp->associations->gethelper->class, $cp->associations->gethelper->method), $referenceId, $realView);
+		$associations      = call_user_func(
+				array($this->component->associations->gethelper->class, $this->component->associations->gethelper->method), $this->referenceId, $realView
+			);
 
 		// Get reference language.
-		$table = clone $cp->table;
-		$table->load($referenceId);
+		$table = clone $this->component->table;
+		$table->load($this->referenceId);
 
-		$referenceLanguage = $table->{$cp->fields->language};
+		$referenceLanguage = $table->{$this->component->fields->language};
 
 		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 

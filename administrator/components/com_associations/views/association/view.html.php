@@ -67,34 +67,33 @@ class AssociationsViewAssociation extends JViewLegacy
 		$this->form  = $this->get('Form');
 		$input       = $this->app->input;
 
-		$associatedComponent  = $input->get('acomponent', '', 'string');
-		$this->associatedView = $input->get('aview', '', 'string');
-		$extension            = $input->get('extension', '', 'string');
-		$this->referenceId    = $input->get('id', 0, 'int');
-
-		$key = $extension !== '' ? 'com_categories.category|' . $extension : $associatedComponent . '.' . $this->associatedView;
-		$this->component  = AssociationsHelper::getComponentProperties($key);
+		$component         = $input->get('component', '', 'string');
+		$this->referenceId = $input->get('id', 0, 'int');
+		$this->component   = AssociationsHelper::getComponentProperties($component);
 
 		// Get reference language.
 		$this->table = clone $this->component->table;
 		$this->table->load($this->referenceId);
 
+		$this->associatedView = $this->component->item;
+		$extension            = $this->component->extension;
+
 		$this->referenceLanguage = $this->table->{$this->component->fields->language};
 
 		$options = array(
-			'option'    => $associatedComponent,
+			'option'    => $this->component->component,
 			'view'      => $this->associatedView,
-			'extension' => '',
 			'task'      => $this->associatedView . '.edit',
+			'extension' => '',
 			'layout'    => 'edit',
 			'tmpl'      => 'component',
 			'id'        => $this->referenceId,
 		);
 
 		// Special cases for categories.
-		if ($associatedComponent === 'com_categories')
+		if ($this->component->component === 'com_categories')
 		{
-			$options['view']      = '';
+			$options['view']      = 'category';
 			$options['task']      = 'category.edit';
 			$options['extension'] = $extension;
 		}
@@ -150,7 +149,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		$user       = JFactory::getUser();
 		$userId     = $user->id;
 		$checkedOut = !($this->table->{$this->component->fields->checked_out} == 0 || $this->table->{$this->component->fields->checked_out} == $userId);
-		$component  = $input->get('acomponent', '', 'string');
+		$component  = $this->component->component;
 		$createdBy  = $this->component->fields->created_by;
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
