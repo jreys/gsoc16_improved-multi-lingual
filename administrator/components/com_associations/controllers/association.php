@@ -27,6 +27,8 @@ class AssociationsControllerAssociation extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$extension = $this->input->get('extension', '', 'string');
 
 		$key = $extension !== '' ? 'com_categories.category|' . $extension : $this->input->get('acomponent', '') . '.' . $this->input->get('aview', '');
