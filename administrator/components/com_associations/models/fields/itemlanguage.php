@@ -40,11 +40,8 @@ class JFormFieldItemLanguage extends JFormFieldList
 
 		$input = JFactory::getApplication()->input;
 
-		$component           = $input->get('component', '', 'string');
-		$this->component     = AssociationsHelper::getComponentProperties($component);
+		$this->component     = AssociationsHelper::getComponentProperties($input->get('component', '', 'string'));
 		$this->referenceId   = $input->get('id', 0, 'int');
-		$associatedComponent = $this->component->component;
-		$associatedView      = $this->component->item;
 
 		$associations      = call_user_func(
 				array(
@@ -69,7 +66,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 			}
 			if (isset($associations[$lang->value]))
 			{
-				if ($associatedComponent != 'com_menus')
+				if ($this->component->component != 'com_menus')
 				{
 					parse_str($associations[$lang->value], $contents);
 					$removeExtra  = explode(":", $contents['id']);

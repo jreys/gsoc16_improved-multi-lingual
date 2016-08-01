@@ -65,7 +65,6 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 		);
 
 		$user       = JFactory::getUser();
-		$userId     = $user->id;
 
 		// Get all admin components.
 		foreach (glob(JPATH_ADMINISTRATOR . '/components/*', GLOB_NOSORT | GLOB_ONLYDIR) as $componentAdminPath)
