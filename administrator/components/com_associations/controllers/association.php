@@ -27,9 +27,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
-		$extension = $this->input->get('extension', '', 'string');
-
-		$key = $extension !== '' ? 'com_categories.category|' . $extension : $this->input->get('acomponent', '') . '.' . $this->input->get('aview', '');
+		$key = $this->input->get('component', '', 'string');
 		$cp  = AssociationsHelper::getComponentProperties($key);
 
 		// Only check in, if component allows to check out.
