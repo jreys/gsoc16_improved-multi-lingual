@@ -251,9 +251,9 @@ $aView      = $input->get('aview', '', 'string');
 $extension  = $input->get('extension', '', 'string');
 $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->get('referencelanguage', '', 'string') : '';
 ?>
-<button id="toogle-left-panel" class="btn btn-small"><?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); 
-?>  	data-show-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
-		data-hide-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"
+<button id="toogle-left-panel" class="btn btn-small" 
+		data-show-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
+		data-hide-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
 </button>
 
 <form action="<?php echo JRoute::_(
