@@ -152,7 +152,7 @@ class AssociationsModelAssociations extends JModelList
 			->join(
 				'LEFT',
 				$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
-				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($component->component . '.item')
+				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($component->associations->context)
 			)
 			->join('LEFT', $db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
 			->group($db->quoteName(array('a.id', 'title', 'language')));
