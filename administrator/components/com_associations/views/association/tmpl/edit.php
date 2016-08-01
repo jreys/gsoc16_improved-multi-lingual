@@ -54,8 +54,8 @@ jQuery(document).ready(function($) {
 	// Attach behaviour to toggle button.
 	$('body').on('click', '#toogle-left-panel', function()
 	{
-		var referenceHide = $(this).attr('data-hide-reference');
-		var referenceShow = $(this).attr('data-show-reference');
+		var referenceHide = this.getAttribute('data-hide-reference');
+		var referenceShow = this.getAttribute('data-show-reference');
 
 		if ($(this).text() === referenceHide)
 		{
