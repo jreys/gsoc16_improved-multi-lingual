@@ -251,6 +251,9 @@ class AssociationsHelper extends JHelperContent
 				array_push($cp[$key]->excludeOrdering, 'ordering');
 			}
 
+			// Check the default ordering (ordering is the default, is component does not support, fallback to title).
+			$cp[$key]->defaultOrdering = is_null($cp[$key]->fields->ordering) ? array('title', 'ASC') : array('ordering', 'ASC');
+
 			// Flag that indicates if the component allow modal layout and so have a custom target button.
 			$cp[$key]->customTarget = (int) file_exists($cp[$key]->adminPath . '/views/' . $cp[$key]->item . 's/tmpl/modal.php');
 		}

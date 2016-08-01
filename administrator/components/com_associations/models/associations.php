@@ -121,7 +121,6 @@ class AssociationsModelAssociations extends JModelList
 		$query->select($db->quoteName('a.id'))
 			->select($db->quoteName('a.' . $component->fields->title, 'title'))
 			->select($db->quoteName('a.' . $component->fields->alias, 'alias'))
-			->select($db->quoteName('a.' . $component->fields->ordering, 'ordering'))
 			->from($db->quoteName($component->dbtable, 'a'));
 
 		// Select author for ACL checks
@@ -152,10 +151,16 @@ class AssociationsModelAssociations extends JModelList
 			->join(
 				'LEFT',
 				$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
-				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($component->component . '.item')
+				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($component->associations->context)
 			)
 			->join('LEFT', $db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
 			->group($db->quoteName(array('a.id', 'title', 'language')));
+
+		// If component supports ordering, select the ordering also.
+		if (!is_null($component->fields->ordering))
+		{
+			$query->select($db->quoteName('a.' . $component->fields->ordering, 'ordering'));
+		}
 
 		// If component supports state, select the published state also.
 		if (!is_null($component->fields->published))
@@ -276,7 +281,7 @@ class AssociationsModelAssociations extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'ordering')) . ' ' . $db->escape($this->getState('list.direction', 'asc')));
+		$query->order($db->escape($this->getState('list.ordering') . ' ' . $this->getState('list.direction')));
 
 		return $query;
 	}

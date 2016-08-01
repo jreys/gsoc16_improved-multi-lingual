@@ -26,6 +26,7 @@ $this->app->getDocument()->addScriptDeclaration("
 //}
 
 jQuery(document).ready(function($) {
+	$('#toolbar-apply').last().hide();
 
 	// Save button actions, replacing the default Joomla.submitbutton() with custom function.
 	Joomla.submitbutton = function(task)
@@ -51,7 +52,20 @@ jQuery(document).ready(function($) {
 	Joomla.loadingLayer('load');
 
 	// Attach behaviour to toggle button.
-	$('body').on('click', '#toogle-left-panel', function() {
+	$('body').on('click', '#toogle-left-panel', function()
+	{
+		var referenceHide = this.getAttribute('data-hide-reference');
+		var referenceShow = this.getAttribute('data-show-reference');
+
+		if ($(this).text() === referenceHide)
+		{
+			$(this).text(referenceShow);
+		}
+		else
+		{
+			$(this).text(referenceHide);
+		}
+		
 		$('#left-panel').toggle();
 		$('#right-panel').toggleClass('full-width');
 	});
@@ -76,6 +90,7 @@ jQuery(document).ready(function($) {
 		// Reset the data attributes and no item to load.
 		else
 		{
+			$('#toolbar-apply').last().hide();
 			target.setAttribute('data-id', '0');
 			target.setAttribute('data-language', '');
 			target.src = '';
@@ -99,10 +114,11 @@ jQuery(document).ready(function($) {
 
 	// Attach behaviour to target frame load event.
 	$('#target-association').on('load', function() {
-
 		// We need to check if we are not loading a blank iframe.
-		if (this.src != '')
+		if (this.getAttribute('src') != '')
 		{
+			$('#toolbar-apply').last().show();
+
 			var targetLanguage       = this.getAttribute('data-language');
 			var targetId             = this.getAttribute('data-id');
 			var targetLoadedId       = $(this).contents().find('#jform_id').val() || '0';
@@ -137,7 +153,7 @@ jQuery(document).ready(function($) {
 
 				$('#jform_itemlanguage option').each(function()
 				{
-					parse = $(this).val().split('|');
+					var parse = $(this).val().split('|');
 
 					if (typeof parse[1] !== 'undefined' && parse[1] !== '0')
 					{
@@ -233,7 +249,10 @@ $layout     = $input->get('layout', '', 'string');
 $component = $input->get('component', '', 'string');
 $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->get('referencelanguage', '', 'string') : '';
 ?>
-<button id="toogle-left-panel" class="btn btn-small">Show/Hide Reference (PoC)</button>
+<button id="toogle-left-panel" class="btn btn-small" 
+		data-show-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
+		data-hide-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
+</button>
 
 <form action="<?php echo JRoute::_(
 			'index.php?option=com_associations&view=association&layout=' . $layout . '&component='
@@ -270,4 +289,5 @@ $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->g
 </div>
 <input type="hidden" name="task" value=""/>
 <input type="hidden" name="target-id" id="target-id" value=""/>
+<?php echo JHtml::_('form.token'); ?>
 </form>

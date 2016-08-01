@@ -27,6 +27,8 @@ class AssociationsControllerAssociation extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		
 		$key = $this->input->get('component', '', 'string');
 		$cp  = AssociationsHelper::getComponentProperties($key);
 
