@@ -151,13 +151,14 @@ class AssociationsViewAssociation extends JViewLegacy
 		$userId     = $user->id;
 		$checkedOut = !($this->table->{$this->component->fields->checked_out} == 0 || $this->table->{$this->component->fields->checked_out} == $userId);
 		$component  = $input->get('acomponent', '', 'string');
+		$createdBy  = $this->component->fields->created_by;
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
 		$canEdit = $user->authorise('core.edit', $component . "." . $this->associatedView . $this->referenceId);
-		if (isset($this->table->{$this->component->fields->created_by}))
+		if (isset($this->table->{$created_by}))
 		{
-			$canEditOwn = $user->authorise('core.edit.own', $component . $this->referenceId) && $this->table->{$this->component->fields->created_by} == $userId;
+			$canEditOwn = $user->authorise('core.edit.own', $component . $this->referenceId) && $this->table->{$created_by} == $userId;
 		}
 
 		// ACL for the Save Reference button
