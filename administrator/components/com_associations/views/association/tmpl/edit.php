@@ -54,8 +54,8 @@ jQuery(document).ready(function($) {
 	// Attach behaviour to toggle button.
 	$('body').on('click', '#toogle-left-panel', function()
 	{
-		referenceHide = $(this).attr('data-hide-reference');
-		referenceShow = $(this).attr('data-show-reference');
+		var referenceHide = $(this).attr('data-hide-reference');
+		var referenceShow = $(this).attr('data-show-reference');
 
 		if ($(this).text() === referenceHide)
 		{
@@ -153,7 +153,7 @@ jQuery(document).ready(function($) {
 
 				$('#jform_itemlanguage option').each(function()
 				{
-					parse = $(this).val().split('|');
+					var parse = $(this).val().split('|');
 
 					if (typeof parse[1] !== 'undefined' && parse[1] !== '0')
 					{
