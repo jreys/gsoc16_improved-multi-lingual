@@ -54,16 +54,16 @@ jQuery(document).ready(function($) {
 	// Attach behaviour to toggle button.
 	$('body').on('click', '#toogle-left-panel', function()
 	{
-		referenceHide = $('#adminForm').attr('data-hide-reference');
-		referenceShow = $('#adminForm').attr('data-show-reference');
+		referenceHide = $(this).attr('data-hide-reference');
+		referenceShow = $(this).attr('data-show-reference');
 
-		if ($('#toogle-left-panel').text() === referenceHide)
+		if ($(this).text() === referenceHide)
 		{
-			$('#toogle-left-panel').text(referenceShow);
+			$(this).text(referenceShow);
 		}
 		else
 		{
-			$('#toogle-left-panel').text(referenceHide);
+			$(this).text(referenceHide);
 		}
 		
 		$('#left-panel').toggle();
@@ -115,7 +115,7 @@ jQuery(document).ready(function($) {
 	// Attach behaviour to target frame load event.
 	$('#target-association').on('load', function() {
 		// We need to check if we are not loading a blank iframe.
-		if ($(this).attr('src') != '')
+		if (this.getAttribute('src') != '')
 		{
 			$('#toolbar-apply').last().show();
 
@@ -251,15 +251,16 @@ $aView      = $input->get('aview', '', 'string');
 $extension  = $input->get('extension', '', 'string');
 $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->get('referencelanguage', '', 'string') : '';
 ?>
-<button id="toogle-left-panel" class="btn btn-small"><?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?></button>
+<button id="toogle-left-panel" class="btn btn-small"><?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); 
+?>  	data-show-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
+		data-hide-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"
+</button>
 
 <form action="<?php echo JRoute::_(
 			'index.php?option=com_associations&view=association&layout=' . $layout . '&acomponent='
 			. $aComponent . '&aview=' . $aView . '&extension=' . $extension . '&referencelanguage=' . $rLanguage . '&id='
 			. $this->referenceId
-		); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->associatedView; ?>"
-		data-show-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
-		data-hide-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>">
+		); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->associatedView; ?>">
 
 <div class="sidebyside">
 	<div class="outer-panel" id="left-panel">
