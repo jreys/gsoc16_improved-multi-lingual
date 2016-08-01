@@ -87,11 +87,11 @@ $iconStates = array(
 			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
-				$canEdit    = $user->authorise('core.edit', $this->state->get('component') . $item->id);
+				$canEdit    = $user->authorise('core.edit', $this->component->assetKey . $item->id);
 				
 				if (isset($item->created_by))
 				{
-					$canEditOwn = $user->authorise('core.edit.own', $this->state->get('component') . $item->id) && $item->created_by == $userId;
+					$canEditOwn = $user->authorise('core.edit.own', $this->component->assetKey . $item->id) && $item->created_by == $userId;
 				}
 				$canCheckin = !isset($item->checked_out) || $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 				?>

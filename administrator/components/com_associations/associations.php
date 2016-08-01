@@ -19,11 +19,22 @@ $input     = JFactory::getApplication()->input;
 $component = $input->get('component', '', 'string');
 $splitcpnt = explode('.', $component);
 $component = $splitcpnt[0];
+JLoader::register('AssociationsHelper', __DIR__ . '/helpers/associations.php');
 
 // Check if user has permission to access the component
-if ($component != '' && !JFactory::getUser()->authorise('core.manage', $component))
+if ($component = JFactory::getApplication()->input->get('component', '', 'string'))
 {
-    throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+	$cp = AssociationsHelper::getComponentProperties($component);
+
+	if (!$cp->associations->support)
+	{
+		throw new Exception(JText::_('COM_ASSOCIATIONS_COMPONENT_NOT_SUPPORTED') . " " . $cp->realcomponent, 404);
+	}
+
+	if (!JFactory::getUser()->authorise('core.manage', $cp->realcomponent))
+	{
+		throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+	}
 }
 
 JLoader::register('AssociationsHelper', __DIR__ . '/helpers/associations.php');
