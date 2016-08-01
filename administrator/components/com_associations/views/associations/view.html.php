@@ -119,11 +119,11 @@ class AssociationsViewAssociations extends JViewLegacy
 			}
 	
 			// Only allow ordering by what the component allows.
-			if (in_array($this->state->get('list.ordering', 'ordering'), $this->component->excludeOrdering))
+			if (in_array($this->state->get('list.ordering', $this->component->defaultOrdering[0]), $this->component->excludeOrdering))
 			{
-				$this->state->set('list.ordering', 'ordering');
-				$this->state->set('list.direction', 'ASC');
-				$this->filterForm->setValue('fullordering', 'list', 'ordering ASC');
+				$this->state->set('list.ordering', $this->component->defaultOrdering[0]);
+				$this->state->set('list.direction', $this->component->defaultOrdering[1]);
+				$this->filterForm->setValue('fullordering', 'list', $this->component->defaultOrdering[0] . ' ' . $this->component->defaultOrdering[1]);
 			}
 
 			$this->items      = $this->get('Items');
