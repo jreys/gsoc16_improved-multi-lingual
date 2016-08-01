@@ -73,7 +73,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 			$component           = basename($componentAdminPath);
 			$componentModelsPath = $componentAdminPath . '/models';
 
-			if ($user->authorise('core.manage', $component . $this->referenceId))
+			if ($user->authorise('core.manage', $component))
 			{
 				// Only components that exist also in the site client, aren't in the excluded components array and have models.
 				if (!is_dir($componentModelsPath) || in_array($component, $excludeComponents))

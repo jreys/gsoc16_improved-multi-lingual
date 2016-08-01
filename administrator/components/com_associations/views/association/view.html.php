@@ -161,7 +161,8 @@ class AssociationsViewAssociation extends JViewLegacy
 		}
 
 		// ACL for the Save Reference button
-		if (!$checkedOut && ($canEdit || $canEditOwn)) {
+		if (!$checkedOut && ($canEdit || $canEditOwn)
+		{
 			JToolbarHelper::apply('reference', 'COM_ASSOCIATIONS_SAVE_REFERENCE');
 		}
 		
