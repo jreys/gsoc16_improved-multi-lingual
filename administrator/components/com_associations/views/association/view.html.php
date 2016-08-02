@@ -75,7 +75,6 @@ class AssociationsViewAssociation extends JViewLegacy
 		$this->table->load($this->referenceId);
 
 		$this->associatedView = $this->component->item;
-		$extension            = $this->component->extension;
 
 		$this->referenceLanguage = $this->table->{$this->component->fields->language};
 
@@ -144,8 +143,10 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		if (isset($this->table->{$this->component->fields->created_by}))
 		{
-			$canEditOwn = $user->authorise('core.edit.own', $this->component->assetKey 
-				. '.' . $this->referenceId) && $this->table->{$this->component->fields->created_by} == $user->id;
+			$canEditOwn = $user->authorise(
+				'core.edit.own', $this->component->assetKey 
+				. '.' . $this->referenceId
+				) && $this->table->{$this->component->fields->created_by} == $user->id;
 			$canEdit    = $canEdit || $canEditOwn;
 		}
 

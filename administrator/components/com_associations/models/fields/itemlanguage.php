@@ -40,32 +40,35 @@ class JFormFieldItemLanguage extends JFormFieldList
 
 		$input = JFactory::getApplication()->input;
 
-		$this->component     = AssociationsHelper::getComponentProperties($input->get('component', '', 'string'));
-		$this->referenceId   = $input->get('id', 0, 'int');
+		$component     = AssociationsHelper::getComponentProperties($input->get('component', '', 'string'));
+		$referenceId   = $input->get('id', 0, 'int');
+		$realView            = isset($component->extension) ? $component->extension : $component->item;
+
+		JLoader::register($component->associations->gethelper->class, $component->associations->gethelper->file);
 
 		$associations      = call_user_func(
 				array(
-					$this->component->associations->gethelper->class, 
-					$this->component->associations->gethelper->method), 
-					$this->referenceId, $this->component->realcomponent
+					$component->associations->gethelper->class, 
+					$component->associations->gethelper->method), 
+					$referenceId, $realView
 			);
 
 		// Get reference language.
-		$table = clone $this->component->table;
-		$table->load($this->referenceId);
+		$table = clone $component->table;
+		$table->load($referenceId);
 
 		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 
 		foreach ($existingLanguages as $key => $lang)
 		{
 			// If is equal to reference language
-			if ($lang->value == $table->{$this->component->fields->language})
+			if ($lang->value == $table->{$component->fields->language})
 			{
 				unset($existingLanguages[$key]);
 			}
 			if (isset($associations[$lang->value]))
 			{
-				if ($this->component->component != 'com_menus')
+				if ($component->component != 'com_menus')
 				{
 					parse_str($associations[$lang->value], $contents);
 					$removeExtra  = explode(":", $contents['id']);
