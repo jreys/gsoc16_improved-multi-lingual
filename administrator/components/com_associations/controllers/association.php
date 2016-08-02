@@ -27,27 +27,27 @@ class AssociationsControllerAssociation extends JControllerForm
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function edit($key = null, $urlVar = null)
+	public function edit($key = NULL, $urlVar = NULL)
 	{
-		$cp   = AssociationsHelper::getComponentProperties($this->input->get('component', '', 'string'));
-		$id   = $this->input->get('id', 0, 'int');
-		$user = JFactory::getUser();
+		$cp = AssociationsHelper::getComponentProperties($this->input->get('component', '', 'string'));
 
-		$table = clone $cp->table;
-		$table->load($id);
-
-		$checkedOut = $table->{$cp->fields->checked_out} == 0 || $table->{$cp->fields->checked_out} == $user->id;
-
-		// Attempt to check-out the new record for editing and redirect.
-		if (!$checkedOut && !$cp->model->checkout($id))
+		if (!is_null($cp->fields->checked_out))
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
-			JError::raiseError( 100, JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $cp->model->getError()));
+			$id    = $this->input->get('id', 0, 'int');
+			$table = clone $cp->table;
+			$table->load($id);
+
+			// Attempt to check-out the record for editing and redirect.
+			if (!in_array($table->{$cp->fields->checked_out}, array(JFactory::getUser()->id, 0)) && !$cp->model->checkout($id))
+			{
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $cp->model->getError()), 'error');
+				$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
+
+				return false;
+			}
 		}
-		else
-		{
-			return parent::display();
-		}
+
+		return parent::display();
 	}
 
 	/**
