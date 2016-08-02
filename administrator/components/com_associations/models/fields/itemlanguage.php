@@ -89,28 +89,31 @@ class JFormFieldItemLanguage extends JFormFieldList
 					$lang->value = $lang->value . "|" . $associations[$lang->value];
 				}
 
-				// Check if user can edit item
-				$canEdit    = $user->authorise('core.edit', $component->assetKey . '.' . $itemId);
+				 // Check if user does have permission to edit the associated item.
+				$canEdit = $user->authorise('core.edit', $component->assetKey . '.' . $itemId);
 
-				$table->load($itemId);
-				if (!is_null($table->{$component->fields->created_by}))
+				// Check if user does have permission to edit it's own associated item (if component supports it).
+				if (!$canEdit && !is_null($component->fields->created_by))
 				{
-					// Check if user created this item
-					$canEditOwn = $user->authorise('core.edit.own', $component->assetKey . '.' . $itemId) && $table->{$component->fields->created_by} == $user->id;
-					$canEdit    = $canEdit || $canEditOwn;
+					// Load item.
+					$table->load($itemId);
+
+					// Check if user created this item.
+					$canEdit = $table->{$component->fields->created_by} == $user->id && $user->authorise('core.edit.own', $component->assetKey . '.' . $itemId);
 				}
 
-				// Check if user can check-in item
-				$canCheckin = !isset($table->{$component->fields->checked_out}) 
-					|| $canManageCheckin 
-					|| $table->{$component->fields->checked_out} == $user->id 
-					|| $table->{$component->fields->checked_out} == 0;
-
-				// If this fails, disable language picking for the user
-				if (!($canEdit && $canCheckin))
+				// Do an additional check to check if user can edit a checked out item (if component supports it).
+				if ($canEdit && !$canManageCheckin && !is_null($component->fields->checked_out))
 				{
-					$lang->disable = true;
-				}	
+					// Load item.
+					$table->load($itemId);
+
+					// Check if user checked out this item
+					$canEdit = in_array($table->{$component->fields->checked_out}, array($user->id, 0));
+				}
+
+				// Disable language if user is not allowed to edit the item associated to it.
+				$lang->disable = !$canEdit;
 			}
 			else
 			{
