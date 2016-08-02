@@ -27,7 +27,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function edit($key = NULL, $urlVar = NULL)
+	public function edit($key = null, $urlVar = null)
 	{
 		$cp = AssociationsHelper::getComponentProperties($this->input->get('component', '', 'string'));
 
