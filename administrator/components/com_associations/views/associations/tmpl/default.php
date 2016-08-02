@@ -24,6 +24,7 @@ $iconStates = array(
 	1  => 'icon-publish',
 	2  => 'icon-archive',
 );
+$canManageCheckin = $user->authorise('core.manage', 'com_checkin');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
 
@@ -94,7 +95,7 @@ $iconStates = array(
 					$canEdit    = $canEdit || $canEditOwn;
 				}
 
-				$canCheckin = !isset($item->checked_out) || $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || $item->checked_out == 0;
+				$canCheckin = !isset($item->checked_out) || $canManageCheckin || $item->checked_out == $user->id || $item->checked_out == 0;
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">

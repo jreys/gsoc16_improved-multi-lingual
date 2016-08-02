@@ -54,10 +54,12 @@ class JFormFieldItemLanguage extends JFormFieldList
 			);
 
 		// Get reference language.
-		$table         = clone $component->table;
+		$table            = clone $component->table;
 		$table->load($referenceId);
-		$referenceLang = $table->{$component->fields->language};
-		$user          = JFactory::getUser();
+		$referenceLang    = $table->{$component->fields->language};
+		$user             = JFactory::getUser();
+		$canCreate        = $user->authorise('core.create', $component->realcomponent);
+		$canManageCheckin = $user->authorise('core.manage', 'com_checkin');
 
 		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 
@@ -93,7 +95,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 				}
 
 				$canCheckin = !isset($table->{$component->fields->checked_out}) 
-					|| $user->authorise('core.manage', 'com_checkin') 
+					|| $canManageCheckin 
 					|| $table->{$component->fields->checked_out} == $user->id 
 					|| $table->{$component->fields->checked_out} == 0;
 
@@ -105,7 +107,6 @@ class JFormFieldItemLanguage extends JFormFieldList
 			else
 			{
 				$lang->value  .= '|0';
-				$canCreate     = $user->authorise('core.create', $component->realcomponent);
 				$lang->disable = !$canCreate;
 			}
 			
