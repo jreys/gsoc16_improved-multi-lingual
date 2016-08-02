@@ -131,7 +131,8 @@ class AssociationsViewAssociations extends JViewLegacy
 
 			$linkParameters = array(
 				'layout'     => 'edit',
-				'component' => $this->state->get('component'),
+				'component'  => $this->state->get('component'),
+				'task'       => 'association.edit',
 			);
 
 			$this->editLink = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
