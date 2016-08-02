@@ -87,7 +87,7 @@ $iconStates = array(
 			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
-				$canEdit    = $user->authorise('core.edit', $this->component->assetKey . '.' . $this->item->id);
+				$canEdit    = $user->authorise('core.edit', $this->component->assetKey . '.' . $item->id);
 				
 				if (isset($item->created_by))
 				{

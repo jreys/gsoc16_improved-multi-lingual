@@ -87,7 +87,7 @@ class AssociationsViewAssociation extends JViewLegacy
 			'tmpl'      => 'component',
 		);
 
-		// Reference item edit link.
+		// Reference and target edit links.
 		$this->link       = 'index.php?' . http_build_query($options) . '&id=' . $this->referenceId;
 		$this->targetLink = 'index.php?' . http_build_query($options) . '&id=0';
 

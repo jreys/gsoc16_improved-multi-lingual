@@ -42,7 +42,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 
 		$component     = AssociationsHelper::getComponentProperties($input->get('component', '', 'string'));
 		$referenceId   = $input->get('id', 0, 'int');
-		$realView            = isset($component->extension) ? $component->extension : $component->item;
+		$realView            = !is_null($component->extension) ? $component->extension : $component->item;
 
 		JLoader::register($component->associations->gethelper->class, $component->associations->gethelper->file);
 
