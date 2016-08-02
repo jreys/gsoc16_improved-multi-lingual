@@ -84,28 +84,29 @@ class JFormFieldItemLanguage extends JFormFieldList
 				}
 
 				$canEdit    = $user->authorise('core.edit', $component->assetKey . '.' . $itemId);
-				$table->load($itemId);
 
+				$table->load($itemId);
 				if (!is_null($table->{$component->fields->created_by}))
 				{
 					$canEditOwn = $user->authorise('core.edit.own', $component->assetKey . '.' . $itemId) && $table->{$component->fields->created_by} == $user->id;
 					$canEdit    = $canEdit || $canEditOwn;
 				}
 
-				if (!$canEdit)
+				$canCheckin = !isset($table->{$component->fields->checked_out}) 
+					|| $user->authorise('core.manage', 'com_checkin') 
+					|| $table->{$component->fields->checked_out} == $user->id 
+					|| $table->{$component->fields->checked_out} == 0;
+
+				if (!($canEdit && $canCheckin))
 				{
 					$lang->disable = true;
 				}	
 			}
 			else
 			{
-				$lang->value .= '|0';
-				$canCreate    = $user->authorise('core.create', $component->assetKey);
-
-				if (!$canCreate)
-				{
-					$lang->disable = true;
-				}
+				$lang->value  .= '|0';
+				$canCreate     = $user->authorise('core.create', $component->realcomponent);
+				$lang->disable = !$canCreate;
 			}
 			
 		}
