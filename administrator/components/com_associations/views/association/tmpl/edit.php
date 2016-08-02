@@ -26,7 +26,7 @@ $this->app->getDocument()->addScriptDeclaration("
 //}
 
 jQuery(document).ready(function($) {
-	$('#toolbar-apply').last().hide();
+	$('#toolbar-apply').hide();
 
 	// Save button actions, replacing the default Joomla.submitbutton() with custom function.
 	Joomla.submitbutton = function(task)
@@ -90,7 +90,7 @@ jQuery(document).ready(function($) {
 		// Reset the data attributes and no item to load.
 		else
 		{
-			$('#toolbar-apply').last().hide();
+			$('#toolbar-apply').hide();
 			target.setAttribute('data-id', '0');
 			target.setAttribute('data-language', '');
 			target.src = '';
@@ -117,7 +117,7 @@ jQuery(document).ready(function($) {
 		// We need to check if we are not loading a blank iframe.
 		if (this.getAttribute('src') != '')
 		{
-			$('#toolbar-apply').last().show();
+			$('#toolbar-apply').show();
 
 			var targetLanguage       = this.getAttribute('data-language');
 			var targetId             = this.getAttribute('data-id');
