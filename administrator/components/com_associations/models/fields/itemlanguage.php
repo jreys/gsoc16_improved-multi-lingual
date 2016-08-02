@@ -38,14 +38,14 @@ class JFormFieldItemLanguage extends JFormFieldList
 	{
 		$options = array();
 
-		$input = JFactory::getApplication()->input;
-
+		$input         = JFactory::getApplication()->input;
 		$component     = AssociationsHelper::getComponentProperties($input->get('component', '', 'string'));
 		$referenceId   = $input->get('id', 0, 'int');
-		$realView            = !is_null($component->extension) ? $component->extension : $component->item;
+		$realView      = !is_null($component->extension) ? $component->extension : $component->item;
 
 		JLoader::register($component->associations->gethelper->class, $component->associations->gethelper->file);
 
+		// Get item associations given ID and item type
 		$associations      = call_user_func(
 				array(
 					$component->associations->gethelper->class, 
@@ -63,6 +63,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 
 		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 
+		// Each option has the format "<lang>|<id>", example: "en-GB|1"
 		foreach ($existingLanguages as $key => $lang)
 		{
 			// If is equal to reference language
@@ -70,8 +71,11 @@ class JFormFieldItemLanguage extends JFormFieldList
 			{
 				unset($existingLanguages[$key]);
 			}
+
+			// If association exists in this language
 			if (isset($associations[$lang->value]))
 			{
+				// If it's a menu, there are some strings needed to be removed
 				if ($component->component != 'com_menus')
 				{
 					parse_str($associations[$lang->value], $contents);
@@ -85,20 +89,24 @@ class JFormFieldItemLanguage extends JFormFieldList
 					$lang->value = $lang->value . "|" . $associations[$lang->value];
 				}
 
+				// Check if user can edit item
 				$canEdit    = $user->authorise('core.edit', $component->assetKey . '.' . $itemId);
 
 				$table->load($itemId);
 				if (!is_null($table->{$component->fields->created_by}))
 				{
+					// Check if user created this item
 					$canEditOwn = $user->authorise('core.edit.own', $component->assetKey . '.' . $itemId) && $table->{$component->fields->created_by} == $user->id;
 					$canEdit    = $canEdit || $canEditOwn;
 				}
 
+				// Check if user can check-in item
 				$canCheckin = !isset($table->{$component->fields->checked_out}) 
 					|| $canManageCheckin 
 					|| $table->{$component->fields->checked_out} == $user->id 
 					|| $table->{$component->fields->checked_out} == 0;
 
+				// If this fails, disable language picking for the user
 				if (!($canEdit && $canCheckin))
 				{
 					$lang->disable = true;
@@ -106,6 +114,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 			}
 			else
 			{
+				// New item, id = 0 and disabled if user is not allowed to create new items
 				$lang->value  .= '|0';
 				$lang->disable = !$canCreate;
 			}
