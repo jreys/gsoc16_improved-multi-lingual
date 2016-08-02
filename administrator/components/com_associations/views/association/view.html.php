@@ -149,8 +149,18 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
-		JToolbarHelper::apply('reference', 'COM_ASSOCIATIONS_SAVE_REFERENCE');
-		JToolbarHelper::apply('target', 'COM_ASSOCIATIONS_SAVE_TARGET');
+		$bar = JToolbar::getInstance('toolbar');
+		$bar->appendButton(
+			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')"'
+			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
+			. JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
+		);
+		$bar->appendButton(
+			'Custom', '<button onclick="Joomla.submitbutton(\'target\')"'
+			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>' 
+			. JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
+		);
+
 		JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
 		JToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		JToolbarHelper::help('JGLOBAL_HELP');
