@@ -54,13 +54,12 @@ class JFormFieldItemLanguage extends JFormFieldList
 		$table = clone $this->component->table;
 		$table->load($this->referenceId);
 
-		$referenceLanguage = $table->{$this->component->fields->language};
-
 		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 
 		foreach ($existingLanguages as $key => $lang)
 		{
-			if ($lang->value == $referenceLanguage)
+			// If is equal to reference language
+			if ($lang->value == $table->{$this->component->fields->language})
 			{
 				unset($existingLanguages[$key]);
 			}

@@ -67,9 +67,8 @@ class AssociationsViewAssociation extends JViewLegacy
 		$this->form  = $this->get('Form');
 		$input       = $this->app->input;
 
-		$component         = $input->get('component', '', 'string');
 		$this->referenceId = $input->get('id', 0, 'int');
-		$this->component   = AssociationsHelper::getComponentProperties($component);
+		$this->component   = AssociationsHelper::getComponentProperties($input->get('component', '', 'string'));
 
 		// Get reference language.
 		$this->table = clone $this->component->table;
@@ -81,27 +80,17 @@ class AssociationsViewAssociation extends JViewLegacy
 		$this->referenceLanguage = $this->table->{$this->component->fields->language};
 
 		$options = array(
-			'option'    => $this->component->component,
-			'view'      => $this->associatedView,
-			'task'      => $this->associatedView . '.edit',
-			'extension' => '',
-			'layout'    => 'edit',
-			'tmpl'      => 'component',
-			'id'        => $this->referenceId,
-		);
-
-		// Special cases for categories.
-		if ($this->component->component === 'com_categories')
-		{
-			$options['view']      = 'category';
-			$options['task']      = 'category.edit';
-			$options['extension'] = $extension;
-		}
+            'option'    => $this->component->component,
+            'view'      => $this->component->item,
+            'task'      => $this->component->item . '.edit',
+            'extension' => $this->component->extension,
+            'layout'    => 'edit',
+            'tmpl'      => 'component',
+        );
 
 		// Reference item edit link.
-		$this->link = 'index.php?' . http_build_query($options);
-		$options['id'] = '';
-		$this->targetLink = 'index.php?' . http_build_query($options);
+        $this->link       = 'index.php?' . http_build_query($options) . '&id=' . $this->referenceId;
+        $this->targetLink = 'index.php?' . http_build_query($options) . '&id=0';
 
 		/*
 		* @todo Review later
@@ -147,22 +136,21 @@ class AssociationsViewAssociation extends JViewLegacy
 		$input->set('hidemainmenu', 1);
 
 		$user       = JFactory::getUser();
-		$userId     = $user->id;
-		$checkedOut = !($this->table->{$this->component->fields->checked_out} == 0 || $this->table->{$this->component->fields->checked_out} == $userId);
-		$component  = $this->component->component;
-		$createdBy  = $this->component->fields->created_by;
+		$checkedOut = !($this->table->{$this->component->fields->checked_out} == 0 || $this->table->{$this->component->fields->checked_out} == $user->id);
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
-		$canEdit = $user->authorise('core.edit', 'core.edit', $this->component->assetKey . '.' . $this->referenceId);
-		
-		if (isset($this->table->{$created_by}))
+		$canEdit = $user->authorise('core.edit', $this->component->assetKey . '.' . $this->referenceId);
+
+		if (isset($this->table->{$this->component->fields->created_by}))
 		{
-			$canEditOwn = $user->authorise('core.edit.own', 'core.edit', $this->component->assetKey . '.' . $this->referenceId) && $this->table->{$created_by} == $userId;
+			$canEditOwn = $user->authorise('core.edit.own', $this->component->assetKey 
+				. '.' . $this->referenceId) && $this->table->{$this->component->fields->created_by} == $user->id;
+			$canEdit    = $canEdit || $canEditOwn;
 		}
 
 		// ACL for the Save Reference button
-		if (!$checkedOut && ($canEdit || $canEditOwn))
+		if (!$checkedOut && $canEdit)
 		{
 			JToolbarHelper::apply('reference', 'COM_ASSOCIATIONS_SAVE_REFERENCE');
 		}

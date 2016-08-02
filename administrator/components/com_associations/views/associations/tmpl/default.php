@@ -92,7 +92,9 @@ $iconStates = array(
 				if (isset($item->created_by))
 				{
 					$canEditOwn = $user->authorise('core.edit.own', $this->component->assetKey . '.' . $item->id) && $item->created_by == $userId;
+					$canEdit    = $canEdit || $canEditOwn;
 				}
+
 				$canCheckin = !isset($item->checked_out) || $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
@@ -111,7 +113,7 @@ $iconStates = array(
 						<?php if (isset($item->checked_out) && $item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
 						<?php endif; ?>
-						<?php if ($canEdit || $canEditOwn && $canCheckin) : ?>
+						<?php if ($canEdit && $canCheckin) : ?>
 							<a href="<?php echo JRoute::_($this->editLink . '&id=' . (int) $item->id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
 						<?php else : ?>

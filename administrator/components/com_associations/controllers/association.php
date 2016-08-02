@@ -29,8 +29,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		
-		$key = $this->input->get('component', '', 'string');
-		$cp  = AssociationsHelper::getComponentProperties($key);
+		$cp = AssociationsHelper::getComponentProperties($this->input->get('component', '', 'string'));
 
 		// Only check in, if component allows to check out.
 		if (!is_null($cp->fields->checked_out))
