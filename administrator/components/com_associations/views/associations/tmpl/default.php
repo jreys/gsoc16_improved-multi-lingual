@@ -113,7 +113,7 @@ $canManageCheckin = $user->authorise('core.manage', 'com_checkin');
 						<?php if (isset($item->checked_out) && $item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
 						<?php endif; ?>
-						<?php if ($canEdit && $canCheckin) : ?>
+						<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_($this->editLink . '&id=' . (int) $item->id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
 						<?php else : ?>
