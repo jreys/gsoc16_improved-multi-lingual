@@ -80,17 +80,17 @@ class AssociationsViewAssociation extends JViewLegacy
 		$this->referenceLanguage = $this->table->{$this->component->fields->language};
 
 		$options = array(
-            'option'    => $this->component->component,
-            'view'      => $this->component->item,
-            'task'      => $this->component->item . '.edit',
-            'extension' => $this->component->extension,
-            'layout'    => 'edit',
-            'tmpl'      => 'component',
-        );
+			'option'    => $this->component->component,
+			'view'      => $this->component->item,
+			'task'      => $this->component->item . '.edit',
+			'extension' => $this->component->extension,
+			'layout'    => 'edit',
+			'tmpl'      => 'component',
+		);
 
 		// Reference item edit link.
-        $this->link       = 'index.php?' . http_build_query($options) . '&id=' . $this->referenceId;
-        $this->targetLink = 'index.php?' . http_build_query($options) . '&id=0';
+		$this->link       = 'index.php?' . http_build_query($options) . '&id=' . $this->referenceId;
+		$this->targetLink = 'index.php?' . http_build_query($options) . '&id=0';
 
 		/*
 		* @todo Review later
