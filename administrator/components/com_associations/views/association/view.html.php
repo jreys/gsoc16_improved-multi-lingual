@@ -135,7 +135,6 @@ class AssociationsViewAssociation extends JViewLegacy
 		$input->set('hidemainmenu', 1);
 
 		$user       = JFactory::getUser();
-		$checkedOut = !($this->table->{$this->component->fields->checked_out} == 0 || $this->table->{$this->component->fields->checked_out} == $user->id);
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
@@ -151,7 +150,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		}
 
 		// ACL for the Save Reference button
-		if (!$checkedOut && $canEdit)
+		if ($canEdit)
 		{
 			JToolbarHelper::apply('reference', 'COM_ASSOCIATIONS_SAVE_REFERENCE');
 		}

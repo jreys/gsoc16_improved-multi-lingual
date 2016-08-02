@@ -59,7 +59,6 @@ class JFormFieldItemLanguage extends JFormFieldList
 		$referenceLang    = $table->{$component->fields->language};
 		$user             = JFactory::getUser();
 		$canCreate        = $user->authorise('core.create', $component->realcomponent);
-		$canManageCheckin = $user->authorise('core.manage', 'com_checkin');
 
 		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 
@@ -103,7 +102,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 				}
 
 				// Do an additional check to check if user can edit a checked out item (if component supports it).
-				if ($canEdit && !$canManageCheckin && !is_null($component->fields->checked_out))
+				if ($canEdit && !is_null($component->fields->checked_out))
 				{
 					// Load item.
 					$table->load($itemId);
