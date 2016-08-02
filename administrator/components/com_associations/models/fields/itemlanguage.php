@@ -54,15 +54,17 @@ class JFormFieldItemLanguage extends JFormFieldList
 			);
 
 		// Get reference language.
-		$table = clone $component->table;
+		$table         = clone $component->table;
 		$table->load($referenceId);
+		$referenceLang = $table->{$component->fields->language};
+		$user          = JFactory::getUser();
 
 		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 
 		foreach ($existingLanguages as $key => $lang)
 		{
 			// If is equal to reference language
-			if ($lang->value == $table->{$component->fields->language})
+			if ($lang->value == $referenceLang)
 			{
 				unset($existingLanguages[$key]);
 			}
@@ -72,17 +74,40 @@ class JFormFieldItemLanguage extends JFormFieldList
 				{
 					parse_str($associations[$lang->value], $contents);
 					$removeExtra  = explode(":", $contents['id']);
-					$lang->value  = $lang->value . "|" . $removeExtra[0];
+					$itemId       = $removeExtra[0];
+					$lang->value  = $lang->value . "|" . $itemId;
 				}
 				else
 				{
+					$itemId      = $associations[$lang->value];
 					$lang->value = $lang->value . "|" . $associations[$lang->value];
 				}
+
+				$canEdit    = $user->authorise('core.edit', $component->assetKey . '.' . $itemId);
+				$table->load($itemId);
+
+				if (!is_null($table->{$component->fields->created_by}))
+				{
+					$canEditOwn = $user->authorise('core.edit.own', $component->assetKey . '.' . $itemId) && $table->{$component->fields->created_by} == $user->id;
+					$canEdit    = $canEdit || $canEditOwn;
+				}
+
+				if (!$canEdit)
+				{
+					$lang->disable = true;
+				}	
 			}
 			else
 			{
 				$lang->value .= '|0';
+				$canCreate    = $user->authorise('core.create', $component->assetKey);
+
+				if (!$canCreate)
+				{
+					$lang->disable = true;
+				}
 			}
+			
 		}
 
 		$options = array_merge(parent::getOptions(), $existingLanguages);

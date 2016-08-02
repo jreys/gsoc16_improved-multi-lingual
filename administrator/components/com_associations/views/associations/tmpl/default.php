@@ -15,7 +15,6 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
 $user       = JFactory::getUser();
-$userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $colSpan    =  5;
@@ -91,11 +90,11 @@ $iconStates = array(
 				
 				if (isset($item->created_by))
 				{
-					$canEditOwn = $user->authorise('core.edit.own', $this->component->assetKey . '.' . $item->id) && $item->created_by == $userId;
+					$canEditOwn = $user->authorise('core.edit.own', $this->component->assetKey . '.' . $item->id) && $item->created_by == $user->id;
 					$canEdit    = $canEdit || $canEditOwn;
 				}
 
-				$canCheckin = !isset($item->checked_out) || $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+				$canCheckin = !isset($item->checked_out) || $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || $item->checked_out == 0;
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">
