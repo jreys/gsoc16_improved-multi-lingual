@@ -88,7 +88,9 @@ jQuery(document).ready(function($) {
 			Joomla.submitbutton('reference');
 			Joomla.submitbutton('target');
 
-			//$('#jform_itemlanguage_chzn').remove();
+			currentSwitcher = $('#jform_itemlanguage').val();
+			currentLang = referenceLang.replace(/_/,'-');
+			$('#jform_itemlanguage option[value=\"' + currentSwitcher + '\"]').val(currentLang + '|0');
 			$('#jform_itemlanguage').val('').change().trigger('liszt:updated');
 			
 		}
