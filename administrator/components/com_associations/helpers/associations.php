@@ -261,6 +261,17 @@ class AssociationsHelper extends JHelperContent
 		return $cp[$key];
 	}
 
+	/**
+	 * Check if user is allowed to edit own item
+	 *
+	 * @param   string  $componentKey  The component properties.
+	 *
+	 * @param   JTable  $item  Database row from the component.
+	 *
+	 * @return  boolean.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public static function allowEditOwn($componentKey = '', $item = null)
 	{
 		$user  = JFactory::getUser();
@@ -275,6 +286,17 @@ class AssociationsHelper extends JHelperContent
 		return false;
 	}
 
+	/**
+	 * Check if user is allowed to edit item
+	 *
+	 * @param   string  $componentKey  The component properties.
+	 *
+	 * @param   JTable  $item  Database row from the component.
+	 *
+	 * @return  boolean.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public static function allowEdit($componentKey = '', $item = null)
 	{
 		$user = JFactory::getUser();
@@ -299,6 +321,15 @@ class AssociationsHelper extends JHelperContent
 		return $user->authorise('core.edit', $componentKey->realcomponent . '.' . $item->id) || self::allowEditOwn($componentKey, $item);
 	}
 
+	/**
+	 * Check if user is allowed to create item
+	 *
+	 * @param   string  $componentKey  The component properties.
+	 *
+	 * @return  boolean.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public static function allowCreate($componentKey = '')
 	{
 		$user = JFactory::getUser();
@@ -306,7 +337,18 @@ class AssociationsHelper extends JHelperContent
 		return $user->authorise('core.create', $componentKey->realcomponent);
 	}
 
-	public static function allowCheckout($componentKey = '', $item)
+	/**
+	 * Check if user is allowed to edit checkout item
+	 *
+	 * @param   string  $componentKey  The component properties.
+	 *
+	 * @param   JTable  $item  Database row from the component.
+	 *
+	 * @return  boolean.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function allowCheckout($componentKey = '', $item = null)
 	{
 		if (!is_null($componentKey->fields->checked_out))
 		{
