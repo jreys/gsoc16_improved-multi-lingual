@@ -120,7 +120,6 @@ class JFormFieldItemLanguage extends JFormFieldList
 				$lang->value  .= '|0';
 				$lang->disable = !$canCreate;
 			}
-			
 		}
 
 		$options = array_merge(parent::getOptions(), $existingLanguages);

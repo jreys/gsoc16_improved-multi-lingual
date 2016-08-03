@@ -74,8 +74,6 @@ class AssociationsViewAssociation extends JViewLegacy
 		$this->table = clone $this->component->table;
 		$this->table->load($this->referenceId);
 
-		$this->associatedView = $this->component->item;
-
 		$this->referenceLanguage = $this->table->{$this->component->fields->language};
 
 		$options = array(

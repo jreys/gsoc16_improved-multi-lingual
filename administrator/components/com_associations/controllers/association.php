@@ -29,6 +29,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$cp = AssociationsHelper::getComponentProperties($this->input->get('component', '', 'string'));
 
 		if (!is_null($cp->fields->checked_out))
@@ -62,7 +63,6 @@ class AssociationsControllerAssociation extends JControllerForm
 	public function cancel($key = null)
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-		
 		$cp = AssociationsHelper::getComponentProperties($this->input->get('component', '', 'string'));
 
 		// Only check in, if component allows to check out.

@@ -257,7 +257,7 @@ $rLanguage  = $input->get('referencelanguage', '', 'string');
 <form action="<?php echo JRoute::_(
 			'index.php?option=com_associations&view=association&layout=' . $layout . '
 			&component=' . $component . '&referencelanguage=' . $rLanguage . '&id=' . $this->referenceId
-		); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->associatedView; ?>">
+		); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->component->item; ?>">
 
 <div class="sidebyside">
 	<div class="outer-panel" id="left-panel">
