@@ -58,7 +58,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 		$table->load($referenceId);
 		$referenceLang    = $table->{$component->fields->language};
 		$user             = JFactory::getUser();
-		$canCreate        = $user->authorise('core.create', $component->realcomponent);
+		$canCreate        = AssociationsHelper::allowCreate($component);
 
 		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 
@@ -88,31 +88,17 @@ class JFormFieldItemLanguage extends JFormFieldList
 					$lang->value = $lang->value . "|" . $associations[$lang->value];
 				}
 
+				// Load item.
+				$table->load($itemId);
+
 				 // Check if user does have permission to edit the associated item.
-				$canEdit = $user->authorise('core.edit', $component->assetKey . '.' . $itemId);
-
-				// Check if user does have permission to edit it's own associated item (if component supports it).
-				if (!$canEdit && !is_null($component->fields->created_by))
-				{
-					// Load item.
-					$table->load($itemId);
-
-					// Check if user created this item.
-					$canEdit = $table->{$component->fields->created_by} == $user->id && $user->authorise('core.edit.own', $component->assetKey . '.' . $itemId);
-				}
+				$canEdit = AssociationsHelper::allowEdit($component, $table);
 
 				// Do an additional check to check if user can edit a checked out item (if component supports it).
-				if ($canEdit && !is_null($component->fields->checked_out))
-				{
-					// Load item.
-					$table->load($itemId);
-
-					// Check if user checked out this item
-					$canEdit = in_array($table->{$component->fields->checked_out}, array($user->id, 0));
-				}
+				$canCheckout = AssociationsHelper::allowCheckout($component, $table);
 
 				// Disable language if user is not allowed to edit the item associated to it.
-				$lang->disable = !$canEdit;
+				$lang->disable = !($canEdit && $canCheckout);
 			}
 			else
 			{

@@ -14,7 +14,6 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user       = JFactory::getUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $colSpan    =  5;
@@ -24,7 +23,6 @@ $iconStates = array(
 	1  => 'icon-publish',
 	2  => 'icon-archive',
 );
-$canManageCheckin = $user->authorise('core.manage', 'com_checkin');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
 
@@ -87,15 +85,8 @@ $canManageCheckin = $user->authorise('core.manage', 'com_checkin');
 			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
-				$canEdit    = $user->authorise('core.edit', $this->component->assetKey . '.' . $item->id);
-				
-				if (isset($item->created_by))
-				{
-					$canEditOwn = $user->authorise('core.edit.own', $this->component->assetKey . '.' . $item->id) && $item->created_by == $user->id;
-					$canEdit    = $canEdit || $canEditOwn;
-				}
-
-				$canCheckin = !isset($item->checked_out) || $canManageCheckin || $item->checked_out == $user->id || $item->checked_out == 0;
+				$canEdit    = AssociationsHelper::allowEdit($this->component, $item);
+				$canCheckin = AssociationsHelper::allowCheckout($this->component, $item);
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">

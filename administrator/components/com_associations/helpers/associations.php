@@ -260,4 +260,60 @@ class AssociationsHelper extends JHelperContent
 
 		return $cp[$key];
 	}
+
+	public static function allowEditOwn($componentKey = '', $item = null)
+	{
+		$user  = JFactory::getUser();
+
+		if (isset($item->{$componentKey->fields->created_by}))
+		{
+			return $user->authorise(
+					'core.edit.own', $componentKey->realcomponent . '.' . $item->id
+				) && $item->{$componentKey->fields->created_by} == $user->id;
+		}
+
+		return false;
+	}
+
+	public static function allowEdit($componentKey = '', $item = null)
+	{
+		$user = JFactory::getUser();
+
+		// Different case for menu items
+		if ($componentKey->realcomponent == 'com_menus')
+		{
+			if (isset($item->menutypeid))
+			{
+				return $user->authorise('core.edit', 'com_menus.menu.' . $item->menutypeid);
+			}
+			else
+			{
+				$table = JTable::getInstance('MenuType');
+				$table->load(array('menutype' => $item->menutype));
+				
+				return $user->authorise('core.edit', 'com_menus.menu.' . $table->id);
+			}
+			
+		}
+
+		return $user->authorise('core.edit', $componentKey->realcomponent . '.' . $item->id) || self::allowEditOwn($componentKey, $item);
+	}
+
+	public static function allowCreate($componentKey = '')
+	{
+		$user = JFactory::getUser();
+		
+		return $user->authorise('core.create', $componentKey->realcomponent);
+	}
+
+	public static function allowCheckout($componentKey = '', $item)
+	{
+		if (!is_null($componentKey->fields->checked_out))
+		{
+			$user = JFactory::getUser();
+
+			// Check if user checked out this item
+			return in_array($item->{$componentKey->fields->checked_out}, array($user->id, 0));
+		}
+	}
 }

@@ -187,6 +187,7 @@ class AssociationsModelAssociations extends JModelList
 		{
 			$query->select($db->quoteName('a.' . $component->fields->menutype, 'menutype'))
 				->select($db->quoteName('mt.title', 'menutype_title'))
+				->select($db->quoteName('mt.id', 'menutypeid'))
 				->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->qn('mt.menutype') . ' = ' . $db->qn('a.' . $component->fields->menutype));
 		}
 

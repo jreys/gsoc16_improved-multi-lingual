@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+
 /**
  * View class for a list of articles.
  *

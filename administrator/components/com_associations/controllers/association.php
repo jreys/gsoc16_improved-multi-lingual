@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+
 /**
  * Association edit controller class.
  *
@@ -29,8 +31,17 @@ class AssociationsControllerAssociation extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		//JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$cp = AssociationsHelper::getComponentProperties($this->input->get('component', '', 'string'));
+
+		$table = clone $cp->table;
+		$table->load($this->input->get('id', null, 'int'));
+
+		if (!AssociationsHelper::allowEdit($cp, $table))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
+		}
 
 		if (!is_null($cp->fields->checked_out))
 		{

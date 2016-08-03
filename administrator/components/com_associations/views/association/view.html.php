@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+
 /**
  * View class for a list of articles.
  *
@@ -138,15 +140,6 @@ class AssociationsViewAssociation extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
 		$canEdit = $user->authorise('core.edit', $this->component->assetKey . '.' . $this->referenceId);
-
-		if (isset($this->table->{$this->component->fields->created_by}))
-		{
-			$canEditOwn = $user->authorise(
-				'core.edit.own', $this->component->assetKey 
-				. '.' . $this->referenceId
-				) && $this->table->{$this->component->fields->created_by} == $user->id;
-			$canEdit    = $canEdit || $canEditOwn;
-		}
 
 		// ACL for the Save Reference button
 		if ($canEdit)
