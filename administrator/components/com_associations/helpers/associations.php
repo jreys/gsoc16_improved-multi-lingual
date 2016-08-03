@@ -265,7 +265,6 @@ class AssociationsHelper extends JHelperContent
 	 * Check if user is allowed to edit own item
 	 *
 	 * @param   string  $componentKey  The component properties.
-	 *
 	 * @param   JTable  $item  Database row from the component.
 	 *
 	 * @return  boolean.
@@ -290,7 +289,6 @@ class AssociationsHelper extends JHelperContent
 	 * Check if user is allowed to edit item
 	 *
 	 * @param   string  $componentKey  The component properties.
-	 *
 	 * @param   JTable  $item  Database row from the component.
 	 *
 	 * @return  boolean.
@@ -341,7 +339,6 @@ class AssociationsHelper extends JHelperContent
 	 * Check if user is allowed to edit checkout item
 	 *
 	 * @param   string  $componentKey  The component properties.
-	 *
 	 * @param   JTable  $item  Database row from the component.
 	 *
 	 * @return  boolean.
