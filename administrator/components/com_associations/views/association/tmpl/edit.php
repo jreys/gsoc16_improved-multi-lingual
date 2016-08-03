@@ -83,6 +83,14 @@ jQuery(document).ready(function($) {
 			// - For chosen association selectors (menus).
 			target.find('#jform_associations_' + referenceLang + '_chzn').remove();
 			chznField = target.find('#jform_associations_' + referenceLang).val('').change().chosen();
+
+			// Save both items
+			Joomla.submitbutton('reference');
+			Joomla.submitbutton('target');
+
+			//$('#jform_itemlanguage_chzn').remove();
+			$('#jform_itemlanguage').val('').change().trigger('liszt:updated');
+			
 		}
 		// Saving target or reference, send the save action to the target/reference iframe.
 		else
