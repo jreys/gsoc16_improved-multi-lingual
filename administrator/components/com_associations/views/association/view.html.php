@@ -134,22 +134,15 @@ class AssociationsViewAssociation extends JViewLegacy
 		$input = JFactory::getApplication()->input;
 		$input->set('hidemainmenu', 1);
 
-		$user  = JFactory::getUser();
 		$bar   = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
-		$canEdit = $user->authorise('core.edit', $this->component->assetKey . '.' . $this->referenceId);
-
-		// ACL for the Save Reference button
-		if ($canEdit)
-		{
-			$bar->appendButton(
-				'Custom', '<button onclick="Joomla.submitbutton(\'reference\')"'
-				. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
-				. JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
-			);
-		}
+		$bar->appendButton(
+			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')"'
+			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
+			. JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
+		);
 		
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')"'

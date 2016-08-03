@@ -57,7 +57,6 @@ class JFormFieldItemLanguage extends JFormFieldList
 		$table            = clone $component->table;
 		$table->load($referenceId);
 		$referenceLang    = $table->{$component->fields->language};
-		$user             = JFactory::getUser();
 		$canCreate        = AssociationsHelper::allowCreate($component);
 
 		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
