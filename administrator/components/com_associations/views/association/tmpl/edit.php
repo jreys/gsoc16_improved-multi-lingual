@@ -92,7 +92,6 @@ jQuery(document).ready(function($) {
 			currentLang = referenceLang.replace(/_/,'-');
 			$('#jform_itemlanguage option[value=\"' + currentSwitcher + '\"]').val(currentLang + '|0');
 			$('#jform_itemlanguage').val('').change().trigger('liszt:updated');
-			
 		}
 		// Saving target or reference, send the save action to the target/reference iframe.
 		else
