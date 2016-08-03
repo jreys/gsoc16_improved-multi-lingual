@@ -27,6 +27,7 @@ $this->app->getDocument()->addScriptDeclaration("
 
 jQuery(document).ready(function($) {
 	$('#toolbar-target').hide();
+	$('#toolbar-undo-association').hide();
 
 	// Save button actions, replacing the default Joomla.submitbutton() with custom function.
 	Joomla.submitbutton = function(task)
@@ -91,6 +92,7 @@ jQuery(document).ready(function($) {
 		else
 		{
 			$('#toolbar-target').hide();
+			$('#toolbar-undo-association').hide();
 			target.setAttribute('data-id', '0');
 			target.setAttribute('data-language', '');
 			target.src = '';
@@ -133,6 +135,7 @@ jQuery(document).ready(function($) {
 			// If we are creating a new association (before save) we need to add the new association.
 			if (targetLoadedId == '0')
 			{
+				$('#toolbar-undo-association').hide();
 				// Update the target item associations tab.
 				var reference     = document.getElementById('reference-association');
 				var referenceId   = reference.getAttribute('data-id');
@@ -172,6 +175,8 @@ jQuery(document).ready(function($) {
 			// If we are editing a association.
 			else 
 			{
+				$('#toolbar-undo-association').show();
+
 				// Add the id to list of items to check in on close.
 				var currentIdList = document.getElementById('target-id').value;
 				var updatedList   = currentIdList == '' ? targetLoadedId : currentIdList + ',' + targetLoadedId;
