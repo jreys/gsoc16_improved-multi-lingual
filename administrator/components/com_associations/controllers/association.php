@@ -31,7 +31,6 @@ class AssociationsControllerAssociation extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		//JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$cp = AssociationsHelper::getComponentProperties($this->input->get('component', '', 'string'));
 
 		$table = clone $cp->table;
