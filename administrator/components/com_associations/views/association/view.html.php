@@ -89,7 +89,7 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		// Reference and target edit links.
 		$this->link       = 'index.php?' . http_build_query($options) . '&id=' . $this->referenceId;
-		$this->targetLink = 'index.php?' . http_build_query($options) . '&id=0';
+		$this->targetLink = 'index.php?' . http_build_query($options) . '&id=';
 
 		/*
 		* @todo Review later
