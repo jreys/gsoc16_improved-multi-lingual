@@ -83,9 +83,11 @@ $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->g
 		<div class="inner-panel">
 			<div class="language-selector">
 				<h3><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
-				<button onclick="Joomla.submitbutton(\'target\')"' . ' class="btn">
+				<button id="select-change" onclick="Joomla.submitbutton('select-change')" class="btn"
+					data-select="<?php echo JText::_('COM_ASSOCIATIONS_SELECT_TARGET'); ?>"
+					data-change="<?php echo JText::_('COM_ASSOCIATIONS_CHANGE_TARGET'); ?>">
 					<span class="icon-refresh icon-white"></span>
-					Select Association
+					<span id="select-change-text">Test</span>
 				</button>
 				<?php echo $this->form->getInput('itemlanguage'); ?>
 			</div>
