@@ -45,7 +45,7 @@ $this->app->getDocument()->addStyleDeclaration('
 
 	.language-selector h3 {
 		float: left;
-		width: 50%;
+		width: 30%;
 	}
 ');
 
@@ -83,6 +83,10 @@ $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->g
 		<div class="inner-panel">
 			<div class="language-selector">
 				<h3><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
+				<button onclick="Joomla.submitbutton(\'target\')"' . ' class="btn">
+					<span class="icon-refresh icon-white"></span>
+					Select Association
+				</button>
 				<?php echo $this->form->getInput('itemlanguage'); ?>
 			</div>
 			<iframe id="target-association" name="target-association"
