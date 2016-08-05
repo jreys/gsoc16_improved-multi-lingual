@@ -11,6 +11,7 @@
 
 jQuery(document).ready(function($) {
 	$('#toolbar-target').hide();
+	$('#select-change').hide();
 
 	// Save button actions, replacing the default Joomla.submitbutton() with custom function.
 	Joomla.submitbutton = function(task)
@@ -19,6 +20,10 @@ jQuery(document).ready(function($) {
 		if (task == 'association.cancel')
 		{
 			Joomla.submitform(task);
+		}
+		else if (task == 'select-change')
+		{
+			alert('test');
 		}
 		// Saving target or reference, send the save action to the target/reference iframe.
 		else
@@ -75,6 +80,7 @@ jQuery(document).ready(function($) {
 		else
 		{
 			$('#toolbar-target').hide();
+			$('#select-change').hide();
 			target.setAttribute('data-id', '0');
 			target.setAttribute('data-language', '');
 			target.src = '';
@@ -102,6 +108,7 @@ jQuery(document).ready(function($) {
 		if (this.getAttribute('src') != '')
 		{
 			$('#toolbar-target').show();
+			$('#select-change').show();
 
 			var targetLanguage       = this.getAttribute('data-language');
 			var targetId             = this.getAttribute('data-id');
@@ -117,6 +124,8 @@ jQuery(document).ready(function($) {
 			// If we are creating a new association (before save) we need to add the new association.
 			if (targetLoadedId == '0')
 			{
+				$('#select-change').find('#select-change-text').text($('#select-change').attr('data-select'));
+
 				// Update the target item associations tab.
 				var reference     = document.getElementById('reference-association');
 				var referenceId   = reference.getAttribute('data-id');
@@ -156,6 +165,8 @@ jQuery(document).ready(function($) {
 			// If we are editing a association.
 			else 
 			{
+				$('#select-change').find('#select-change-text').text($('#select-change').attr('data-change'));
+
 				// Add the id to list of items to check in on close.
 				var currentIdList = document.getElementById('target-id').value;
 				var updatedList   = currentIdList == '' ? targetLoadedId : currentIdList + ',' + targetLoadedId;
