@@ -13,7 +13,7 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
-$this->app->getDocument()->addScript(JURI::root( true ) . '/media/com_associations/js/sidebyside.js');
+JHtml::_('script', 'com_associations/sidebyside.js', false, true);
 
 $this->app->getDocument()->addStyleDeclaration('
 
