@@ -11,6 +11,14 @@
 		</field>
 	</fieldset>
 
+	<fieldset>
+		<field
+			name="modalassociation"
+			type="modalassociation"
+			>
+		</field>
+	</fieldset>
+
 	<fields name="params">
 	</fields>
 </form>
