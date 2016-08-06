@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+
 /**
  * View class for a list of articles.
  *
@@ -131,14 +133,9 @@ class AssociationsViewAssociations extends JViewLegacy
 
 			$linkParameters = array(
 				'layout'     => 'edit',
-				'acomponent' => $this->component->component,
-				'aview'      => $this->component->item,
+				'component'  => $this->state->get('component'),
+				'task'       => 'association.edit',
 			);
-
-			if (!is_null($this->component->extension))
-			{
-				$linkParameters['extension'] = $this->component->extension;
-			}
 
 			$this->editLink = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
 

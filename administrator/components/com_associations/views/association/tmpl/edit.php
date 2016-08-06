@@ -51,10 +51,8 @@ $this->app->getDocument()->addStyleDeclaration('
 
 $input      = $this->app->input;
 $layout     = $input->get('layout', '', 'string');
-$aComponent = $input->get('acomponent', '', 'string');
-$aView      = $input->get('aview', '', 'string');
-$extension  = $input->get('extension', '', 'string');
-$rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->get('referencelanguage', '', 'string') : '';
+$component  = $input->get('component', '', 'string');
+$rLanguage  = $input->get('referencelanguage', '', 'string');
 ?>
 <button id="toogle-left-panel" class="btn btn-small" 
 		data-show-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
@@ -62,10 +60,9 @@ $rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->g
 </button>
 
 <form action="<?php echo JRoute::_(
-			'index.php?option=com_associations&view=association&layout=' . $layout . '&acomponent='
-			. $aComponent . '&aview=' . $aView . '&extension=' . $extension . '&referencelanguage=' . $rLanguage . '&id='
-			. $this->referenceId
-		); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->associatedView; ?>">
+			'index.php?option=com_associations&view=association&layout=' . $layout . '
+			&component=' . $component . '&referencelanguage=' . $rLanguage . '&id=' . $this->referenceId
+		); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->component->item; ?>">
 
 <div class="sidebyside">
 	<div class="outer-panel" id="left-panel">

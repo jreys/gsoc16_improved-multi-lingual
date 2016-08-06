@@ -64,6 +64,8 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 			'com_users',
 		);
 
+		$user       = JFactory::getUser();
+
 		// Get all admin components.
 		foreach (glob(JPATH_ADMINISTRATOR . '/components/*', GLOB_NOSORT | GLOB_ONLYDIR) as $componentAdminPath)
 		{
@@ -71,7 +73,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 			$componentModelsPath = $componentAdminPath . '/models';
 
 			// Only components that exist also in the site client, aren't in the excluded components array and have models.
-			if (!is_dir($componentModelsPath) || in_array($component, $excludeComponents))
+			if (!is_dir($componentModelsPath) || in_array($component, $excludeComponents) || !$user->authorise('core.manage', $component))
 			{
 				continue;
 			}

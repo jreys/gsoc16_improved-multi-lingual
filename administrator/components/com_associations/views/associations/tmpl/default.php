@@ -14,8 +14,6 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user       = JFactory::getUser();
-$userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $colSpan    =  5;
@@ -87,12 +85,8 @@ $iconStates = array(
 			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
-				$canEdit    = $user->authorise('core.edit', $this->state->get('component') . $item->id);
-				if (isset($item->created_by))
-				{
-					$canEditOwn = $user->authorise('core.edit.own', $this->state->get('component') . $item->id) && $item->created_by == $userId;
-				}
-				$canCheckin = !isset($item->checked_out) || $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+				$canEdit    = AssociationsHelper::allowEdit($this->component, $item);
+				$canCheckin = AssociationsHelper::allowCheckout($this->component, $item);
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">
@@ -110,7 +104,7 @@ $iconStates = array(
 						<?php if (isset($item->checked_out) && $item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
 						<?php endif; ?>
-						<?php if ($canEdit || $canEditOwn) : ?>
+						<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_($this->editLink . '&id=' . (int) $item->id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
 						<?php else : ?>
