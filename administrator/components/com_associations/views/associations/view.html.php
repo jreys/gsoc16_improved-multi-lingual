@@ -79,7 +79,7 @@ class AssociationsViewAssociations extends JViewLegacy
 		}
 		else
 		{
-			$this->component  = AssociationsHelper::getComponentProperties($this->state->get('component'));
+			$this->component = AssociationsHelper::getComponentProperties($this->state->get('component'));
 
 			// Dynamic filter form.
 			// This selectors doesn't have to activate the filter bar.
