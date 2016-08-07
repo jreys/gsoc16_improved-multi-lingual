@@ -137,7 +137,7 @@ class AssociationsViewAssociations extends JViewLegacy
 				'task'       => 'association.edit',
 			);
 
-			$this->editLink = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
+			$this->editUri = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
 
 			// Load the current component html helper class.
 			JLoader::register($this->component->associations->htmlhelper->class, $this->component->associations->htmlhelper->file);
@@ -174,7 +174,7 @@ class AssociationsViewAssociations extends JViewLegacy
 		*/
 		// JToolbarHelper::editList('association.edit');
 
-		if (isset($this->component) && $user->authorise('core.admin', $this->component->component))
+		if (isset($this->component) && !is_null($this->component->fields->checked_out))
 		{
 			JToolbarHelper::checkin('associations.checkin', 'JTOOLBAR_CHECKIN', true);
 		}

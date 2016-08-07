@@ -126,14 +126,14 @@ class AssociationsModelAssociations extends JModelList
 		// Select author for ACL checks
 		if (!is_null($component->fields->created_by))
 		{
-			$query->select($db->quoteName('a.' . $component->fields->created_by, 'created_by'));
+			$query->select($db->quoteName('a.' . $component->fields->created_by));
 		}
 
 		// Select checked out data for check in checkins.
 		if (!is_null($component->fields->checked_out) && !is_null($component->fields->checked_out_time))
 		{
-			$query->select($db->quoteName('a.' . $component->fields->checked_out, 'checked_out'))
-				->select($db->quoteName('a.' . $component->fields->checked_out_time, 'checked_out_time'));
+			$query->select($db->quoteName('a.' . $component->fields->checked_out))
+				->select($db->quoteName('a.' . $component->fields->checked_out_time));
 
 			// Join over the users.
 			$query->select($db->quoteName('u.name', 'editor'))
@@ -199,7 +199,7 @@ class AssociationsModelAssociations extends JModelList
 				->join('LEFT', $db->quoteName('#__viewlevels', 'ag') . ' ON ' . $db->qn('ag.id') . ' = ' . $db->qn('a.' . $component->fields->access));
 
 			// Implement View Level Access
-			if (!$user->authorise('core.admin', $component->assetKey))
+			if (!$user->authorise('core.admin', $component->realcomponent))
 			{
 				$query->where('a.' . $component->fields->access . ' IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
 			}

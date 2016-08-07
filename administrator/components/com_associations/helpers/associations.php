@@ -45,6 +45,7 @@ class AssociationsHelper extends JHelperContent
 			// Get component info from key.
 			$matches = preg_split("#[\.\|]+#", $key);
 
+			$cp[$key]->key                              = $key;
 			$cp[$key]->component                        = $matches[0];
 			$cp[$key]->item                             = isset($matches[1]) ? $matches[1] : null;
 			$cp[$key]->extension                        = isset($matches[2]) ? $matches[2] : null;
@@ -200,7 +201,7 @@ class AssociationsHelper extends JHelperContent
 
 			// Get Item type alias, Asset column key and Associations context key.
 			$cp[$key]->typeAlias             = !is_null($cp[$key]->extension) ? 'com_categories.category' : $cp[$key]->model->get('typeAlias');
-			$cp[$key]->assetKey              = $cp[$key]->typeAlias;
+			$cp[$key]->assetKey              = !is_null($cp[$key]->extension) ? $cp[$key]->realcomponent . '.category' : $cp[$key]->typeAlias;
 			$cp[$key]->associations->context = $cp[$key]->model->get('associationsContext');
 
 			// Get the database table.
@@ -262,97 +263,132 @@ class AssociationsHelper extends JHelperContent
 	}
 
 	/**
-	 * Check if user is allowed to edit own item
+	 * Get a existing asset key using the item parents.
 	 *
-	 * @param   string  $componentKey  The component properties.
-	 * @param   JTable  $item          Database row from the component.
+	 * @param   JRegistry  $component  Component properties.
+	 * @param   object     $item       Item db row.
 	 *
-	 * @return  boolean.
+	 * @return  string  The asset key.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function allowEditOwn($componentKey = '', $item = null)
+	protected static function getAssetKey(JRegistry $component, $item = null)
 	{
-		$user  = JFactory::getUser();
+		// Get the item asset.
+		$asset = JTable::getInstance('Asset');
+		$asset->loadByName($component->assetKey . '.' . $item->id);
 
-		if (isset($item->{$componentKey->fields->created_by}))
+		// If the item asset does not exist (ex: com_menus, com_contact, com_newsfeeds).
+		if (is_null($asset->id))
 		{
-			return $user->authorise(
-					'core.edit.own', $componentKey->realcomponent . '.' . $item->id
-				) && $item->{$componentKey->fields->created_by} == $user->id;
+			// For menus component, if item asset does not exist, fallback to menu asset.
+			if (!is_null($component->fields->menutype))
+			{
+				// If the menu type id is unknown get it from MenuType table.
+				if (!isset($item->menutypeid))
+				{
+					$table = JTable::getInstance('MenuType');
+					$table->load(array('menutype' => $item->{$component->fields->menutype}));
+					$item->menutypeid = $table->id;
+				}
+
+				$asset->loadByName($component->realcomponent . '.menu.' . $item->menutypeid);
+			}
+			// For all other components, if item asset does not exist, fallback to category asset (if component supports).
+			elseif (!is_null($component->fields->catid))
+			{
+				$asset->loadByName($component->realcomponent . '.category.' . $item->{$component->fields->catid});
+			}
 		}
 
-		return false;
+		// If item asset, category/menu asset does not exist, fallback to component asset.
+		if (is_null($asset->id))
+		{
+			$asset->loadByName($component->realcomponent);
+		}
+
+		return $asset->name;
 	}
 
 	/**
-	 * Check if user is allowed to edit item
+	 * Check if user is allowed to edit items.
 	 *
-	 * @param   string  $componentKey  The component properties.
-	 * @param   JTable  $item          Database row from the component.
+	 * @param   JRegistry  $component  Component properties.
+	 * @param   object     $item       Item db row.
 	 *
-	 * @return  boolean.
+	 * @return  boolean  True on allowed.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function allowEdit($componentKey = '', $item = null)
+	public static function allowEdit(JRegistry $component, $item = null)
 	{
 		$user = JFactory::getUser();
 
-		// Different case for menu items
-		if ($componentKey->realcomponent == 'com_menus')
+		// If no item properties return the component permissions for core.edit.
+		if (is_null($item))
 		{
-			if (isset($item->menutypeid))
-			{
-				return $user->authorise('core.edit', 'com_menus.menu.' . $item->menutypeid);
-			}
-			else
-			{
-				$table = JTable::getInstance('MenuType');
-				$table->load(array('menutype' => $item->menutype));
-				
-				return $user->authorise('core.edit', 'com_menus.menu.' . $table->id);
-			}
-			
+			return $user->authorise('core.edit', $component->realcomponent);
 		}
 
-		return $user->authorise('core.edit', $componentKey->realcomponent . '.' . $item->id) || self::allowEditOwn($componentKey, $item);
+		// Get the asset key.
+		$assetKey = self::getAssetKey($component, $item);
+
+		// Check if can edit own.
+		$canEditOwn = false;
+
+		if (!is_null($component->fields->created_by))
+		{
+			$canEditOwn = $user->authorise('core.edit.own', $assetKey) && $item->{$component->fields->created_by} == $user->id;
+		}
+
+		// Check also core.edit permissions.
+		return $canEditOwn || $user->authorise('core.edit', $assetKey);
 	}
 
 	/**
-	 * Check if user is allowed to create item
+	 * Check if user is allowed to create items.
 	 *
-	 * @param   string  $componentKey  The component properties.
+	 * @param   JRegistry  $component  Component properties.
+	 * @param   object     $item       Item db row.
 	 *
-	 * @return  boolean.
+	 * @return  boolean  True on allowed.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function allowCreate($componentKey = '')
+	public static function allowCreate(JRegistry $component, $item = null)
 	{
 		$user = JFactory::getUser();
-		
-		return $user->authorise('core.create', $componentKey->realcomponent);
+
+		// If no item properties return the component permissions for core.edit.
+		if (is_null($item))
+		{
+			return $user->authorise('core.create', $component->realcomponent);
+		}
+
+
+		// Check core.create permissions.
+		return $user->authorise('core.create', self::getAssetKey($component, $item));
 	}
 
 	/**
-	 * Check if user is allowed to edit checkout item
+	 * Check if user is allowed to perform check actions (checkin/checkout) on a item.
 	 *
-	 * @param   string  $componentKey  The component properties.
-	 * @param   JTable  $item          Database row from the component.
+	 * @param   JRegistry  $component  Component properties.
+	 * @param   object     $item       Item db row.
 	 *
-	 * @return  boolean.
+	 * @return  boolean  True on allowed.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function allowCheckout($componentKey = '', $item = null)
+	public static function allowCheckActions(JRegistry $component, $item = null)
 	{
-		if (!is_null($componentKey->fields->checked_out))
+		// If no item properties or component doesn't have checked_out field, doesn't support checkin/checkout.
+		if (is_null($item) || is_null($component->fields->checked_out))
 		{
-			$user = JFactory::getUser();
-
-			// Check if user checked out this item
-			return in_array($item->{$componentKey->fields->checked_out}, array($user->id, 0));
+			return false;
 		}
+
+		// All other cases. Check if user checked out this item.
+		return in_array($item->{$component->fields->checked_out}, array(JFactory::getUser()->id, 0));
 	}
 }
