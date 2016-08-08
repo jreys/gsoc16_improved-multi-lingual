@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -36,50 +37,76 @@ class JFormFieldItemLanguage extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$options = array();
+		$input       = JFactory::getApplication()->input;
+		$component   = AssociationsHelper::getComponentProperties($input->get('component', '', 'string'));
+		$referenceId = $input->get('id', 0, 'int');
 
-		$input = JFactory::getApplication()->input;
+		JLoader::register($component->associations->gethelper->class, $component->associations->gethelper->file);
 
-		$referenceId         = $input->get('id', '');
-		$associatedComponent = $input->get('acomponent', '');
-		$associatedView      = $input->get('aview', '');
-		$extension           = $input->get('extension', '');
-		$realView            = $extension !== '' ? $extension : $associatedView;
-
-		$key = $extension !== '' ? 'com_categories.category|' . $extension : $associatedComponent . '.' . $associatedView;
-		$cp  = AssociationsHelper::getComponentProperties($key);
-		$associations      = call_user_func(array($cp->associations->gethelper->class, $cp->associations->gethelper->method), $referenceId, $realView);
+		// Get item associations given ID and item type
+		$associations = call_user_func(
+				array(
+					$component->associations->gethelper->class, 
+					$component->associations->gethelper->method
+				),
+				$referenceId,
+				(!is_null($component->extension) ? $component->extension : $component->item)
+			);
 
 		// Get reference language.
-		$table = clone $cp->table;
+		$table = clone $component->table;
 		$table->load($referenceId);
+		$referenceLang = $table->{$component->fields->language};
 
-		$referenceLanguage = $table->{$cp->fields->language};
+		// Check if user can create items in this component.
+		$canCreate = AssociationsHelper::allowAdd($component, null);
 
+		// Gets existing languages.
 		$existingLanguages = JHtml::_('contentlanguage.existing', false, true);
 
+		// Each option has the format "<lang>|<id>", example: "en-GB|1"
 		foreach ($existingLanguages as $key => $lang)
 		{
-			if ($lang->value == $referenceLanguage)
+			// If is equal to reference language
+			if ($lang->value == $referenceLang)
 			{
 				unset($existingLanguages[$key]);
 			}
+
+			// If association exists in this language
 			if (isset($associations[$lang->value]))
 			{
-				if ($associatedComponent != 'com_menus')
+				// If it's a menu, there are some strings needed to be removed
+				if ($component->component != 'com_menus')
 				{
 					parse_str($associations[$lang->value], $contents);
 					$removeExtra  = explode(":", $contents['id']);
-					$lang->value  = $lang->value . "|" . $removeExtra[0];
+					$itemId       = $removeExtra[0];
+					$lang->value  = $lang->value . ':' . $itemId . ':edit';
 				}
 				else
 				{
-					$lang->value = $lang->value . "|" . $associations[$lang->value];
+					$itemId      = $associations[$lang->value];
+					$lang->value = $lang->value . ':' . $associations[$lang->value] . ':edit';
 				}
+
+				// Load item.
+				$table->load($itemId);
+
+				 // Check if user does have permission to edit the associated item.
+				$canEdit = AssociationsHelper::allowEdit($component, $table);
+
+				// Do an additional check to check if user can edit a checked out item (if component supports it).
+				$canCheckout = AssociationsHelper::allowCheckActions($component, $table);
+
+				// Disable language if user is not allowed to edit the item associated to it.
+				$lang->disable = !($canEdit && $canCheckout);
 			}
 			else
 			{
-				$lang->value .= '|0';
+				// New item, id = 0 and disabled if user is not allowed to create new items
+				$lang->value  .= ':0:add';
+				$lang->disable = !$canCreate;
 			}
 		}
 

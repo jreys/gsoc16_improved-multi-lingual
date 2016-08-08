@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+
 /**
  * View class for a list of articles.
  *
@@ -62,6 +64,30 @@ class AssociationsViewAssociation extends JViewLegacy
 			return false;
 		}
 
+		$this->app   = JFactory::getApplication();
+
+		$this->form  = $this->get('Form');
+		$input       = $this->app->input;
+
+		$this->referenceId = $input->get('id', 0, 'int');
+		$this->component   = AssociationsHelper::getComponentProperties($input->get('component', '', 'string'));
+
+		// Get reference language.
+		$table = clone $this->component->table;
+		$table->load($this->referenceId);
+
+		$this->referenceLanguage = $table->{$this->component->fields->language};
+
+		$options = array(
+			'option'    => $this->component->component,
+			'view'      => $this->component->item,
+			'extension' => $this->component->extension,
+			'tmpl'      => 'component',
+		);
+
+		// Reference and target edit links.
+		$this->editUri = 'index.php?' . http_build_query($options);
+
 		/*
 		* @todo Review later
 		*/
@@ -90,48 +116,6 @@ class AssociationsViewAssociation extends JViewLegacy
 			}
 		}
 
-		$this->app   = JFactory::getApplication();
-
-		$this->form  = $this->get('Form');
-		$input       = $this->app->input;
-
-		$associatedComponent  = $input->get('acomponent', '', 'string');
-		$this->associatedView = $input->get('aview', '', 'string');
-		$extension            = $input->get('extension', '', 'string');
-		$this->referenceId    = $input->get('id', 0, 'int');
-
-		$key = $extension !== '' ? 'com_categories.category|' . $extension : $associatedComponent . '.' . $this->associatedView;
-		$this->component  = AssociationsHelper::getComponentProperties($key);
-
-		// Get reference language.
-		$table = clone $this->component->table;
-		$table->load($this->referenceId);
-
-		$this->referenceLanguage = $table->{$this->component->fields->language};
-
-		$options = array(
-			'option'    => $associatedComponent,
-			'view'      => $this->associatedView,
-			'extension' => '',
-			'task'      => $this->associatedView . '.edit',
-			'layout'    => 'edit',
-			'tmpl'      => 'component',
-			'id'        => $this->referenceId,
-		);
-
-		// Special cases for categories.
-		if ($associatedComponent === 'com_categories')
-		{
-			$options['view']      = '';
-			$options['task']      = 'category.edit';
-			$options['extension'] = $extension;
-		}
-
-		// Reference item edit link.
-		$this->link = 'index.php?' . http_build_query($options);
-		$options['id'] = '';
-		$this->targetLink = 'index.php?' . http_build_query($options);
-
 		parent::display($tpl);
 	}
 
@@ -144,17 +128,19 @@ class AssociationsViewAssociation extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$input = JFactory::getApplication()->input;
-		$input->set('hidemainmenu', 1);
+		// Hide main menu.
+		JFactory::getApplication()->input->set('hidemainmenu', 1);
 
 		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_EDIT'), 'contract');
 
 		$bar = JToolbar::getInstance('toolbar');
+
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')"'
 			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
+
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')"'
 			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>' 
@@ -162,6 +148,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		);
 
 		JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+
 		JToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		JToolbarHelper::help('JGLOBAL_HELP');
 

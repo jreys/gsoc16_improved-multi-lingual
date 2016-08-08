@@ -49,54 +49,58 @@ $this->app->getDocument()->addStyleDeclaration('
 	}
 ');
 
-$input      = $this->app->input;
-$layout     = $input->get('layout', '', 'string');
-$aComponent = $input->get('acomponent', '', 'string');
-$aView      = $input->get('aview', '', 'string');
-$extension  = $input->get('extension', '', 'string');
-$rLanguage  = $input->get('referencelanguage', '', 'string') != null ? $input->get('referencelanguage', '', 'string') : '';
+$input   = $this->app->input;
+$options = array(
+			'layout'            => $input->get('layout', '', 'string'),
+			'component'         => $this->component->key,
+			'referencelanguage' => $input->get('referencelanguage', '', 'string'),
+			'id'                => $this->referenceId,
+		);
 ?>
 <button id="toogle-left-panel" class="btn btn-small" 
 		data-show-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
 		data-hide-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
 </button>
 
-<form action="<?php echo JRoute::_(
-			'index.php?option=com_associations&view=association&layout=' . $layout . '&acomponent='
-			. $aComponent . '&aview=' . $aView . '&extension=' . $extension . '&referencelanguage=' . $rLanguage . '&id='
-			. $this->referenceId
-		); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->associatedView; ?>">
+<form action="<?php echo JRoute::_('index.php?option=com_associations&view=association&' . http_build_query($options)); ?>" method="post" name="adminForm" id="adminForm" data-associatedview="<?php echo $this->component->item; ?>">
 
-<div class="sidebyside">
-	<div class="outer-panel" id="left-panel">
-		<div class="inner-panel">
-			<h3><?php echo JText::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
-			<iframe id="reference-association" name="reference-association"
-				src="<?php echo JRoute::_($this->link); ?>"
-				height="100%" width="400px" scrolling="no"
-				data-id="<?php echo $this->referenceId; ?>"
-				data-language="<?php echo $this->referenceLanguage; ?>">
-			</iframe>
-		</div>
-	</div>
-	<div class="outer-panel" id="right-panel">
-		<div class="inner-panel">
-			<div class="language-selector">
-				<h3><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
-				<?php echo $this->form->getInput('modalassociation'); ?>
-				<?php echo $this->form->getInput('itemlanguage'); ?>
+	<div class="sidebyside">
+
+		<div class="outer-panel" id="left-panel">
+			<div class="inner-panel">
+				<h3><?php echo JText::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
+				<iframe id="reference-association" name="reference-association"
+					src="<?php echo JRoute::_($this->editUri . '&task=' . $this->component->item . '.edit&id=' . (int) $this->referenceId); ?>"
+					height="100%" width="400px" scrolling="no"
+					data-action="edit"
+					data-item="<?php echo $this->component->item; ?>"
+					data-id="<?php echo $this->referenceId; ?>"
+					data-language="<?php echo $this->referenceLanguage; ?>">
+				</iframe>
 			</div>
-			<iframe id="target-association" name="target-association"
-				src=""
-				height="100%" width="400px" scrolling="no"
-				data-id="0"
-				data-language=""
-				data-editurl="<?php echo JRoute::_($this->targetLink); ?>">
-			</iframe>
 		</div>
+		<div class="outer-panel" id="right-panel">
+			<div class="inner-panel">
+				<div class="language-selector">
+					<h3><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
+					<?php echo $this->form->getInput('modalassociation'); ?>
+					<?php echo $this->form->getInput('itemlanguage'); ?>
+				</div>
+				<iframe id="target-association" name="target-association"
+					src=""
+					height="100%" width="400px" scrolling="no"
+					data-action=""
+					data-item="<?php echo $this->component->item; ?>"
+					data-id="0"
+					data-language=""
+					data-editurl="<?php echo JRoute::_($this->editUri); ?>">
+				</iframe>
+			</div>
+		</div>
+
 	</div>
-</div>
-<input type="hidden" name="task" value=""/>
-<input type="hidden" name="target-id" id="target-id" value=""/>
-<?php echo JHtml::_('form.token'); ?>
+
+	<input type="hidden" name="task" value=""/>
+	<input type="hidden" name="target-id" id="target-id" value=""/>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

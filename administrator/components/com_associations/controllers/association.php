@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+
 /**
  * Association edit controller class.
  *
@@ -16,6 +18,44 @@ defined('_JEXEC') or die;
  */
 class AssociationsControllerAssociation extends JControllerForm
 {
+	/**
+	 * Method to edit an existing record.
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
+	 *                           (sometimes required to avoid router collisions).
+	 *
+	 * @return  boolean  True if access level check and checkout passes, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function edit($key = null, $urlVar = null)
+	{
+		$cp   = AssociationsHelper::getComponentProperties($this->input->get('component', '', 'string'));
+		$table = clone $cp->table;
+		$table->load($this->input->get('id', 0, 'int'));
+
+		// Check if reference item can be edited.
+		if (!AssociationsHelper::allowEdit($cp, $table))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
+
+			return false;
+		}
+
+		// Check if reference item can be checked out.
+		if (is_null($cp->fields->checked_out) || !$cp->model->checkout($table->id))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $cp->model->getError()), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
+
+			return false;
+		}
+
+		return parent::display();
+	}
+
 	/**
 	 * Method for closing the template.
 	 *
@@ -29,10 +69,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$extension = $this->input->get('extension', '', 'string');
-
-		$key = $extension !== '' ? 'com_categories.category|' . $extension : $this->input->get('acomponent', '') . '.' . $this->input->get('aview', '');
-		$cp  = AssociationsHelper::getComponentProperties($key);
+		$cp = AssociationsHelper::getComponentProperties($this->input->get('component', '', 'string'));
 
 		// Only check in, if component allows to check out.
 		if (!is_null($cp->fields->checked_out))

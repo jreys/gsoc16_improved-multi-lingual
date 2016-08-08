@@ -43,18 +43,37 @@ class AssociationsHelper extends JHelperContent
 			$cp[$key] = new Registry;
 
 			// Get component info from key.
-			$matches = preg_split("#[\.\|]+#", $key);
+			$matches = preg_split("#[\.\:]+#", $key);
 
+			$cp[$key]->key                              = $key;
 			$cp[$key]->component                        = $matches[0];
 			$cp[$key]->item                             = isset($matches[1]) ? $matches[1] : null;
 			$cp[$key]->extension                        = isset($matches[2]) ? $matches[2] : null;
 			$cp[$key]->realcomponent                    = !is_null($cp[$key]->extension) ? $cp[$key]->extension : $cp[$key]->component;
 			$cp[$key]->sitePath                         = JPATH_SITE . '/components/' . $cp[$key]->realcomponent;
 			$cp[$key]->adminPath                        = JPATH_ADMINISTRATOR . '/components/' . $cp[$key]->component;
+			$cp[$key]->enabled                          = true;
 			$cp[$key]->associations                     = new Registry;
 			$cp[$key]->associations->support            = true;
 			$cp[$key]->associations->supportItem        = false;
 			$cp[$key]->associations->supportCategories  = false;
+
+			// If component is disabled or not installed, component does not support associations.
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select($db->quoteName('extension_id'))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('element') . ' = ' . $db->quote($cp[$key]->realcomponent))
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+				->where($db->quoteName('enabled') . ' = 1');
+
+			if (!$db->setQuery($query)->loadResult())
+			{
+				$cp[$key]->enabled = false;
+
+				return $cp[$key];
+			}
 
 			// Check for component model and his properties.
 			$componentName = ucfirst(substr($cp[$key]->component, 4));
@@ -200,7 +219,7 @@ class AssociationsHelper extends JHelperContent
 
 			// Get Item type alias, Asset column key and Associations context key.
 			$cp[$key]->typeAlias             = !is_null($cp[$key]->extension) ? 'com_categories.category' : $cp[$key]->model->get('typeAlias');
-			$cp[$key]->assetKey              = $cp[$key]->typeAlias;
+			$cp[$key]->assetKey              = !is_null($cp[$key]->extension) ? $cp[$key]->realcomponent . '.category' : $cp[$key]->typeAlias;
 			$cp[$key]->associations->context = $cp[$key]->model->get('associationsContext');
 
 			// Get the database table.
@@ -259,5 +278,135 @@ class AssociationsHelper extends JHelperContent
 		}
 
 		return $cp[$key];
+	}
+
+	/**
+	 * Get a existing asset key using the item parents.
+	 *
+	 * @param   JRegistry  $component  Component properties.
+	 * @param   object     $item       Item db row.
+	 *
+	 * @return  string  The asset key.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static function getAssetKey(JRegistry $component, $item = null)
+	{
+		// Get the item asset.
+		$asset = JTable::getInstance('Asset');
+		$asset->loadByName($component->assetKey . '.' . $item->id);
+
+		// If the item asset does not exist (ex: com_menus, com_contact, com_newsfeeds).
+		if (is_null($asset->id))
+		{
+			// For menus component, if item asset does not exist, fallback to menu asset.
+			if (!is_null($component->fields->menutype))
+			{
+				// If the menu type id is unknown get it from MenuType table.
+				if (!isset($item->menutypeid))
+				{
+					$table = JTable::getInstance('MenuType');
+					$table->load(array('menutype' => $item->{$component->fields->menutype}));
+					$item->menutypeid = $table->id;
+				}
+
+				$asset->loadByName($component->realcomponent . '.menu.' . $item->menutypeid);
+			}
+			// For all other components, if item asset does not exist, fallback to category asset (if component supports).
+			elseif (!is_null($component->fields->catid))
+			{
+				$asset->loadByName($component->realcomponent . '.category.' . $item->{$component->fields->catid});
+			}
+		}
+
+		// If item asset, category/menu asset does not exist, fallback to component asset.
+		if (is_null($asset->id))
+		{
+			$asset->loadByName($component->realcomponent);
+		}
+
+		return $asset->name;
+	}
+
+	/**
+	 * Check if user is allowed to edit items.
+	 *
+	 * @param   JRegistry  $component  Component properties.
+	 * @param   object     $item       Item db row.
+	 *
+	 * @return  boolean  True on allowed.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function allowEdit(JRegistry $component, $item = null)
+	{
+		$user = JFactory::getUser();
+
+		// If no item properties return the component permissions for core.edit.
+		if (is_null($item))
+		{
+			return $user->authorise('core.edit', $component->realcomponent);
+		}
+
+		// Get the asset key.
+		$assetKey = self::getAssetKey($component, $item);
+
+		// Check if can edit own.
+		$canEditOwn = false;
+
+		if (!is_null($component->fields->created_by))
+		{
+			$canEditOwn = $user->authorise('core.edit.own', $assetKey) && $item->{$component->fields->created_by} == $user->id;
+		}
+
+		// Check also core.edit permissions.
+		return $canEditOwn || $user->authorise('core.edit', $assetKey);
+	}
+
+	/**
+	 * Check if user is allowed to create items.
+	 *
+	 * @param   JRegistry  $component  Component properties.
+	 * @param   object     $item       Item db row.
+	 *
+	 * @return  boolean  True on allowed.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function allowAdd(JRegistry $component, $item = null)
+	{
+		$user = JFactory::getUser();
+
+		// If no item properties return the component permissions for core.edit.
+		if (is_null($item))
+		{
+			return $user->authorise('core.create', $component->realcomponent);
+		}
+
+
+		// Check core.create permissions.
+		return $user->authorise('core.create', self::getAssetKey($component, $item));
+	}
+
+	/**
+	 * Check if user is allowed to perform check actions (checkin/checkout) on a item.
+	 *
+	 * @param   JRegistry  $component  Component properties.
+	 * @param   object     $item       Item db row.
+	 *
+	 * @return  boolean  True on allowed.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function allowCheckActions(JRegistry $component, $item = null)
+	{
+		// If no item properties or component doesn't have checked_out field, doesn't support checkin/checkout.
+		if (is_null($item) || is_null($component->fields->checked_out))
+		{
+			return false;
+		}
+
+		// All other cases. Check if user checked out this item.
+		return in_array($item->{$component->fields->checked_out}, array(JFactory::getUser()->id, 0));
 	}
 }

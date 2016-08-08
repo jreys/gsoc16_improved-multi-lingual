@@ -8,6 +8,8 @@
  */
 defined('JPATH_BASE') or die;
 
+JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+
 JFormHelper::loadFieldClass('groupedlist');
 
 /**
@@ -36,6 +38,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 	 */
 	protected function getGroups()
 	{
+		$user              = JFactory::getUser();
 		$options           = array();
 		$typeAliasList     = array();
 		$excludeComponents = array(
@@ -71,7 +74,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 			$componentModelsPath = $componentAdminPath . '/models';
 
 			// Only components that exist also in the site client, aren't in the excluded components array and have models.
-			if (!is_dir($componentModelsPath) || in_array($component, $excludeComponents))
+			if (!is_dir($componentModelsPath) || in_array($component, $excludeComponents) || !$user->authorise('core.manage', $component))
 			{
 				continue;
 			}
@@ -82,7 +85,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 				$cp = AssociationsHelper::getComponentProperties($component . '.' . strtolower(basename($modelFile, '.php')));
 
 				// Check if component supports associations.
-				if ($cp->associations->support && $cp->associations->supportItem && !in_array($cp->typeAlias, $typeAliasList))
+				if ($cp->enabled && $cp->associations->support && $cp->associations->supportItem && !in_array($cp->typeAlias, $typeAliasList))
 				{
 					// Add component option select box.
 					$options[$cp->title][] = JHtml::_('select.option', $cp->typeAlias, $cp->title);
@@ -95,9 +98,10 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 			$cp = AssociationsHelper::getComponentProperties($component);
 
 			// Check if component uses categories with associations. Add category option to select box if so.
-			if ($cp->associations->supportCategories)
+			if ($cp->enabled && $cp->associations->supportCategories)
 			{
-				$options[$cp->title][] = JHtml::_('select.option', 'com_categories.category|' . $cp->component, JText::_($cp->component . '_CATEGORIES'));
+				$languageKey           = JText::_(strtoupper($cp->realcomponent) . '_CATEGORIES');
+				$options[$cp->title][] = JHtml::_('select.option', 'com_categories.category:' . $cp->realcomponent, $languageKey);
 			}
 		}
 

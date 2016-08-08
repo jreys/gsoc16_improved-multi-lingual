@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+
 /**
  * View class for a list of articles.
  *
@@ -77,7 +79,7 @@ class AssociationsViewAssociations extends JViewLegacy
 		}
 		else
 		{
-			$this->component  = AssociationsHelper::getComponentProperties($this->state->get('component'));
+			$this->component = AssociationsHelper::getComponentProperties($this->state->get('component'));
 
 			// Dynamic filter form.
 			// This selectors doesn't have to activate the filter bar.
@@ -131,16 +133,11 @@ class AssociationsViewAssociations extends JViewLegacy
 
 			$linkParameters = array(
 				'layout'     => 'edit',
-				'acomponent' => $this->component->component,
-				'aview'      => $this->component->item,
+				'component'  => $this->state->get('component'),
+				'task'       => 'association.edit',
 			);
 
-			if (!is_null($this->component->extension))
-			{
-				$linkParameters['extension'] = $this->component->extension;
-			}
-
-			$this->editLink = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
+			$this->editUri = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
 
 			// Load the current component html helper class.
 			JLoader::register($this->component->associations->htmlhelper->class, $this->component->associations->htmlhelper->file);
@@ -177,7 +174,7 @@ class AssociationsViewAssociations extends JViewLegacy
 		*/
 		// JToolbarHelper::editList('association.edit');
 
-		if (isset($this->component) && $user->authorise('core.admin', $this->component->component))
+		if (isset($this->component) && !is_null($this->component->fields->checked_out))
 		{
 			JToolbarHelper::checkin('associations.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
