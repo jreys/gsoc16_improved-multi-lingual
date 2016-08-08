@@ -92,16 +92,4 @@ class JFormFieldModalAssociation extends JFormField
 
 		return implode("\n", $html);
 	}
-
-	/**
-	 * Method to get the field label markup.
-	 *
-	 * @return  string  The field label markup.
-	 *
-	 * @since   3.4
-	 */
-	protected function getLabel()
-	{
-		return str_replace($this->id, $this->id . '_id', parent::getLabel());
-	}
 }

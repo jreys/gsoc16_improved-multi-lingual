@@ -9,14 +9,11 @@
 			>
 			<option value="">COM_ASSOCIATIONS_SELECT_TARGET_LANGUAGE</option>
 		</field>
-	</fieldset>
 
-	<fieldset>
 		<field
-			name="modalassociation"
-			type="modalassociation"
-			>
-		</field>
+            name="modalassociation"
+            type="modalassociation"
+        />
 	</fieldset>
 
 	<fields name="params">

@@ -11,6 +11,11 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
+if ($app->isSite())
+{
+    JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+}
+
 JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
 
 JHtml::_('jquery.framework');
@@ -21,7 +26,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $function         = $app->input->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
-$colSpan          =  5;
+$colSpan          =  3;
 $iconStates       = array(
 	-2 => 'icon-trash',
 	0  => 'icon-unpublish',
@@ -29,7 +34,8 @@ $iconStates       = array(
 	2  => 'icon-archive',
 );
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function=' . $function . '&' . JSession::getFormToken() . '=1');
+ ?>" method="post" name="adminForm" id="adminForm">
 
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
