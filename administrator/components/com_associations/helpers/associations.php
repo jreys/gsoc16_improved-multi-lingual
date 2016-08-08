@@ -194,7 +194,7 @@ class AssociationsHelper extends JHelperContent
 				if ($cp[$key]->associations->supportCategories)
 				{
 					$languageKey = strtoupper($cp[$key]->realcomponent) . '_CATEGORIES';
-					$cp[$key]->categoriesTitle = $lang->hasKey($languageKey) ? JText::_($languageKey) : JText::_('COM_CATEGORIES');
+					$cp[$key]->categoriesTitle = $lang->hasKey($languageKey) ? JText::_($languageKey) : JText::_('JCATEGORIES');
 				}
 			}
 
