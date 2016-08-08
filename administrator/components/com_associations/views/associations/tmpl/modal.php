@@ -113,9 +113,7 @@ $app->getDocument()->addScriptDeclaration(
 						<?php if (isset($item->level)) : ?>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 						<?php endif; ?>
-						<a class="select-link" href="javascript:void(0);" data-id="<?php echo $item->id; ?>">
-								<?php echo $this->escape($item->title); ?>
-						</a>
+						<a class="select-link" href="javascript:void(0);" data-id="<?php echo $item->id; ?>"><?php echo $this->escape($item->title); ?></a>
 						<?php if (!is_null($this->component->fields->alias)) : ?>
 							<span class="small">
 								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
