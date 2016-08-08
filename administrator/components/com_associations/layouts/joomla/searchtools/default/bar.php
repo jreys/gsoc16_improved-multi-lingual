@@ -12,19 +12,31 @@ defined('JPATH_BASE') or die;
 $data    = $displayData;
 $isModal = !is_null($data['view']->getLayout()) ? $data['view']->getLayout() == 'modal' : false;
 
-if ($data['view'] instanceof AssociationsViewAssociations && !$isModal)
+$app = JFactory::getApplication();
+$language = $app->input->get('language', '' , 'string');
+
+if ($data['view'] instanceof AssociationsViewAssociations)
 {
 	// We will get the component and language filters & remove it from the form filters
-	$componentTypeField = $data['view']->filterForm->getField('component');
-	$languageField      = $data['view']->filterForm->getField('language');
+	if (!$isModal)
+	{
+		$componentTypeField = $data['view']->filterForm->getField('component');
+	
 ?>
 	<div class="js-stools-field-filter js-stools-selector">
 		<?php echo $componentTypeField->input; ?>
 	</div>
+<?php
+	}
+	if ($language == '')
+	{
+		$languageField = $data['view']->filterForm->getField('language');
+?>
 	<div class="js-stools-field-filter js-stools-selector">
 		<?php echo $languageField->input; ?>
 	</div>
 <?php
+	}
 }
 
 // Display the main joomla layout
