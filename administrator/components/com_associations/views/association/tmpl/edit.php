@@ -70,8 +70,10 @@ $options = array(
 			<div class="inner-panel">
 				<h3><?php echo JText::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
 				<iframe id="reference-association" name="reference-association"
-					src="<?php echo JRoute::_($this->editUri . '&id=' . (int) $this->referenceId); ?>"
+					src="<?php echo JRoute::_($this->editUri . '&task=' . $this->component->item . '.edit&id=' . (int) $this->referenceId); ?>"
 					height="100%" width="400px" scrolling="no"
+					data-action="edit"
+					data-item="<?php echo $this->component->item; ?>"
 					data-id="<?php echo $this->referenceId; ?>"
 					data-language="<?php echo $this->referenceLanguage; ?>">
 				</iframe>
@@ -87,9 +89,11 @@ $options = array(
 				<iframe id="target-association" name="target-association"
 					src=""
 					height="100%" width="400px" scrolling="no"
+					data-action=""
+					data-item="<?php echo $this->component->item; ?>"
 					data-id="0"
 					data-language=""
-					data-editurl="<?php echo JRoute::_($this->editUri . '&id='); ?>">
+					data-editurl="<?php echo JRoute::_($this->editUri); ?>">
 				</iframe>
 			</div>
 		</div>
