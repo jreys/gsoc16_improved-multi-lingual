@@ -81,9 +81,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		$options = array(
 			'option'    => $this->component->component,
 			'view'      => $this->component->item,
-			'task'      => $this->component->item . '.edit',
 			'extension' => $this->component->extension,
-			'layout'    => 'edit',
 			'tmpl'      => 'component',
 		);
 
