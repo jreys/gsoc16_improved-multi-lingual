@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+$app = JFactory::getApplication();
+
 JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
 
 JHtml::_('jquery.framework');
@@ -17,7 +19,6 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
 $function         = $app->input->getCmd('function', 'jSelectAssociation');
-echo $function;
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $colSpan          =  5;
@@ -94,8 +95,9 @@ $iconStates       = array(
 						<?php if (isset($item->level)) : ?>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 						<?php endif; ?>
-						<a href="<?php echo JRoute::_($this->editUri . '&id=' . (int) $item->id); ?>">
-							<?php echo $this->escape($item->title); ?></a>
+						<a href="javascript:void(0);" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>')">
+								<?php echo $this->escape($item->title); ?>
+						</a>
 						<?php if (!is_null($this->component->fields->alias)) : ?>
 							<span class="small">
 								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
