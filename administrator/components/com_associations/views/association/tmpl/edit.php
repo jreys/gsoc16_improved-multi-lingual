@@ -43,7 +43,7 @@ $this->app->getDocument()->addStyleDeclaration('
 		border: 0 !important;
 	}
 
-	.language-selector h3 {
+	.target-text {
 		float: left;
 		width: 30%;
 	}
@@ -82,7 +82,7 @@ $options = array(
 		<div class="outer-panel" id="right-panel">
 			<div class="inner-panel">
 				<div class="language-selector">
-					<h3><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
+					<h3 class="target-text"><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
 					<?php echo $this->form->getInput('modalassociation'); ?>
 					<?php echo $this->form->getInput('itemlanguage'); ?>
 				</div>
