@@ -63,12 +63,15 @@ class JFormFieldModalAssociation extends JFormField
 
 		// Select custom association button
 		$html[] = '<a'
+			. ' id="select-change"'
 			. ' class="btn hasTooltip"'
 			. ' data-toggle="modal"'
+			. ' data-select="' . JText::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
+			. ' data-change="' . JText::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
 			. ' role="button"'
-			. ' href="#associationSelect' . $this->id . 'Modal"'
-			. ' title="' . JHtml::tooltipText('COM_ASSOCIATIONS_SELECT_TARGET') . '">'
-			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
+			. ' href="#associationSelect' . $this->id . 'Modal">'
+			. '<span class="icon-refresh"></span>'
+			. '<span id="select-change-text"></span>'
 			. '</a>';
 
 		// Select custom association modal
