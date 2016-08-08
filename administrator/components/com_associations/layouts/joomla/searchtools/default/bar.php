@@ -13,7 +13,7 @@ $data    = $displayData;
 $isModal = !is_null($data['view']->getLayout()) ? $data['view']->getLayout() == 'modal' : false;
 
 $app = JFactory::getApplication();
-$language = $app->input->get('language', '', 'string');
+$language = $app->input->get('forcedLanguage', '', 'string');
 
 if ($data['view'] instanceof AssociationsViewAssociations)
 {

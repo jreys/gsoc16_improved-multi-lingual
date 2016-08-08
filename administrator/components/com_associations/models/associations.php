@@ -62,7 +62,7 @@ class AssociationsModelAssociations extends JModelList
 	{
 		$app = JFactory::getApplication();
 		
-		$forcedLanguage = $app->input->get('language', '', 'cmd');
+		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout'))
@@ -91,7 +91,7 @@ class AssociationsModelAssociations extends JModelList
 		// Force a language.
 		if (!empty($forcedLanguage))
 		{
-			$this->setState('filter.language', $forcedLanguage);
+			$this->setState('language', $forcedLanguage);
 		}
 	}
 
