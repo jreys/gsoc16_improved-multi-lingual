@@ -60,6 +60,21 @@ class AssociationsModelAssociations extends JModelList
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'asc')
 	{
+		$app = JFactory::getApplication();
+		
+		$forcedLanguage = $app->input->get('language', '', 'cmd');
+
+		// Adjust the context to support modal layouts.
+		if ($layout = $app->input->get('layout'))
+		{
+			$this->context .= '.' . $layout;
+		}
+		// Adjust the context to support forced languages.
+		if ($forcedLanguage)
+		{
+			$this->context .= '.' . $forcedLanguage;
+		}
+
 		$this->setState('component', $this->getUserStateFromRequest($this->context . '.component', 'component', '', 'string'));
 		$this->setState('language', $this->getUserStateFromRequest($this->context . '.language', 'language', '', 'string'));
 
@@ -72,6 +87,12 @@ class AssociationsModelAssociations extends JModelList
 
 		// List state information.
 		parent::populateState($ordering, $direction);
+
+		// Force a language.
+		if (!empty($forcedLanguage))
+		{
+			$this->setState('filter.language', $forcedLanguage);
+		}
 	}
 
 	/**
