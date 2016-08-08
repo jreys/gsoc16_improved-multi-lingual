@@ -41,7 +41,8 @@ class JFormFieldModalAssociation extends JFormField
 
 		// Select button script
 		$script[] = '	function jSelectAssociation_' . $this->id . '(id) {';
-		$script[] = '		document.getElementById("' . $this->id . '_id").value = id;';
+		$script[] = '       target = document.getElementById("target-association");';
+		$script[] = '		document.getElementById("target-association").src=target.getAttribute("data-editurl") + "&task=" + target.getAttribute("data-item") + ".edit" + "&id=" + id';
 		$script[] = '		jQuery("#associationSelect' . $this->id . 'Modal").modal("hide");';
 		$script[] = '	}';
 
@@ -54,10 +55,7 @@ class JFormFieldModalAssociation extends JFormField
 		$linkAssociations = 'index.php?option=com_associations&amp;view=associations&amp;layout=modal&amp;tmpl=component'
 			. '&amp;function=jSelectAssociation_' . $this->id;
 
-		if (isset($this->element['language']))
-		{
-			$linkAssociations .= '&amp;forcedLanguage=' . $this->element['language'];
-		}
+		$linkAssociations .= '&amp;language=en-GB';
 
 		$urlSelect = $linkAssociations . '&amp;' . JSession::getFormToken() . '=1';
 
