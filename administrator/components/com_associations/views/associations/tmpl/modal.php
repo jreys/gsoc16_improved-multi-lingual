@@ -150,6 +150,8 @@ $app->getDocument()->addScriptDeclaration(
 
 		<input type="hidden" name="task" value=""/>
 		<input type="hidden" name="boxchecked" value="0"/>
+		<input type="hidden" name="component" value="<?php echo $app->input->get('component', '', 'CMD'); ?>" />
+		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
