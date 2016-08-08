@@ -13,7 +13,7 @@ $app = JFactory::getApplication();
 
 if ($app->isSite())
 {
-    JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
 
 JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
@@ -26,12 +26,24 @@ JHtml::_('formbehavior.chosen', 'select');
 $function         = $app->input->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
-$colSpan          =  3;
+$colSpan          = 3;
 $iconStates       = array(
 	-2 => 'icon-trash',
 	0  => 'icon-unpublish',
 	1  => 'icon-publish',
 	2  => 'icon-archive',
+);
+
+$app->getDocument()->addScriptDeclaration(
+	"jQuery(document).ready(function($) {
+		// Run function on parent window.
+		$('.select-link').on('click', function() {
+			if (self != top)
+			{
+				window.parent." . $function . "(this.getAttribute('data-id'));
+			}
+		});
+	});"
 );
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function=' . $function . '&' . JSession::getFormToken() . '=1');
@@ -101,7 +113,7 @@ $iconStates       = array(
 						<?php if (isset($item->level)) : ?>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 						<?php endif; ?>
-						<a href="javascript:void(0);" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>')">
+						<a class="select-link" href="javascript:void(0);" data-id="<?php echo $item->id; ?>">
 								<?php echo $this->escape($item->title); ?>
 						</a>
 						<?php if (!is_null($this->component->fields->alias)) : ?>

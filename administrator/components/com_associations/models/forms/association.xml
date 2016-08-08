@@ -11,9 +11,9 @@
 		</field>
 
 		<field
-            name="modalassociation"
-            type="modalassociation"
-        />
+			name="modalassociation"
+			type="modalassociation"
+		/>
 	</fieldset>
 
 	<fields name="params">

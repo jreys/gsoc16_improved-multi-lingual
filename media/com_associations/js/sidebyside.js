@@ -128,12 +128,12 @@ jQuery(document).ready(function($) {
 			// If we are creating a new association (before save) we need to add the new association.
 			if (targetLoadedId == '0')
 			{
-				$('#select-change').find('#select-change-text').text($('#select-change').attr('data-select'));
+				document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-select');
 			}
 			// If we are editing a association.
 			else 
 			{
-				$('#select-change').find('#select-change-text').text($('#select-change').attr('data-change'));
+				document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-change');
 
 				// Add the id to list of items to check in on close.
 				var currentIdList = document.getElementById('target-id').value;
