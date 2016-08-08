@@ -9,9 +9,10 @@
 
 defined('JPATH_BASE') or die;
 
-$data = $displayData;
+$data    = $displayData;
+$isModal = !is_null($data['view']->getLayout()) ? $data['view']->getLayout() == 'modal' : false;
 
-if ($data['view'] instanceof AssociationsViewAssociations)
+if ($data['view'] instanceof AssociationsViewAssociations && !$isModal)
 {
 	// We will get the component and language filters & remove it from the form filters
 	$componentTypeField = $data['view']->filterForm->getField('component');
