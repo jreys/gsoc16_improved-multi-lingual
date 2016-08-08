@@ -63,15 +63,24 @@ class JFormFieldModalAssociation extends JFormField
 		// Select custom association button
 		$html[] = '<a'
 			. ' id="select-change"'
-			. ' class="btn hasTooltip"'
+			. ' class="btn' . ($value ? '' : ' hidden') . '"'
 			. ' data-toggle="modal"'
 			. ' data-select="' . JText::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
 			. ' data-change="' . JText::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
 			. ' role="button"'
 			. ' href="#associationSelect' . $this->id . 'Modal">'
-			. '<span class="icon-refresh"></span>'
+			. '<span class="icon-file"></span>'
 			. '<span id="select-change-text"></span>'
 			. '</a>';
+
+		// Clear association button
+		$html[] = '<button'
+ 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
+ 				. ' id="remove-assoc">'
+ 				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
+ 				. '</button>';
+
+		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '" />';
 
 		// Select custom association modal
 		$html[] = JHtml::_(
@@ -79,6 +88,7 @@ class JFormFieldModalAssociation extends JFormField
 			'associationSelect' . $this->id . 'Modal',
 			array(
 				'title'       => JText::_('COM_ASSOCIATIONS_SELECT_TARGET'),
+				'backdrop'    => 'static',
 				'url'         => $urlSelect,
 				'height'      => '400px',
 				'width'       => '800px',
@@ -88,8 +98,6 @@ class JFormFieldModalAssociation extends JFormField
 						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
 			)
 		);
-
-		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '" />';
 
 		return implode("\n", $html);
 	}
