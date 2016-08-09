@@ -153,9 +153,6 @@ jQuery(document).ready(function($) {
 		$(this).contents().find('#jform_language_chzn').remove();
 		$(this).contents().find('#jform_language').attr('disabled', true).chosen();
 
-		// Hide associations
-		$(this).contents().find('a[href=\"#associations\"]').hide();
-
 		// Later usage copy function?
 		//$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
 		//referenceContents.find('#associations .controls').css('pointer-events', 'auto');
@@ -231,7 +228,7 @@ jQuery(document).ready(function($) {
 			var referenceId   = reference.getAttribute('data-id');
 			var languageCode  = reference.getAttribute('data-language').replace(/-/, '_');
 			var title         = $(reference).contents().find('#jform_title').val();
-			var target            = $(this).contents();
+			var target        = $(this).contents();
 
 			// - For modal association selectors.
 			target.find('#jform_associations_' + languageCode + '_id').val(referenceId);
@@ -239,7 +236,7 @@ jQuery(document).ready(function($) {
 
 			// - For chosen association selectors (menus).
 			target.find('#jform_associations_' + languageCode + '_chzn').remove();
-			chznField = target.find('#jform_associations_' + languageCode);
+			var chznField = target.find('#jform_associations_' + languageCode);
 			chznField.append('<option value=\"'+ referenceId + '\">' + title + '</option>');
 			chznField.val(referenceId).change().chosen();
 

@@ -24,7 +24,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $function   = $app->input->getCmd('function', 'jSelectAssociation');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$colSpan    = 3;
+$colSpan    = 4;
 $iconStates = array(
 	-2 => 'icon-trash',
 	0  => 'icon-unpublish',
