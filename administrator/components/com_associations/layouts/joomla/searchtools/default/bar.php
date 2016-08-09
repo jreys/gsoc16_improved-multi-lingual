@@ -11,13 +11,11 @@ defined('JPATH_BASE') or die;
 
 $data      = $displayData;
 $app       = JFactory::getApplication();
-$language  = $app->input->get('forcedLanguage', '', 'cmd');
-$component = $app->input->get('forcedComponent', '', 'string');
 
 if ($data['view'] instanceof AssociationsViewAssociations)
 {
 	// We will get the component and language filters & remove it from the form filters
-	if ($component == '')
+	if ($app->input->get('forcedComponent', '', 'string') == '')
 	{
 		$componentTypeField = $data['view']->filterForm->getField('component');
 	
@@ -27,7 +25,7 @@ if ($data['view'] instanceof AssociationsViewAssociations)
 	</div>
 <?php
 	}
-	if ($language == '')
+	if ($app->input->get('forcedLanguage', '', 'cmd') == '')
 	{
 		$languageField = $data['view']->filterForm->getField('language');
 ?>

@@ -39,10 +39,10 @@ $this->app->getDocument()->addStyleDeclaration('
 	}
 	
 	#reference-association, #target-association {
-        width: 100%;
-        height: 1500px;
-        border: 0 !important;
-    }
+		width: 100%;
+		height: 1500px;
+		border: 0 !important;
+	}
 
 	.target-text {
 		float: left;

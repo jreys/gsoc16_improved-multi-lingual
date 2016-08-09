@@ -16,8 +16,6 @@ if ($app->isSite())
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
 
-JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
-
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
@@ -149,7 +147,7 @@ $app->getDocument()->addScriptDeclaration(
 	<?php endif; ?>
 
 		<input type="hidden" name="task" value=""/>
-		<input type="hidden" name="forcedComponent" value="<?php echo $app->input->get('component', '', 'string'); ?>" />
+		<input type="hidden" name="forcedComponent" value="<?php echo $app->input->get('forcedComponent', '', 'string'); ?>" />
 		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>

@@ -42,7 +42,7 @@ class JFormFieldModalAssociation extends JFormField
 		// Select button script
 		$script[] = '	function jSelectAssociation_' . $this->id . '(id) {';
 		$script[] = '       target = document.getElementById("target-association");';
-		$script[] = '		document.getElementById("target-association").src=target.getAttribute("data-editurl") + '
+		$script[] = '		document.getElementById("target-association").src = target.getAttribute("data-editurl") + '
 								. '"&task=" + target.getAttribute("data-item") + ".edit" + "&id=" + id';
 		$script[] = '		jQuery("#associationSelect' . $this->id . 'Modal").modal("hide");';
 		$script[] = '	}';
@@ -55,12 +55,10 @@ class JFormFieldModalAssociation extends JFormField
 
 		$app = JFactory::getApplication();
 
-		$component = $app->input->get('component', '', 'string');
-
 		$linkAssociations = 'index.php?option=com_associations&amp;view=associations&amp;layout=modal&amp;tmpl=component'
-			. '&amp;forcedComponent=' . $component . '&amp;function=jSelectAssociation_' . $this->id;
+			. '&amp;forcedComponent=' . $app->input->get('component', '', 'string') . '&amp;function=jSelectAssociation_' . $this->id;
 
-		$linkAssociations .= "&amp;forcedLanguage='+ document.getElementById('target-association').getAttribute('data-language') + '";
+		$linkAssociations .= "&amp;forcedLanguage=' + document.getElementById('target-association').getAttribute('data-language') + '";
 
 		$urlSelect = $linkAssociations . '&amp;' . JSession::getFormToken() . '=1';
 
