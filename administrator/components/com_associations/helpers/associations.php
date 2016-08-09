@@ -300,7 +300,7 @@ class AssociationsHelper extends JHelperContent
 	 * @param   integer    $itemId        Item id.
 	 * @param   string     $itemLanguage  Item language code.
 	 * @param   boolean    $addLink       True for adding edit links. False for just text.
-	 * @param   boolean    $allLanguages  True for showing all contetn languages. False only the ones with associations.
+	 * @param   boolean    $allLanguages  True for showing all content languages. False only languages with associations.
 	 *
 	 * @return  string  The language HTML
 	 *
@@ -381,7 +381,7 @@ class AssociationsHelper extends JHelperContent
 				continue;
 			}
 
-			// Don't show empty language association, if we don't want to show languages witout associations.
+			// Don't show languages without associations, if we don't want to show them.
 			if (!$allLanguages && !isset($items[$langCode]))
 			{
 				continue;
