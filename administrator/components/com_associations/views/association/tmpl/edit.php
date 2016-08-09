@@ -37,11 +37,12 @@ $this->app->getDocument()->addStyleDeclaration('
 	.sidebyside .full-width .inner-panel {
 		padding-left: 0 !important;
 	}
-	.sidebyside iframe {
-		width: 100%;
-		height: 1500px;
-		border: 0 !important;
-	}
+	
+	#reference-association, #target-association {
+        width: 100%;
+        height: 1500px;
+        border: 0 !important;
+    }
 
 	.target-text {
 		float: left;
