@@ -390,7 +390,7 @@ class AssociationsHelper extends JHelperContent
 			// Get html parameters.
 			if (isset($items[$langCode]))
 			{
-				$title       = $items[$langCode]->title;
+				$title       = '<br/><br/>' . $items[$langCode]->title;
 				$additional  = '';
 
 				if (isset($items[$langCode]->category_title))
@@ -411,7 +411,7 @@ class AssociationsHelper extends JHelperContent
 			else
 			{
 				$items[$langCode] = new stdClass;
-				$title      = JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
+				$title      = '<br/><br/>' . JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
 				$additional = $addLink ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
 				$labelClass = 'label'; 
 				$target     = $langCode . ':0:add';
@@ -431,7 +431,7 @@ class AssociationsHelper extends JHelperContent
 			$url       = JRoute::_('index.php?' . http_build_query($options));
 			$text      = strtoupper($language->sef);
 			$langImage = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title, array('title' => $language->title), true);
-			$tooltip   = implode(' ', array($langImage, $title, $additional));
+			$tooltip   = implode(' ', array($langImage, $language->title, $title, $additional));
 
 			$items[$langCode]->link = JHtml::_('tooltip', $tooltip, null, null, $text, $allow && $addLink ? $url : '', null, 'hasTooltip ' . $labelClass);
 		}
