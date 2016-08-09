@@ -45,7 +45,6 @@ INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [titl
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (43, 1, 83, 84, 1, 'com_postinstall', 'com_postinstall','{}');
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (48, 1, 85, 86, 1, 'com_associations', 'com_associations', '{}');
 
-
 SET IDENTITY_INSERT [#__assets] OFF;
 
 

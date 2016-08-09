@@ -173,7 +173,6 @@ INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (177, 1, 429, 430, 1, 'com_postinstall', 'com_postinstall', '{}');
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (178, 1, 431, 432, 1, 'com_associations', 'com_associations', '{}');
 
-
 SET IDENTITY_INSERT [#__assets] OFF;
 
 SET IDENTITY_INSERT [#__banner_clients] ON;
