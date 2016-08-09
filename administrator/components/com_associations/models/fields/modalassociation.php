@@ -76,7 +76,7 @@ class JFormFieldModalAssociation extends JFormField
 		// Clear association button
 		$html[] = '<button'
  				. ' class="btn' . ($value ? '' : ' hidden') . '"'
- 				. ' onclick="return Joomla.submitbutton(\"undo-association\");"'
+ 				. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
  				. ' id="remove-assoc">'
  				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
  				. '</button>';
