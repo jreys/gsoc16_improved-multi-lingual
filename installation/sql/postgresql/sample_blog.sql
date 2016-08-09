@@ -9,7 +9,7 @@ TRUNCATE "#__modules_menu" RESTART IDENTITY;
 -- Dumping data for table #__assets
 --
 INSERT INTO "#__assets" VALUES
-(1,0,0,93,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1,0,0,95,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2,1,1,2,1,'com_admin','com_admin','{}'),
 (3,1,3,6,1,'com_banners','com_banners','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (4,1,7,8,1,'com_cache','com_cache','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -52,7 +52,8 @@ INSERT INTO "#__assets" VALUES
 (44,1,85,86,1,'com_tags','com_tags','{"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
 (45,1,87,88,1,'com_contenthistory','com_contenthistory','{}'),
 (46,1,89,90,1,'com_ajax','com_ajax','{}'),
-(47,1,91,92,1,'com_postinstall','com_postinstall','{}');
+(47,1,91,92,1,'com_postinstall','com_postinstall','{}'),
+(48,1,93,94,1,'com_associations','com_associations','{}');
 
 SELECT setval('#__assets_id_seq', max(id)) FROM #__assets;
 
