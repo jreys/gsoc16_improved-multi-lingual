@@ -25,17 +25,17 @@ jQuery(document).ready(function($) {
 		{
 			Joomla.submitform(task);
 		}
-				// Undo association
+		// Undo association
 		else if (task == 'undo-association')
 		{
-			var reference     = $('#reference-association');
-			var target        = $('#target-association');
-			var referenceId   = reference.attr('data-id');
-			var referenceLang = reference.attr('data-language').replace(/-/,'_');
-			var targetId      = target.attr('data-id');
-			var targetLang    = target.attr('data-language').replace(/-/,'_');
-			reference         = reference.contents();
-			target            = target.contents();
+			var reference     = document.getElementById('reference-association');
+            var target        = document.getElementById('target-association');
+            var referenceId   = reference.getAttribute('data-id');
+            var referenceLang = reference.getAttribute('data-language').replace(/-/,'_');
+            var targetId      = target.getAttribute('data-id');
+            var targetLang    = target.getAttribute('data-language').replace(/-/,'_');
+            reference         = $(reference).contents();
+            target            = $(target).contents();
 			
 			// Remove it on the reference
 			// - For modal association selectors.
@@ -57,7 +57,7 @@ jQuery(document).ready(function($) {
  					target.find('#jform_associations_' + lang + '_id').val('');
  					// - For chosen association selectors (menus).
 					target.find('#jform_associations_' + lang + '_chzn').remove();
-					chznField = target.find('#jform_associations_' + lang).val('').change().chosen();
+					target.find('#jform_associations_' + lang).val('').change().chosen();
  				}
 			});
 			
@@ -68,10 +68,10 @@ jQuery(document).ready(function($) {
 			
 			// - For chosen association selectors (menus).
 			target.find('#jform_associations_' + referenceLang + '_chzn').remove();
-			chznField = target.find('#jform_associations_' + referenceLang).val('').change().chosen();
+			target.find('#jform_associations_' + referenceLang).val('').change().chosen();
 			
-			currentSwitcher = $('#jform_itemlanguage').val();
-			currentLang = referenceLang.replace(/_/,'-');
+			var currentSwitcher = $('#jform_itemlanguage').val();
+			var currentLang = referenceLang.replace(/_/,'-');
 			$('#jform_itemlanguage option[value=\"' + currentSwitcher + '\"]').val(currentLang + ':0:add');
 			$('#jform_itemlanguage').val('').change();
 			$('#jform_itemlanguage').trigger('liszt:updated');
@@ -152,11 +152,12 @@ jQuery(document).ready(function($) {
 		$(this).contents().find('#jform_language_chzn').remove();
 		$(this).contents().find('#jform_language').attr('disabled', true).chosen();
 
+		// Hide associations
+		$(this).contents().find('a[href=\"#associations\"]').hide();
+
 		// Later usage copy function?
 		//$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
 		//referenceContents.find('#associations .controls').css('pointer-events', 'auto');
-
-		document.getElementById('remove-assoc').setAttribute("onclick", "return Joomla.submitbutton('undo-association');");
 
 		// Iframe load finished, hide Joomla loading layer.
 		Joomla.loadingLayer('hide');
