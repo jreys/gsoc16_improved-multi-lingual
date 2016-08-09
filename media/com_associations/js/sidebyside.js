@@ -155,6 +155,9 @@ jQuery(document).ready(function($) {
 		$(this).contents().find('#jform_language_chzn').remove();
 		$(this).contents().find('#jform_language').attr('disabled', true).chosen();
 
+		// Hide modal buttons on the reference
+		$(this).contents().find('#associations').find('.btn').remove();
+
 		// Later usage copy function?
 		//$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
 		//referenceContents.find('#associations .controls').css('pointer-events', 'auto');
