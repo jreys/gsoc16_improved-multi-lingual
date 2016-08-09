@@ -29,13 +29,13 @@ jQuery(document).ready(function($) {
 		else if (task == 'undo-association')
 		{
 			var reference     = document.getElementById('reference-association');
-            var target        = document.getElementById('target-association');
-            var referenceId   = reference.getAttribute('data-id');
-            var referenceLang = reference.getAttribute('data-language').replace(/-/,'_');
-            var targetId      = target.getAttribute('data-id');
-            var targetLang    = target.getAttribute('data-language').replace(/-/,'_');
-            reference         = $(reference).contents();
-            target            = $(target).contents();
+			var target        = document.getElementById('target-association');
+			var referenceId   = reference.getAttribute('data-id');
+			var referenceLang = reference.getAttribute('data-language').replace(/-/,'_');
+			var targetId      = target.getAttribute('data-id');
+			var targetLang    = target.getAttribute('data-language').replace(/-/,'_');
+			reference         = $(reference).contents();
+			target            = $(target).contents();
 			
 			// Remove it on the reference
 			// - For modal association selectors.
@@ -52,13 +52,13 @@ jQuery(document).ready(function($) {
 				var lang = $(this).val().split('|')[0];
 				if (typeof lang !== 'undefined')
 				{
- 					lang = lang.replace(/-/,'_');
- 					// - For modal association selectors.
- 					target.find('#jform_associations_' + lang + '_id').val('');
- 					// - For chosen association selectors (menus).
+					lang = lang.replace(/-/,'_');
+					// - For modal association selectors.
+					target.find('#jform_associations_' + lang + '_id').val('');
+					// - For chosen association selectors (menus).
 					target.find('#jform_associations_' + lang + '_chzn').remove();
 					target.find('#jform_associations_' + lang).val('').change().chosen();
- 				}
+				}
 			});
 			
 			// Same as above but reference language is not in the selector
@@ -230,7 +230,7 @@ jQuery(document).ready(function($) {
 				var referenceId   = reference.getAttribute('data-id');
 				var languageCode  = reference.getAttribute('data-language').replace(/-/, '_');
 				var title         = $(reference).contents().find('#jform_title').val();
-				target            = $(this).contents();
+				var target            = $(this).contents();
 
 				// - For modal association selectors.
 				target.find('#jform_associations_' + languageCode + '_id').val(referenceId);
@@ -249,15 +249,15 @@ jQuery(document).ready(function($) {
 					if (typeof parse[1] !== 'undefined' && parse[1] !== '0')
 					{
 						// - For modal association selectors.
-	 					langAssociation = parse[0].replace(/-/,'_');
-	 					target.find('#jform_associations_' + langAssociation + '_id').val(parse[1]);
+						langAssociation = parse[0].replace(/-/,'_');
+						target.find('#jform_associations_' + langAssociation + '_id').val(parse[1]);
 
-	 					// - For chosen association selectors (menus).
+						// - For chosen association selectors (menus).
 						target.find('#jform_associations_' + langAssociation + '_chzn').remove();
 						chznField = target.find('#jform_associations_' + langAssociation);
 						chznField.append('<option value=\"'+ parse[1] + '\"></option>');
 						chznField.val(parse[1]).change().chosen();
-	 				}
+					}
 				});
 
 			// Iframe load finished, hide Joomla loading layer.
