@@ -37,15 +37,16 @@ $this->app->getDocument()->addStyleDeclaration('
 	.sidebyside .full-width .inner-panel {
 		padding-left: 0 !important;
 	}
-	.sidebyside iframe {
+	
+	#reference-association, #target-association {
 		width: 100%;
 		height: 1500px;
 		border: 0 !important;
 	}
 
-	.language-selector h3 {
+	.target-text {
 		float: left;
-		width: 50%;
+		width: 30%;
 	}
 ');
 
@@ -79,11 +80,11 @@ $options = array(
 				</iframe>
 			</div>
 		</div>
-
 		<div class="outer-panel" id="right-panel">
 			<div class="inner-panel">
 				<div class="language-selector">
-					<h3><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
+					<h3 class="target-text"><?php echo JText::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
+					<?php echo $this->form->getInput('modalassociation'); ?>
 					<?php echo $this->form->getInput('itemlanguage'); ?>
 				</div>
 				<iframe id="target-association" name="target-association"
