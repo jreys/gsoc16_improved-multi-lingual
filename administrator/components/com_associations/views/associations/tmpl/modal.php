@@ -131,7 +131,7 @@ $app->getDocument()->addScriptDeclaration(
 					</td>
 					<td>
 						<?php if ($item->association) : ?>
-							<?php echo JHtml::_($this->component->associations->htmlhelper->key, $item->id, $this->component->extension); ?>
+							<?php echo AssociationsHelper::getAssociationHtmlList($this->component, (int) $item->id, $item->language, false); ?>
 						<?php endif; ?>
 					</td>
 					<?php if (!is_null($this->component->fields->menutype)) : ?>
