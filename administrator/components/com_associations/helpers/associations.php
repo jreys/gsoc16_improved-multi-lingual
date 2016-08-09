@@ -300,12 +300,13 @@ class AssociationsHelper extends JHelperContent
 	 * @param   integer    $itemId        Item id.
 	 * @param   string     $itemLanguage  Item language code.
 	 * @param   boolean    $addLink       True for adding edit links. False for just text.
+	 * @param   boolean    $allLanguages  True for showing all contetn languages. False only the ones with associations.
 	 *
 	 * @return  string  The language HTML
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function getAssociationHtmlList($component, $itemId, $itemLanguage, $addLink = true)
+	public static function getAssociationHtmlList($component, $itemId, $itemLanguage, $addLink = true, $allLanguages = true)
 	{
 		$db    = JFactory::getDbo();
 		$items = array();
@@ -380,11 +381,17 @@ class AssociationsHelper extends JHelperContent
 				continue;
 			}
 
+			// Don't show empty language association, if we don't want to show languages witout associations.
+			if (!$allLanguages && !isset($items[$langCode]))
+			{
+				continue;
+			}
+
 			// Get html parameters.
 			if (isset($items[$langCode]))
 			{
-				$title      = $items[$langCode]->title;
-				$additional = '';
+				$title       = $items[$langCode]->title;
+				$additional  = '';
 
 				if (isset($items[$langCode]->category_title))
 				{
@@ -395,16 +402,17 @@ class AssociationsHelper extends JHelperContent
 					$additional = '<br/>' . JText::_('COM_ASSOCIATIONS_HEADING_MENUTYPE') . ': ' . $items[$langCode]->menu_title;
 				}
 
-				$labelClass = 'label label-success'; 
-				$target     = $langCode . ':' . $items[$langCode]->id . ':edit';
+				$additional .= $addLink ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
+				$labelClass  = 'label label-success'; 
+				$target      = $langCode . ':' . $items[$langCode]->id . ':edit';
 				$table->load($items[$langCode]->id);
-				$allow      = $canEditReference && self::allowEdit($component, $table);
+				$allow       = $canEditReference && self::allowEdit($component, $table);
 			}
 			else
 			{
 				$items[$langCode] = new stdClass;
-				$title      = JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION');
-				$additional = '';
+				$title      = JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
+				$additional = $addLink ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
 				$labelClass = 'label'; 
 				$target     = $langCode . ':0:add';
 				$allow      = $canCreate;
