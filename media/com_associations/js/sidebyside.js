@@ -46,10 +46,12 @@ jQuery(document).ready(function($) {
 			reference.find('#jform_associations_' + targetLang + '_chzn').remove();
 			reference.find('#jform_associations_' + targetLang).val('').change().chosen();
 			
+			var lang = '';
+
 			// Remove it on the target
 			$('#jform_itemlanguage option').each(function()
 			{
-				var lang = $(this).val().split('|')[0];
+				lang = $(this).val().split('|')[0];
 				if (typeof lang !== 'undefined')
 				{
 					lang = lang.replace(/-/,'_');
@@ -224,11 +226,11 @@ jQuery(document).ready(function($) {
 			}
 
 			// Update the target item associations tab.
-			var reference     = document.getElementById('reference-association');
-			var referenceId   = reference.getAttribute('data-id');
-			var languageCode  = reference.getAttribute('data-language').replace(/-/, '_');
-			var title         = $(reference).contents().find('#jform_title').val();
-			var target        = $(this).contents();
+			var reference    = document.getElementById('reference-association');
+			var referenceId  = reference.getAttribute('data-id');
+			var languageCode = reference.getAttribute('data-language').replace(/-/, '_');
+			var title        = $(reference).contents().find('#jform_title').val();
+			var target       = $(this).contents();
 
 			// - For modal association selectors.
 			target.find('#jform_associations_' + languageCode + '_id').val(referenceId);
@@ -240,9 +242,11 @@ jQuery(document).ready(function($) {
 			chznField.append('<option value=\"'+ referenceId + '\">' + title + '</option>');
 			chznField.val(referenceId).change().chosen();
 
+				
+
 			$('#jform_itemlanguage option').each(function()
 			{
-				var parse = $(this).val().split(':');
+				parse = $(this).val().split(':');
 
 				if (typeof parse[1] !== 'undefined' && parse[1] !== '0')
 				{
