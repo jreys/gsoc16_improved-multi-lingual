@@ -13,17 +13,28 @@ $data = $displayData;
 
 if ($data['view'] instanceof AssociationsViewAssociations)
 {
+	$app = JFactory::getApplication();
+
 	// We will get the component and language filters & remove it from the form filters
-	$componentTypeField = $data['view']->filterForm->getField('component');
-	$languageField      = $data['view']->filterForm->getField('language');
+	if ($app->input->get('forcedComponent', '', 'string') == '')
+	{
+		$componentTypeField = $data['view']->filterForm->getField('component');
+	
 ?>
 	<div class="js-stools-field-filter js-stools-selector">
 		<?php echo $componentTypeField->input; ?>
 	</div>
+<?php
+	}
+	if ($app->input->get('forcedLanguage', '', 'cmd') == '')
+	{
+		$languageField = $data['view']->filterForm->getField('language');
+?>
 	<div class="js-stools-field-filter js-stools-selector">
 		<?php echo $languageField->input; ?>
 	</div>
 <?php
+	}
 }
 
 // Display the main joomla layout
