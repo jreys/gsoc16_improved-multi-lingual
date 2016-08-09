@@ -53,10 +53,8 @@ class JFormFieldModalAssociation extends JFormField
 		// Setup variables for display.
 		$html = array();
 
-		$app = JFactory::getApplication();
-
 		$linkAssociations = 'index.php?option=com_associations&amp;view=associations&amp;layout=modal&amp;tmpl=component'
-			. '&amp;forcedComponent=' . $app->input->get('component', '', 'string') . '&amp;function=jSelectAssociation_' . $this->id;
+			. '&amp;forcedComponent=' . JFactory::getApplication()->input->get('component', '', 'string') . '&amp;function=jSelectAssociation_' . $this->id;
 
 		$linkAssociations .= "&amp;forcedLanguage=' + document.getElementById('target-association').getAttribute('data-language') + '";
 

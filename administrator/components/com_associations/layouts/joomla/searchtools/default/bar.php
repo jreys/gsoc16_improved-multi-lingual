@@ -9,11 +9,12 @@
 
 defined('JPATH_BASE') or die;
 
-$data      = $displayData;
-$app       = JFactory::getApplication();
+$data = $displayData;
 
 if ($data['view'] instanceof AssociationsViewAssociations)
 {
+	$app  = JFactory::getApplication();
+	
 	// We will get the component and language filters & remove it from the form filters
 	if ($app->input->get('forcedComponent', '', 'string') == '')
 	{

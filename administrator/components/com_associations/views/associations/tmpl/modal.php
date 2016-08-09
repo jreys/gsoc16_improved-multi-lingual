@@ -76,6 +76,9 @@ $app->getDocument()->addScriptDeclaration(
 					<th width="15%" class="nowrap">
 						<?php echo JText::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
+					<th width="5%" class="nowrap">
+						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+					</th>
 					<?php if (!is_null($this->component->fields->menutype)) : ?>
 						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); $colSpan++; ?>
@@ -126,6 +129,11 @@ $app->getDocument()->addScriptDeclaration(
 					<td class="small">
 						<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 					</td>
+					<td>
+						<?php if ($item->association) : ?>
+							<?php echo JHtml::_($this->component->associations->htmlhelper->key, $item->id, $this->component->extension); ?>
+						<?php endif; ?>
+					</td>
 					<?php if (!is_null($this->component->fields->menutype)) : ?>
 						<td class="small">
 							<?php echo $this->escape($item->menutype_title); ?>
@@ -148,7 +156,7 @@ $app->getDocument()->addScriptDeclaration(
 
 		<input type="hidden" name="task" value=""/>
 		<input type="hidden" name="forcedComponent" value="<?php echo $app->input->get('forcedComponent', '', 'string'); ?>" />
-		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>" />
+		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
