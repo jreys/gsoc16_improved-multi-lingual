@@ -242,7 +242,7 @@ jQuery(document).ready(function($) {
 			chznField.append('<option value=\"'+ referenceId + '\">' + title + '</option>');
 			chznField.val(referenceId).change().chosen();
 
-				
+			var parse, langAssociation;
 
 			$('#jform_itemlanguage option').each(function()
 			{
