@@ -23,11 +23,11 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$function         = $app->input->getCmd('function', 'jSelectAssociation');
-$listOrder        = $this->escape($this->state->get('list.ordering'));
-$listDirn         = $this->escape($this->state->get('list.direction'));
-$colSpan          = 3;
-$iconStates       = array(
+$function   = $app->input->getCmd('function', 'jSelectAssociation');
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
+$colSpan    = 3;
+$iconStates = array(
 	-2 => 'icon-trash',
 	0  => 'icon-unpublish',
 	1  => 'icon-publish',
@@ -149,7 +149,7 @@ $app->getDocument()->addScriptDeclaration(
 	<?php endif; ?>
 
 		<input type="hidden" name="task" value=""/>
-		<input type="hidden" name="component" value="<?php echo $app->input->get('component', '', 'string'); ?>" />
+		<input type="hidden" name="forcedComponent" value="<?php echo $app->input->get('component', '', 'string'); ?>" />
 		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>

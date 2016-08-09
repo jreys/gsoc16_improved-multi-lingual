@@ -58,7 +58,7 @@ class JFormFieldModalAssociation extends JFormField
 		$component = $app->input->get('component', '', 'string');
 
 		$linkAssociations = 'index.php?option=com_associations&amp;view=associations&amp;layout=modal&amp;tmpl=component'
-			. '&amp;component=' . $component . '&amp;function=jSelectAssociation_' . $this->id;
+			. '&amp;forcedComponent=' . $component . '&amp;function=jSelectAssociation_' . $this->id;
 
 		$linkAssociations .= "&amp;forcedLanguage='+ document.getElementById('target-association').getAttribute('data-language') + '";
 
@@ -80,6 +80,7 @@ class JFormFieldModalAssociation extends JFormField
 		// Clear association button
 		$html[] = '<button'
  				. ' class="btn' . ($value ? '' : ' hidden') . '"'
+ 				. ' onclick="return Joomla.submitbutton(\"undo-association\");"'
  				. ' id="remove-assoc">'
  				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
  				. '</button>';

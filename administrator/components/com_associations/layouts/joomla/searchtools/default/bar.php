@@ -9,16 +9,15 @@
 
 defined('JPATH_BASE') or die;
 
-$data    = $displayData;
-$isModal = !is_null($data['view']->getLayout()) ? $data['view']->getLayout() == 'modal' : false;
-
-$app = JFactory::getApplication();
-$language = $app->input->get('forcedLanguage', '', 'string');
+$data      = $displayData;
+$app       = JFactory::getApplication();
+$language  = $app->input->get('forcedLanguage', '', 'cmd');
+$component = $app->input->get('forcedComponent', '', 'string');
 
 if ($data['view'] instanceof AssociationsViewAssociations)
 {
 	// We will get the component and language filters & remove it from the form filters
-	if (!$isModal)
+	if ($component == '')
 	{
 		$componentTypeField = $data['view']->filterForm->getField('component');
 	
