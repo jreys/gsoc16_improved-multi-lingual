@@ -7,7 +7,7 @@ TRUNCATE TABLE [#__modules_menu];
 
 SET IDENTITY_INSERT [#__assets] ON;
 
-INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (1, 0, 0, 93, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}');
+INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (1, 0, 0, 95, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}');
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}');
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}');
@@ -51,6 +51,7 @@ INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (45, 1, 87, 88, 1, 'com_contenthistory', 'com_contenthistory', '{}');
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (46, 1, 89, 90, 1, 'com_ajax', 'com_ajax', '{}');
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (47, 1, 91, 92, 1, 'com_postinstall', 'com_postinstall', '{}');
+INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (48, 1, 93, 94, 1, 'com_associations', 'com_associations', '{}');
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
