@@ -88,6 +88,22 @@ class AssociationsViewAssociation extends JViewLegacy
 		// Reference and target edit links.
 		$this->editUri = 'index.php?' . http_build_query($options);
 
+		// Get target language.
+		$this->targetId         = '0';
+		$this->targetLanguage   = '';
+		$this->defaultTargetSrc = '';
+
+		if ($target = $input->get('target', '', 'string'))
+		{
+			$matches = preg_split("#[\:]+#", $target);
+			$this->targetAction     = $matches[2];
+			$this->targetId         = $matches[1];
+			$this->targetLanguage   = $matches[0];
+			$task                   = $this->component->item . '.' . $this->targetAction;
+			$this->defaultTargetSrc = JRoute::_($this->editUri . '&task= ' . $task . ' &id=' . (int) $this->targetId);
+			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
+		}
+
 		/*
 		* @todo Review later
 		*/
