@@ -245,6 +245,7 @@ class AssociationsHelper extends JHelperContent
 			// Component fields
 			// @todo This need should be checked hardcoding.
 			$cp[$key]->fields                   = new Registry;
+			$cp[$key]->fields->id               = isset($cp[$key]->tableFields['id']) ? 'id' : null;
 			$cp[$key]->fields->title            = isset($cp[$key]->tableFields['name']) ? 'name' : null;
 			$cp[$key]->fields->title            = isset($cp[$key]->tableFields['title']) ? 'title' : $cp[$key]->fields->title;
 			$cp[$key]->fields->alias            = isset($cp[$key]->tableFields['alias']) ? 'alias' : null;
@@ -284,12 +285,155 @@ class AssociationsHelper extends JHelperContent
 
 			// Check the default ordering (ordering is the default, is component does not support, fallback to title).
 			$cp[$key]->defaultOrdering = is_null($cp[$key]->fields->ordering) ? array('title', 'ASC') : array('ordering', 'ASC');
-
-			// Flag that indicates if the component allow modal layout and so have a custom target button.
-			$cp[$key]->customTarget = (int) file_exists($cp[$key]->adminPath . '/views/' . $cp[$key]->item . 's/tmpl/modal.php');
 		}
 
 		return $cp[$key];
+	}
+
+	/**
+	 * Get the associated language edit links Html.
+	 *
+	 * @param   JRegistry  $component     Component properties.
+	 * @param   integer    $itemId        Item id.
+	 * @param   string     $itemLanguage  Item language code.
+	 * @param   boolean    $addLink       True for adding edit links. False for just text.
+	 * @param   boolean    $allLanguages  True for showing all content languages. False only languages with associations.
+	 *
+	 * @return  string  The language HTML
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function getAssociationHtmlList($component, $itemId, $itemLanguage, $addLink = true, $allLanguages = true)
+	{
+		$db    = JFactory::getDbo();
+		$items = array();
+
+		// Get the associations.
+		$associations = JLanguageAssociations::getAssociations(
+			$component->realcomponent,
+			$component->dbtable,
+			$component->associations->context,
+			$itemId,
+			$component->fields->id,
+			$component->fields->alias,
+			$component->fields->catid
+		);
+
+		// If associations exist get their data.
+		if ($associations)
+		{
+			foreach ($associations as $tag => $associated)
+			{
+				$associations[$tag] = (int) $associated->id;
+			}
+
+			// Get the associated items.
+			$query = $db->getQuery(true)
+				->select($db->quoteName('a.' . $component->fields->id, 'id'))
+				->select($db->quoteName('a.' . $component->fields->language, 'language'))
+				->select($db->quoteName('a.' . $component->fields->title, 'title'))
+				->from($db->quoteName($component->dbtable, 'a'))
+				->where($db->quoteName('a.' . $component->fields->id) . ' IN (' . implode(', ', array_values($associations)) . ')');
+
+			if (!is_null($component->fields->catid))
+			{
+				$query->select($db->quoteName('c.title', 'category_title'))
+					->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('a.' . $component->fields->catid));
+			}
+
+			if (!is_null($component->fields->menutype))
+			{
+				$query->select($db->quoteName('mt.title', 'menu_title'))
+					->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->qn('mt.menutype') . ' = ' . $db->qn('a.' . $component->fields->menutype));
+			}
+
+			$db->setQuery($query);
+
+			$items = $db->loadObjectList($component->fields->language);
+		}
+
+		// Get all content languages.
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array('sef', 'lang_code', 'image', 'title')))
+			->from($db->quoteName('#__languages'))
+			->order($db->quoteName('ordering') . ' ASC');
+
+		$db->setQuery($query);
+
+		$languages = $db->loadObjectList('lang_code');
+
+		// Load item table for ACL checks.
+		$table = clone $component->table;
+		$table->load($itemId);
+
+		$canEditReference = self::allowEdit($component, $table);
+		$canCreate        = self::allowAdd($component);
+
+		// Create associated items list.
+		foreach ($languages as $langCode => $language)
+		{
+			// Don't do for the reference language.
+			if ($langCode == $itemLanguage)
+			{
+				continue;
+			}
+
+			// Don't show languages without associations, if we don't want to show them.
+			if (!$allLanguages && !isset($items[$langCode]))
+			{
+				continue;
+			}
+
+			// Get html parameters.
+			if (isset($items[$langCode]))
+			{
+				$title       = '<br/><br/>' . $items[$langCode]->title;
+				$additional  = '';
+
+				if (isset($items[$langCode]->category_title))
+				{
+					$additional = '<br/>' . JText::_('JCATEGORY') . ': ' . $items[$langCode]->category_title;
+				}
+				elseif (isset($items[$langCode]->menu_title))
+				{
+					$additional = '<br/>' . JText::_('COM_ASSOCIATIONS_HEADING_MENUTYPE') . ': ' . $items[$langCode]->menu_title;
+				}
+
+				$additional .= $addLink ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
+				$labelClass  = 'label'; 
+				$target      = $langCode . ':' . $items[$langCode]->id . ':edit';
+				$table->load($items[$langCode]->id);
+				$allow       = $canEditReference && self::allowEdit($component, $table);
+			}
+			else
+			{
+				$items[$langCode] = new stdClass;
+				$title      = '<br/><br/>' . JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
+				$additional = $addLink ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
+				$labelClass = 'label'; 
+				$target     = $langCode . ':0:add';
+				$allow      = $canCreate;
+			}
+
+			// Generate item Html.
+			$options   = array(
+				'option'    => 'com_associations',
+				'view'      => 'association',
+				'layout'    => 'edit',
+				'component' => $component->key,
+				'task'      => 'association.edit',
+				'id'        => $itemId,
+				'target'    => $target,
+			);
+			$url       = JRoute::_('index.php?' . http_build_query($options));
+			$text      = strtoupper($language->sef);
+			$langImage = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title, array('title' => $language->title), true);
+			$tooltip   = implode(' ', array($langImage, $language->title, $title, $additional));
+
+			$items[$langCode]->link = JHtml::_('tooltip', $tooltip, null, null, $text, $allow && $addLink ? $url : '', null, 'hasTooltip ' . $labelClass);
+		}
+
+		return JLayoutHelper::render('joomla.content.associations', $items);
 	}
 
 	/**
