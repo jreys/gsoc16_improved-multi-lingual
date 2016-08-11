@@ -92,6 +92,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		$this->targetId         = '0';
 		$this->targetLanguage   = '';
 		$this->defaultTargetSrc = '';
+		$this->targetAction     = '';
 
 		if ($target = $input->get('target', '', 'string'))
 		{
@@ -159,7 +160,7 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')"'
-			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>' 
+			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 

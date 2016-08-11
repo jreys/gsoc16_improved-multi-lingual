@@ -400,7 +400,7 @@ class AssociationsHelper extends JHelperContent
 				}
 
 				$additional .= $addLink ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
-				$labelClass  = 'label'; 
+				$labelClass  = 'label';
 				$target      = $langCode . ':' . $items[$langCode]->id . ':edit';
 				$table->load($items[$langCode]->id);
 				$allow       = $canEditReference && self::allowEdit($component, $table);
@@ -410,7 +410,7 @@ class AssociationsHelper extends JHelperContent
 				$items[$langCode] = new stdClass;
 				$title      = '<br/><br/>' . JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
 				$additional = $addLink ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
-				$labelClass = 'label'; 
+				$labelClass = 'label label-warning';
 				$target     = $langCode . ':0:add';
 				$allow      = $canCreate;
 			}
