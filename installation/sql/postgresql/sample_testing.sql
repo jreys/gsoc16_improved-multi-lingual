@@ -172,7 +172,7 @@ INSERT INTO "#__assets" VALUES
 (175,1,426,427,1,'com_contenthistory','com_contenthistory','{}'),
 (176,1,428,429,1,'com_ajax','com_ajax','{}'),
 (177,1,429,430,1,'com_postinstall','com_postinstall','{}'),
-(178,1,431,432,1,'com_associations','com_associations','{}');
+(178,1,431,432,1,'com_associations','com_associations','{"core.admin":{"7":1},"core.manage":{"6":1}}');
 
 SELECT setval('#__assets_id_seq', max(id)) FROM #__assets;
 
