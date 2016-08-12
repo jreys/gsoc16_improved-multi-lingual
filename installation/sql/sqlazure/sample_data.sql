@@ -43,7 +43,7 @@ INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (37, 1, 71, 72, 1, 'com_contenthistory', 'com_contenthistory', '{}');
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (38, 1, 73, 74, 1, 'com_ajax', 'com_ajax', '{}');
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (39, 1, 75, 76, 1, 'com_postinstall', 'com_postinstall', '{}');
-INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (40, 1, 77, 78, 1, 'com_associations', 'com_associations', '{}');
+INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (40, 1, 77, 78, 1, 'com_associations', 'com_associations', '{"core.admin":{"7":1},"core.manage":{"6":1}}');
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
