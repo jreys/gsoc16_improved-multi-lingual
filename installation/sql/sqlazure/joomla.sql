@@ -138,7 +138,7 @@ SELECT 53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{"core.del
 UNION ALL
 SELECT 54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'
 UNION ALL
-SELECT 55, 1, 103, 104, 1, 'com_associations', 'com_associations', '{}';
+SELECT 55, 1, 103, 104, 1, 'com_associations', 'com_associations', '{"core.admin":{"7":1},"core.manage":{"6":1}}';
 
 SET IDENTITY_INSERT #__assets OFF;
 
