@@ -171,7 +171,7 @@ INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (175, 1, 426, 427, 1, 'com_contenthistory', 'com_contenthistory', '{}');
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (176, 1, 428, 429, 1, 'com_ajax', 'com_ajax', '{}');
 INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (177, 1, 429, 430, 1, 'com_postinstall', 'com_postinstall', '{}');
-INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (178, 1, 431, 432, 1, 'com_associations', 'com_associations', '{}');
+INSERT [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (178, 1, 431, 432, 1, 'com_associations', 'com_associations', '{"core.admin":{"7":1},"core.manage":{"6":1}}');
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
