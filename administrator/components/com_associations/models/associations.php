@@ -348,4 +348,103 @@ class AssociationsModelAssociations extends JModelList
 
 		return $query;
 	}
+
+	/**
+	 * Cleans out _associations table.
+	 *
+	 * @return  bool True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function purge()
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->quoteName('#__associations'))
+			->where($db->quoteName('id') . ' > 0');
+
+			$db->setQuery($query);
+
+			$count = $db->loadResult();
+
+		if ($count != 0)
+		{
+			// Get the localise data
+			$db->setQuery('TRUNCATE TABLE ' . $db->quoteName('#__associations'));
+
+			try
+			{
+				$db->execute();
+			}
+			catch (JDatabaseExceptionExecuting $e)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_PURGE_FAILED', error));
+
+				return false;
+			}
+
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_PURGE_SUCCESS'));
+		}
+		else
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_PURGE_NONE'));
+		}
+
+		return true;
+	}
+
+	/**
+	 * Delete orphans from the _associations table.
+	 *
+	 * @return  bool True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function clean()
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('key') . ', COUNT(*)')
+			->from($db->quoteName('#__associations'))
+			->group($db->quoteName('key'))
+			->having('COUNT(*) = 1');
+		$db->setQuery($query);
+
+		$assocKeys = $db->loadObjectList();
+
+		if ($assocKeys)
+		{
+			// We have orphans. Let's delete them.
+			foreach ($assocKeys as $value)
+			{
+				$query->clear()
+					->delete($db->quoteName('#__associations'))
+					->where($db->quoteName('key') . ' = ' . $db->quote($value->key));
+
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (JDatabaseExceptionExecuting $e)
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED', error));
+
+					return false;
+				}
+			}
+
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_DELETE_ORPHANS_SUCCESS'));
+		}
+		else
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_DELETE_ORPHANS_NONE'));
+		}
+
+		return true;
+	}
 }
