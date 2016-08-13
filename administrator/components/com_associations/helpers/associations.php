@@ -164,6 +164,12 @@ class AssociationsHelper extends JHelperContent
 			// Check the default ordering (ordering is the default, is component does not support, fallback to title).
 			$it[$key]->defaultOrdering = is_null($it[$key]->fields->ordering) ? array('title', 'ASC') : array('ordering', 'ASC');
 
+			// If item does not have id, title, alias and language cannot support associations.
+			if (in_array(null, array($it[$key]->fields->id, $it[$key]->fields->title, $it[$key]->fields->alias, $it[$key]->fields->language)))
+			{
+				$it[$key]->associations->support = false;
+			}
+
 			// Check the helpers.
 			$it[$key] = self::getItemHelpers($it[$key]);
 			if (!isset($it[$key]->associations->gethelper) || !isset($it[$key]->associations->htmlhelper))
