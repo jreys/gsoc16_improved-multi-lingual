@@ -13,11 +13,11 @@ JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_a
 JFormHelper::loadFieldClass('groupedlist');
 
 /**
- * A drop down containing all components that implement associations
+ * A drop down containing all component item types that implement associations.
  *
  * @since  __DEPLOY_VERSION__
  */
-class JFormFieldAssociatedComponent extends JFormFieldGroupedList
+class JFormFieldItemType extends JFormFieldGroupedList
 {
 	/**
 	 * The form field type.
@@ -26,7 +26,7 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $type = 'AssociatedComponent';
+	protected $type = 'ItemType';
 	
 	/**
 	 * Method to get the field input markup.
@@ -40,10 +40,12 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 	{
 		$user              = JFactory::getUser();
 		$options           = array();
-		$typeAliasList     = array();
+		$itemTypeList      = array();
 		$excludeComponents = array(
 			'com_admin',
 			'com_ajax',
+			'com_associations',
+			'com_banners',
 			'com_cache',
 			'com_checkin',
 			'com_config',
@@ -66,6 +68,12 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 			'com_templates',
 			'com_users',
 		);
+		$excludeItemTypes = array(
+			'com_contact'   => array('contacts'),
+			'com_content'   => array('articles', 'featured'),
+			'com_menus'     => array('items', 'menu', 'menus', 'menutypes'),
+			'com_newsfeeds' => array('newsfeeds'),
+		);
 
 		// Get all admin components.
 		foreach (glob(JPATH_ADMINISTRATOR . '/components/*', GLOB_NOSORT | GLOB_ONLYDIR) as $componentAdminPath)
@@ -82,25 +90,43 @@ class JFormFieldAssociatedComponent extends JFormFieldGroupedList
 			// Check if component uses associations, by checking is models.
 			foreach (glob($componentModelsPath . '/*.php', GLOB_NOSORT) as $modelFile)
 			{
-				$cp = AssociationsHelper::getComponentProperties($component . '.' . strtolower(basename($modelFile, '.php')));
+				$itemTypeName = strtolower(basename($modelFile, '.php'));
 
-				// Check if component supports associations.
-				if ($cp->enabled && $cp->associations->support && $cp->associations->supportItem && !in_array($cp->typeAlias, $typeAliasList))
+				// Only item types that aren't in the excluded components item types array.
+				if (isset($excludeItemTypes[$component]) && in_array($itemTypeName, $excludeItemTypes[$component]))
 				{
-					// Add component option select box.
-					$options[$cp->title][] = JHtml::_('select.option', $cp->typeAlias, $cp->itemsTitle);
-
-					array_push($typeAliasList, $cp->typeAlias);
+					continue;
 				}
-			}
 
-			// Check if component uses categories with associations. Add category option to select box if so.
-			$cp = AssociationsHelper::getComponentProperties($component);
+				$itemType = AssociationsHelper::getItemTypeProperties($component . '.' . $itemTypeName);
 
-			// Check if component uses categories with associations. Add category option to select box if so.
-			if ($cp->enabled && $cp->associations->supportCategories)
-			{
-				$options[$cp->title][] = JHtml::_('select.option', 'com_categories.category:' . $cp->realcomponent, $cp->categoriesTitle);
+				if ($itemType->componentEnabled)
+				{
+					// Check if component item type supports associations. Add item option to select box if so.
+					if ($itemType->associations->support && !in_array($itemType->assetKey, $itemTypeList))
+					{
+						$options[$itemType->componentTitle][] = JHtml::_('select.option', $itemType->assetKey, $itemType->title);
+
+						array_push($itemTypeList, $itemType->assetKey);
+					}
+
+					$itemCategoryType = AssociationsHelper::getItemTypeProperties($itemType->categoryContext . '.category');
+
+					// Check if component item type support categories. Add category option to select box if so.
+					if (isset($itemType->fields)
+						&& !is_null($itemType->fields->catid)
+						&& $itemCategoryType->associations->support
+						&& !in_array($itemCategoryType->assetKey, $itemTypeList))
+					{
+						$options[$itemCategoryType->componentTitle][] = JHtml::_(
+							'select.option',
+							$itemCategoryType->assetKey,
+							$itemCategoryType->title
+						);
+
+						array_push($itemTypeList, $itemCategoryType->assetKey);
+					}
+				}
 			}
 		}
 
