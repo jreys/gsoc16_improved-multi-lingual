@@ -43,7 +43,7 @@ INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [titl
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES('41', '1', '79', '80', '1', 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}');
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('42', '1', '81', '82', '1', 'com_ajax', 'com_ajax', '{}');
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (43, 1, 83, 84, 1, 'com_postinstall', 'com_postinstall','{}');
-INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (48, 1, 85, 86, 1, 'com_associations', 'com_associations', '{}');
+INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (48, 1, 85, 86, 1, 'com_associations', 'com_associations', '{"core.admin":{"7":1},"core.manage":{"6":1}}');
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
