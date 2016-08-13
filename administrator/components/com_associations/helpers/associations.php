@@ -45,7 +45,7 @@ class AssociationsHelper extends JHelperContent
 			// Get component item type info from key.
 			$matches = preg_split("#[\.]+#", $key);
 
-			$it[$key]->key                             = $key;
+			$it[$key]->key                             = trim($key);
 			$it[$key]->item                            = $matches[count($matches) - 1];
 			$it[$key]->realcomponent                   = $matches[0];
 			$it[$key]->component                       = $it[$key]->item === 'category' ? 'com_categories' : $it[$key]->realcomponent;
@@ -181,12 +181,13 @@ class AssociationsHelper extends JHelperContent
 			}
 
 			// Get the translated titles.
-			$lang = JFactory::getLanguage();
-			$lang->load($it[$key]->realcomponent . '.sys', JPATH_ADMINISTRATOR) || $lang->load($it[$key]->realcomponent . '.sys', $it[$key]->adminPath);
-			$lang->load($it[$key]->realcomponent, JPATH_ADMINISTRATOR) || $lang->load($it[$key]->realcomponent, $it[$key]->adminPath);
+			$languagePath = JPATH_ADMINISTRATOR . '/components/' . $it[$key]->realcomponent;
+			$lang         = JFactory::getLanguage();
+			$lang->load($it[$key]->realcomponent . '.sys', JPATH_ADMINISTRATOR) || $lang->load($it[$key]->realcomponent . '.sys', $languagePath);
+			$lang->load($it[$key]->realcomponent, JPATH_ADMINISTRATOR) || $lang->load($it[$key]->realcomponent, $languagePath);
 
 			// For the component of the item type.
-			$it[$key]->componentTitle = JText::_($it[$key]->realcomponent);
+			$it[$key]->componentTitle = JText::_(strtoupper($it[$key]->realcomponent));
 
 			// If the item type is a category.
 			if ($it[$key]->item === 'category')
