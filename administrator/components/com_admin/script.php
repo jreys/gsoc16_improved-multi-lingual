@@ -1592,7 +1592,7 @@ class JoomlaInstallerScript
 			'com_contenthistory',
 			'com_ajax',
 			'com_postinstall',
-			'com_associations'
+			'com_associations',
 		);
 
 		foreach ($newComponents as $component)
