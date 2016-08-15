@@ -88,6 +88,7 @@ jQuery(document).ready(function($) {
 			// We need to re-enable the language field to save.
 
 			$('#' + task + '-association').contents().find('#jform_language').attr('disabled', false);
+			$('#' + task + '-association').contents().find('.chzn-done').attr('disabled', false);
 			window.frames[task + '-association'].Joomla.submitbutton(document.getElementById('adminForm').getAttribute('data-associatedview') + '.apply');
 		}
 
@@ -158,9 +159,6 @@ jQuery(document).ready(function($) {
 		// Remove modal buttons on the reference
 		reference.find('#associations').find('.btn').remove();
 		
-		// Make chzn boxes readonly on associations tab
-		reference.find('#associations').find('.chzn-container-single').addClass('chzn-disabled');
-
 		var parse = '';
 
 		$('#jform_itemlanguage option').each(function()
@@ -176,6 +174,10 @@ jQuery(document).ready(function($) {
 					reference.find('#jform_associations_' + langAssociation + '_name')
 						.val(document.getElementById('reference-association').getAttribute('data-no-assoc'));
 				}
+
+				// Make chzn boxes readonly on associations tab
+				reference.find('#jform_associations_' + langAssociation + '_chzn').remove();
+				reference.find('#jform_associations_' + langAssociation).attr('disabled', true).chosen();
 			}
 		});
 
@@ -256,7 +258,6 @@ jQuery(document).ready(function($) {
 					$(reference).contents().find('#jform_associations_' + languageCode + '_chzn').remove();
 					$(reference).contents().find('#jform_associations_' + languageCode).append('<option value=\"'+ targetLoadedId + '\">' + title + '</option>');
 					$(reference).contents().find('#jform_associations_' + languageCode).val(targetLoadedId).change().chosen();
-					$(reference).contents().find('#jform_associations_' + languageCode + '_chzn').addClass('chzn-disabled');
 				}
 			}
 
