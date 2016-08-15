@@ -19,7 +19,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = JFactory::getUser()->authorise('core.manage', 'com_checkin');
-$colSpan          =  5;
+$colSpan          = 5;
 $iconStates       = array(
 	-2 => 'icon-trash',
 	0  => 'icon-unpublish',
@@ -127,8 +127,8 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php if (isset($item->level)) : ?>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 						<?php endif; ?>
-						<?php if (isset($item->{$this->itemType->fields->checked_out}) && $item->{$this->itemType->fields->checked_out}) : ?>
-							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->{$this->itemType->fields->checked_out_time}, 'associations.', $canCheckin); ?>
+						<?php if (isset($item->checked_out) && $item->checked_out) : ?>
+							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
 						<?php endif; ?>
 						<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_($this->editUri . '&id=' . (int) $item->id); ?>">
