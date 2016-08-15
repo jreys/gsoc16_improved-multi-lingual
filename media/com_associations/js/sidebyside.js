@@ -158,6 +158,9 @@ jQuery(document).ready(function($) {
 		// Remove modal buttons on the reference
 		reference.find('#associations').find('.btn').remove();
 		
+		// Make chzn boxes readonly on associations tab
+		reference.find('#associations').find('.chzn-container-single').addClass('chzn-disabled');
+
 		var parse = '';
 
 		$('#jform_itemlanguage option').each(function()
@@ -253,7 +256,7 @@ jQuery(document).ready(function($) {
 					$(reference).contents().find('#jform_associations_' + languageCode + '_chzn').remove();
 					$(reference).contents().find('#jform_associations_' + languageCode).append('<option value=\"'+ targetLoadedId + '\">' + title + '</option>');
 					$(reference).contents().find('#jform_associations_' + languageCode).val(targetLoadedId).change().chosen();
-
+					$(reference).contents().find('#jform_associations_' + languageCode + '_chzn').addClass('chzn-disabled');
 				}
 			}
 
