@@ -1427,6 +1427,7 @@ class JoomlaInstallerScript
 			'/administrator/templates/isis/js/jquery.js',
 			'/administrator/templates/isis/js/bootstrap.min.js',
 			'/media/system/js/permissions.min.js',
+			'/libraries/platform.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
