@@ -45,7 +45,7 @@ class AssociationsControllerAssociation extends JControllerForm
 		}
 
 		// Check if reference item can be checked out.
-		if (is_null($itemType->fields->checked_out) || !$itemType->model->checkout($table->id))
+		if (is_null($itemType->fields->checked_out) || !$itemType->model->checkout($table->{$itemType->fields->id}))
 		{
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $itemType->model->getError()), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
@@ -75,7 +75,7 @@ class AssociationsControllerAssociation extends JControllerForm
 		if (!is_null($itemType->fields->checked_out))
 		{
 			// Check-in reference id.
-			$itemType->table->checkin($this->input->get('id', null, 'int'));
+			$itemType->table->checkin($this->input->get('id', 0, 'int'));
 
 			// Check-in all ithe target ids (can be several, one for each language).
 			if ($targetsId = $this->input->get('target-id', '', 'string'))
