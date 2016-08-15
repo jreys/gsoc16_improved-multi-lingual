@@ -5,6 +5,7 @@
 
 jQuery(document).ready(function($) {
 	$('#toolbar-target').hide();
+	$('#toolbar-copy').hide();
 
 	// Save button actions, replacing the default Joomla.submitbutton() with custom function.
 	Joomla.submitbutton = function(task)
@@ -131,6 +132,7 @@ jQuery(document).ready(function($) {
 		else
 		{
 			$('#toolbar-target').hide();
+			$('#toolbar-copy').hide();
 			$('#select-change').addClass("hidden");
 			$('#remove-assoc').addClass("hidden");
 
@@ -188,6 +190,7 @@ jQuery(document).ready(function($) {
 		if (this.getAttribute('src') != '')
 		{
 			$('#toolbar-target').show();
+			$('#toolbar-copy').show();
 			$('#select-change').removeClass("hidden");
 
 			var targetLanguage       = this.getAttribute('data-language');
