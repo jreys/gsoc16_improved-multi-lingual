@@ -377,9 +377,9 @@ class AssociationsHelper extends JHelperContent
 
 			// Get the associated items.
 			$query = $db->getQuery(true)
-				->select($db->quoteName('a.' . $itemType->fields->id))
-				->select($db->quoteName('a.' . $itemType->fields->title))
-				->select($db->quoteName('a.' . $itemType->fields->language))
+				->select($db->quoteName('a.' . $itemType->fields->id, 'id'))
+				->select($db->quoteName('a.' . $itemType->fields->title, 'title'))
+				->select($db->quoteName('a.' . $itemType->fields->language, 'language'))
 				->from($db->quoteName($itemType->dbtable, 'a'))
 				->where($db->quoteName('a.' . $itemType->fields->id) . ' IN (' . implode(', ', array_values($associations)) . ')');
 
@@ -413,7 +413,7 @@ class AssociationsHelper extends JHelperContent
 
 			$db->setQuery($query);
 
-			$items = $db->loadObjectList($itemType->fields->language);
+			$items = $db->loadObjectList('language');
 		}
 
 		return $items;
@@ -467,7 +467,7 @@ class AssociationsHelper extends JHelperContent
 			// Get html parameters.
 			if (isset($items[$langCode]))
 			{
-				$title       = '<br/><br/>' . $items[$langCode]->{$itemType->fields->title};
+				$title       = '<br/><br/>' . $items[$langCode]->title;
 				$additional  = '';
 
 				if (isset($items[$langCode]->category_title))
@@ -481,8 +481,8 @@ class AssociationsHelper extends JHelperContent
 
 				$additional .= $addLink ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 				$labelClass  = 'label';
-				$target      = $langCode . ':' . $items[$langCode]->{$itemType->fields->id} . ':edit';
-				$table->load($items[$langCode]->{$itemType->fields->id});
+				$target      = $langCode . ':' . $items[$langCode]->id . ':edit';
+				$table->load($items[$langCode]->id);
 				$allow       = $canEditReference && self::allowEdit($itemType, $table);
 			}
 			else
@@ -520,7 +520,7 @@ class AssociationsHelper extends JHelperContent
 	 * Get a existing asset key using the item parents.
 	 *
 	 * @param   JRegistry  $itemType  Item type properties.
-	 * @param   object     $item      Item db row.
+	 * @param   object     $item      JTable item.
 	 *
 	 * @return  string  The asset key.
 	 *
@@ -568,7 +568,7 @@ class AssociationsHelper extends JHelperContent
 	 * Check if user is allowed to edit items.
 	 *
 	 * @param   JRegistry  $itemType  Item type properties.
-	 * @param   object     $item      Item db row.
+	 * @param   object     $item      JTable item.
 	 *
 	 * @return  boolean  True on allowed.
 	 *
@@ -603,7 +603,7 @@ class AssociationsHelper extends JHelperContent
 	 * Check if user is allowed to create items.
 	 *
 	 * @param   JRegistry  $itemType  Item type properties.
-	 * @param   object     $item      Item db row.
+	 * @param   object     $item      JTable item.
 	 *
 	 * @return  boolean  True on allowed.
 	 *
@@ -628,7 +628,7 @@ class AssociationsHelper extends JHelperContent
 	 * Check if user is allowed to perform check actions (checkin/checkout) on a item.
 	 *
 	 * @param   JRegistry  $itemType  Item type properties.
-	 * @param   object     $item      Item db row.
+	 * @param   object     $item      JTable item.
 	 *
 	 * @return  boolean  True on allowed.
 	 *
