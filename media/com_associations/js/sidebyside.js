@@ -3,17 +3,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// TO use later?
-//function copyRefToTarget() {
-//	var ref = document.getElementById('reference-association').contentWindow.document.getElementsByName('checkbox');
-//	jQuery('#reference-association').contents().find('input').each(function () {
-//		//console.log(jQuery('#target-association').contents().find(this.id).text());
-//		id = '#'+this.id;
-//		jQuery('#target-association').contents().find(id).val((jQuery(this).val()));
-//	});
-//	return false;
-//}
-
 jQuery(document).ready(function($) {
 	$('#toolbar-target').hide();
 
@@ -24,6 +13,10 @@ jQuery(document).ready(function($) {
 		if (task == 'association.cancel')
 		{
 			Joomla.submitform(task);
+		}
+		else if(task == 'copy')
+		{
+			window.frames['reference-association'].Joomla.submitbutton(document.getElementById('adminForm').getAttribute('data-associatedview') + '.save2copy');
 		}
 		// Undo association
 		else if (task == 'undo-association')
@@ -150,7 +143,16 @@ jQuery(document).ready(function($) {
 
 	// Attach behaviour to reference frame load event.
 	$('#reference-association').on('load', function() {
+		// If copy button used
+		if ($(this).contents().find('#jform_id').val() !== this.getAttribute('data-id'))
+		{
+			var target = document.getElementById('target-association');
+			target.src = target.getAttribute('data-editurl') + '&task=' + target.getAttribute('data-item') + '.edit' + '&id=' + $(this).contents().find('#jform_id').val();
+			this.src   = this.getAttribute('data-editurl') + '&task=' + this.getAttribute('data-item') + '.edit' + '&id=' + this.getAttribute('data-id');
+		}
+
 		var reference = $(this).contents();
+
 		// Disable language field.
 		reference.find('#jform_language_chzn').remove();
 		reference.find('#jform_language').attr('disabled', true).chosen();
@@ -175,10 +177,6 @@ jQuery(document).ready(function($) {
 				}
 			}
 		});
-
-		// Later usage copy function?
-		//$('#toolbar-copy').children().first().attr('onclick', 'return copyRefToTarget()');
-		//referenceContents.find('#associations .controls').css('pointer-events', 'auto');
 
 		// Iframe load finished, hide Joomla loading layer.
 		Joomla.loadingLayer('hide');
