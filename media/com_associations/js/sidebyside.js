@@ -255,9 +255,9 @@ jQuery(document).ready(function($) {
 					$(reference).contents().find('#jform_associations_' + languageCode + '_name').val(title);
 
 					// - For chosen association selectors (menus).
-					$(reference).contents().find('#jform_associations_' + languageCode + '_chzn').remove();
+					$(reference).contents().find('#jform_associations_' + languageCode).attr('disabled', false);
 					$(reference).contents().find('#jform_associations_' + languageCode).append('<option value=\"'+ targetLoadedId + '\">' + title + '</option>');
-					$(reference).contents().find('#jform_associations_' + languageCode).val(targetLoadedId).change().chosen();
+					$(reference).contents().find('#jform_associations_' + languageCode).val(targetLoadedId).change().attr('disabled', true).trigger('liszt:updated');
 				}
 			}
 
