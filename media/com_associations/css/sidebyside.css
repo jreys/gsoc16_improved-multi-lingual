@@ -9,9 +9,6 @@
 }
 
 .sidebyside #left-panel .inner-panel {
-	border-style: solid;
-	border-color: #999999;
-	border-width: 0 1px 0 0;
 	padding: 0 10px 0 0;
 }
 
@@ -31,6 +28,7 @@
 #reference-association, #target-association {
 	width: 100%;
 	height: 1500px;
+	overflow-y: auto;
 	border: 0 !important;
 }
 
@@ -59,4 +57,20 @@ html[dir=rtl] .sidebyside .full-width .inner-panel {
 
 html[dir=rtl] .target-text {
 	float: right;
+}
+
+/* Responsive layout */
+@media (max-width: 767px) {
+	.sidebyside .outer-panel {
+		float: none;
+		width: 100%;
+	}
+
+	.sidebyside #left-panel .inner-panel {
+		padding: 0;
+	}
+
+	.sidebyside #right-panel .inner-panel {
+		padding: 0;
+	}
 }
