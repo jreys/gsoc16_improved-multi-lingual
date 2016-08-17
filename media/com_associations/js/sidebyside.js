@@ -74,7 +74,7 @@ jQuery(document).ready(function($) {
 			
 			// Reset switcher after removing association
 			var currentSwitcher = $('#jform_itemlanguage').val();
-			var currentLang = referenceLang.replace(/_/,'-');
+			var currentLang = targetLang.replace(/_/,'-');
 			$('#jform_itemlanguage option[value=\"' + currentSwitcher + '\"]').val(currentLang + ':0:add');
 			$('#jform_itemlanguage').val('').change();
 			$('#jform_itemlanguage').trigger('liszt:updated');
