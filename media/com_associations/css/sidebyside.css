@@ -43,7 +43,6 @@ html[dir=rtl] .sidebyside .outer-panel {
 }
 
 html[dir=rtl] .sidebyside #left-panel .inner-panel {
-	border-width: 0 0 0 1px;
 	padding: 0 0 0 10px;
 }
 
