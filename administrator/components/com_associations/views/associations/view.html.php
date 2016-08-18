@@ -163,9 +163,15 @@ class AssociationsViewAssociations extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$user  = JFactory::getUser();
+		$user    = JFactory::getUser();
+		$context = "";
 
-		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_SELECT_REFERENCE'), 'contract');
+		if (isset($this->itemType))
+		{
+			$context = " - " . $this->itemType->componentTitle . " / " . $this->itemType->title;
+		}
+
+		JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_SELECT_REFERENCE') . $context, 'contract');
 		/*
 		 * @todo Verify later if new/edit/select is really needed
 		*/
