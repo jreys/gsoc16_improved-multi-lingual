@@ -169,13 +169,13 @@ class AssociationsViewAssociations extends JViewLegacy
 		{
 			JToolbarHelper::title(
 				JText::sprintf(
-					'COM_ASSOCIATIONS_HEADER_SELECT_REFERENCE', $this->itemType->componentTitle, $this->itemType->title
+					'COM_ASSOCIATIONS_TITLE_LIST', $this->itemType->componentTitle, $this->itemType->title
 				), 'contract'
 			);
 		}
 		else
 		{
-			JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_HEADER_SELECT_FILTERS'), 'contract');
+			JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract');
 		}
 	
 		/*
