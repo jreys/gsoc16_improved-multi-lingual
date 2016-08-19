@@ -170,8 +170,7 @@ class AssociationsViewAssociations extends JViewLegacy
 			JToolbarHelper::title(
 				JText::sprintf(
 					'COM_ASSOCIATIONS_HEADER_SELECT_REFERENCE', $this->itemType->componentTitle, $this->itemType->title
-				)
-				, 'contract'
+				), 'contract'
 			);
 		}
 		else
