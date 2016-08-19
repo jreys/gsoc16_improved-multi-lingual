@@ -157,7 +157,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		// Hide main menu.
 		JFactory::getApplication()->input->set('hidemainmenu', 1);
 
-		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_HEADER_EDIT', $this->itemType->componentTitle, $this->itemType->title), 'edit');
+		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_HEADER_EDIT', $this->itemType->componentTitle, $this->itemType->title), 'contract');
 
 		$bar = JToolbar::getInstance('toolbar');
 
