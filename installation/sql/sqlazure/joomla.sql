@@ -13,27 +13,27 @@ CREATE TABLE [#__assets](
  CONSTRAINT [PK_#__assets_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
  CONSTRAINT [#__assets$idx_asset_name] UNIQUE NONCLUSTERED
 (
 	[name] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_lft_rgt] ON [#__assets]
 (
 	[lft] ASC,
 	[rgt] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_parent_id] ON [#__assets]
 (
 	[parent_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 SET IDENTITY_INSERT [#__assets] ON;
 
-INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules])
+INSERT INTO [#__assets] (id, parent_id, lft, rgt, level, name, title, rules)
 SELECT 1, 0, 0, 105, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
 UNION ALL
 SELECT 2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'
@@ -140,7 +140,7 @@ SELECT 54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'
 UNION ALL
 SELECT 55, 1, 103, 104, 1, 'com_associations', 'com_associations', '{"core.admin":{"7":1},"core.manage":{"6":1}}';
 
-SET IDENTITY_INSERT [#__assets] OFF;
+SET IDENTITY_INSERT #__assets OFF;
 
 /****** Object:  Table [#__associations] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -153,7 +153,7 @@ CREATE TABLE [#__associations](
 (
 	[context] ASC,
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 /****** Object:  Table [#__banner_clients] ******/
@@ -177,18 +177,18 @@ CREATE TABLE [#__banner_clients](
  CONSTRAINT [PK_#__banner_clients_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_metakey_prefix] ON [#__banner_clients]
 (
 	[metakey_prefix] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_own_prefix] ON [#__banner_clients]
 (
 	[own_prefix] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__banner_tracks] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -203,23 +203,23 @@ CREATE TABLE [#__banner_tracks](
 	[track_date] ASC,
 	[track_type] ASC,
 	[banner_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_banner_id] ON [#__banner_tracks]
 (
 	[banner_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_track_date] ON [#__banner_tracks]
 (
 	[track_date] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_track_type] ON [#__banner_tracks]
 (
 	[track_type] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__banners] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -262,38 +262,40 @@ CREATE TABLE [#__banners](
  CONSTRAINT [PK_#__banners_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_banner_catid] ON [#__banners]
 (
 	[catid] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_language] ON [#__banners]
 (
 	[language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_metakey_prefix] ON [#__banners]
 (
 	[metakey_prefix] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_own_prefix] ON [#__banners]
 (
 	[own_prefix] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_state] ON [#__banners]
 (
 	[state] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__banners]
 (
 	[created_by] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+
 
 /****** Object:  Table [#__categories] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -329,7 +331,7 @@ CREATE TABLE [#__categories](
  CONSTRAINT [PK_#__categories_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [cat_idx] ON [#__categories]
@@ -337,57 +339,57 @@ CREATE NONCLUSTERED INDEX [cat_idx] ON [#__categories]
 	[extension] ASC,
 	[published] ASC,
 	[access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_access] ON [#__categories]
 (
 	[access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_alias] ON [#__categories]
 (
 	[alias] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__categories]
 (
 	[checked_out] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_language] ON [#__categories]
 (
 	[language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_left_right] ON [#__categories]
 (
 	[lft] ASC,
 	[rgt] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_path] ON [#__categories]
 (
 	[path] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_created_user_id] ON [#__categories]
 (
 	[created_user_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_checked_out_time] ON [#__categories]
 (
 	[checked_out_time] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_asset_id] ON [#__categories]
 (
 	[asset_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-SET IDENTITY_INSERT [#__categories] ON;
+SET IDENTITY_INSERT [#__categories]  ON;
 
-INSERT INTO [#__categories] ([id], [asset_id], [parent_id], [lft], [rgt], [level], [path], [extension], [title], [alias], [note], [description], [published], [checked_out], [checked_out_time], [access], [params], [metadesc], [metakey], [metadata], [created_user_id], [created_time], [modified_user_id], [modified_time], [hits], [language], [version])
+INSERT INTO [#__categories] (id, asset_id, parent_id, lft, rgt, level, path, extension, title, alias, note, description, published, checked_out, checked_out_time, access, params, metadesc, metakey, metadata, created_user_id, created_time, modified_user_id, modified_time, hits, language, version)
 SELECT 1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{}', '', '', '{}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1
 UNION ALL
 SELECT 2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1
@@ -400,7 +402,7 @@ SELECT 5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'un
 UNION ALL
 SELECT 7, 32, 1, 9, 10, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1;
 
-SET IDENTITY_INSERT [#__categories] OFF;
+SET IDENTITY_INSERT [#__categories]  OFF;
 
 /****** Object:  Table [#__contact_details] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -452,49 +454,49 @@ CREATE TABLE [#__contact_details](
  CONSTRAINT [PK_#__contact_details_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_access] ON [#__contact_details]
 (
 	[access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_catid] ON [#__contact_details]
 (
 	[catid] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__contact_details]
 (
 	[checked_out] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__contact_details]
 (
 	[created_by] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_featured_catid] ON [#__contact_details]
 (
 	[featured] ASC,
 	[catid] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_language] ON [#__contact_details]
 (
 	[language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_state] ON [#__contact_details]
 (
 	[published] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__contact_details]
 (
 	[xreference] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__content] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -533,49 +535,49 @@ CREATE TABLE [#__content](
  CONSTRAINT [PK_#__content_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_access] ON [#__content]
 (
 	[access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_catid] ON [#__content]
 (
 	[catid] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__content]
 (
 	[checked_out] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__content]
 (
 	[created_by] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_featured_catid] ON [#__content]
 (
 	[featured] ASC,
 	[catid] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_language] ON [#__content]
 (
 	[language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_state] ON [#__content]
 (
 	[state] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__content]
 (
 	[xreference] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__content_frontpage] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -586,7 +588,7 @@ CREATE TABLE [#__content_frontpage](
  CONSTRAINT [PK_#__content_frontpage_content_id] PRIMARY KEY CLUSTERED
 (
 	[content_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 /****** Object:  Table [#__content_rating] ******/
@@ -600,7 +602,7 @@ CREATE TABLE [#__content_rating](
  CONSTRAINT [PK_#__content_rating_content_id] PRIMARY KEY CLUSTERED
 (
 	[content_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 /****** Object:  Table [#__content_types] ******/
@@ -618,13 +620,13 @@ CREATE TABLE [#__content_types](
  CONSTRAINT [PK_#__content_types_type_id] PRIMARY KEY CLUSTERED
 (
 	[type_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_alias] ON [#__content_types]
 (
 	[type_alias] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 SET IDENTITY_INSERT [#__content_types]  ON;
 
@@ -655,7 +657,7 @@ SELECT 12, 'User Notes', 'com_users.note', '{"special":{"dbtable":"#__user_notes
 UNION ALL
 SELECT 13, 'User Notes Category', 'com_users.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', '', '{"formFile":"administrator\/components\/com_categories\/models\/forms\/category.xml", "hideFields":["checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"], "convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}';
 
-SET IDENTITY_INSERT [#__content_types] OFF;
+SET IDENTITY_INSERT [#__content_types]  OFF;
 
 /****** Object:  Table [#__contentitem_tag_map] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -672,19 +674,19 @@ CREATE TABLE [#__contentitem_tag_map](
 	[type_id] ASC,
 	[content_item_id] ASC,
 	[tag_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_date_id] ON [#__contentitem_tag_map]
 (
 	[tag_date] ASC,
 	[tag_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_core_content_id] ON [#__contentitem_tag_map]
 (
 	[core_content_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__core_log_searches] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -718,21 +720,21 @@ CREATE TABLE [#__extensions](
  CONSTRAINT [PK_#__extensions_extension_id] PRIMARY KEY CLUSTERED
 (
 	[extension_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [element_clientid] ON [#__extensions]
 (
 	[element] ASC,
 	[client_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [element_folder_clientid] ON [#__extensions]
 (
 	[element] ASC,
 	[folder] ASC,
 	[client_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [extension] ON [#__extensions]
 (
@@ -740,12 +742,11 @@ CREATE NONCLUSTERED INDEX [extension] ON [#__extensions]
 	[element] ASC,
 	[folder] ASC,
 	[client_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-SET IDENTITY_INSERT [#__extensions] ON;
+SET IDENTITY_INSERT [#__extensions]  ON;
 
--- Components
-INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
+INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 1, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 2, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -808,8 +809,7 @@ SELECT 32, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, ''
 UNION ALL
 SELECT 33, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
--- Libraries
-INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
+INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 103, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -820,8 +820,7 @@ SELECT 105, 'FOF', 'library', 'fof', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01
 UNION ALL
 SELECT 106, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
--- Modules: Site
-INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
+INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 200, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 201, 'mod_articles_latest', 'module', 'mod_articles_latest', '', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -872,8 +871,7 @@ SELECT 316, 'mod_tags_popular', 'module', 'mod_tags_popular', '', 0, 1, 1, 0, ''
 UNION ALL
 SELECT 317, 'mod_tags_similar', 'module', 'mod_tags_similar', '', 0, 1, 1, 0, '', '{"maximum":"5","matchtype":"any","owncache":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
--- Modules: Administrator
-INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
+INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 300, 'mod_custom', 'module', 'mod_custom', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 301, 'mod_feed', 'module', 'mod_feed', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -904,8 +902,7 @@ SELECT 314, 'mod_version', 'module', 'mod_version', '', 1, 1, 1, 0, '', '{"forma
 UNION ALL
 SELECT 315, 'mod_stats_admin', 'module', 'mod_stats_admin', '', 1, 1, 1, 0, '', '{"serverinfo":"0","siteinfo":"0","counter":"0","increase":"0","cache":"1","cache_time":"900","cachemode":"static"}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
--- Plugins
-INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
+INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 400, 'plg_authentication_gmail', 'plugin', 'gmail', 'authentication', 0, 0, 1, 0, '', '{"applysuffix":"0","suffix":"","verifypeer":"1","user_blacklist":""}', '', '', 0, '1900-01-01 00:00:00', 1, 0
 UNION ALL
 SELECT 401, 'plg_authentication_joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -1016,8 +1013,7 @@ SELECT 456, 'plg_installer_folderinstaller', 'plugin', 'folderinstaller', 'insta
 UNION ALL
 SELECT 457, 'plg_installer_urlinstaller', 'plugin', 'urlinstaller', 'installer', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 3, 0;
 
--- Templates
-INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
+INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 503, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 504, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, '', '{"showSiteName":"0","colourChoice":"0","boldText":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -1026,21 +1022,18 @@ SELECT 506, 'protostar', 'template', 'protostar', '', 0, 1, 1, 0, '', '{"templat
 UNION ALL
 SELECT 507, 'isis', 'template', 'isis', '', 1, 1, 1, 0, '', '{"templateColor":"","logoFile":""}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
--- Languages
-INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
+INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 600, 'English (United Kingdom)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 601, 'English (United Kingdom)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
--- Files Extensions
-INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
+INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 700, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
--- Packages
-INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
+INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 802, 'English (United Kingdom)', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
-SET IDENTITY_INSERT [#__extensions] OFF;
+SET IDENTITY_INSERT [#__extensions]  OFF;
 
 /****** Object:  Table [#__finder_filters] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1063,7 +1056,7 @@ CREATE TABLE [#__finder_filters](
  CONSTRAINT [PK_#__finder_filters_filter_id] PRIMARY KEY CLUSTERED
 (
 	[filter_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 ;
 
@@ -1093,23 +1086,23 @@ CREATE TABLE [#__finder_links](
  CONSTRAINT [PK_#__finder_links_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_title] ON [#__finder_links]
 (
 	[title] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_type] ON [#__finder_links]
 (
 	[type_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_url] ON [#__finder_links]
 (
 	[url] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_terms0] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1122,7 +1115,7 @@ CREATE TABLE [#__finder_links_terms0](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms0]
@@ -1130,13 +1123,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms0]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms0]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_terms1] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1149,7 +1142,7 @@ CREATE TABLE [#__finder_links_terms1](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms1]
@@ -1157,13 +1150,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms1]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms1]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_terms2] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1176,7 +1169,7 @@ CREATE TABLE [#__finder_links_terms2](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms2]
@@ -1184,13 +1177,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms2]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms2]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_terms3] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1203,7 +1196,7 @@ CREATE TABLE [#__finder_links_terms3](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms3]
@@ -1211,13 +1204,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms3]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms3]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_terms4] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1230,7 +1223,7 @@ CREATE TABLE [#__finder_links_terms4](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms4]
@@ -1238,13 +1231,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms4]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms4]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_terms5] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1257,7 +1250,7 @@ CREATE TABLE [#__finder_links_terms5](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms5]
@@ -1265,13 +1258,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms5]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms5]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_terms6] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1284,7 +1277,7 @@ CREATE TABLE [#__finder_links_terms6](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms6]
@@ -1292,13 +1285,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms6]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms6]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_terms7] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1311,7 +1304,7 @@ CREATE TABLE [#__finder_links_terms7](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms7]
@@ -1319,13 +1312,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms7]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms7]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_terms8] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1338,7 +1331,7 @@ CREATE TABLE [#__finder_links_terms8](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms8]
@@ -1346,13 +1339,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms8]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms8]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_terms9] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1365,7 +1358,7 @@ CREATE TABLE [#__finder_links_terms9](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms9]
@@ -1373,13 +1366,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms9]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms9]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_termsa] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1392,7 +1385,7 @@ CREATE TABLE [#__finder_links_termsa](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsa]
@@ -1400,13 +1393,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsa]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsa]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_termsb] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1419,7 +1412,7 @@ CREATE TABLE [#__finder_links_termsb](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsb]
@@ -1427,13 +1420,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsb]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsb]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_termsc] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1446,7 +1439,7 @@ CREATE TABLE [#__finder_links_termsc](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsc]
@@ -1454,13 +1447,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsc]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsc]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_termsd] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1473,7 +1466,7 @@ CREATE TABLE [#__finder_links_termsd](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsd]
@@ -1481,13 +1474,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsd]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsd]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_termse] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1500,7 +1493,7 @@ CREATE TABLE [#__finder_links_termse](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termse]
@@ -1508,13 +1501,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termse]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termse]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_links_termsf] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1527,7 +1520,7 @@ CREATE TABLE [#__finder_links_termsf](
 (
 	[link_id] ASC,
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsf]
@@ -1535,13 +1528,13 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsf]
 	[link_id] ASC,
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsf]
 (
 	[term_id] ASC,
 	[weight] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_taxonomy] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1556,42 +1549,42 @@ CREATE TABLE [#__finder_taxonomy](
  CONSTRAINT [PK_#__finder_taxonomy_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [access] ON [#__finder_taxonomy]
 (
 	[access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_parent_published] ON [#__finder_taxonomy]
 (
 	[parent_id] ASC,
 	[state] ASC,
 	[access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [ordering] ON [#__finder_taxonomy]
 (
 	[ordering] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [parent_id] ON [#__finder_taxonomy]
 (
 	[parent_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [state] ON [#__finder_taxonomy]
 (
 	[state] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-SET IDENTITY_INSERT [#__finder_taxonomy] ON;
+SET IDENTITY_INSERT [#__finder_taxonomy]  ON;
 
-INSERT INTO [#__finder_taxonomy] ([id], [parent_id], [title], [state], [access], [ordering])
+INSERT [#__finder_taxonomy] ([id], [parent_id], [title], [state], [access], [ordering])
 SELECT 1, 0, 'ROOT', 0, 0, 0;
 
-SET IDENTITY_INSERT [#__finder_taxonomy] OFF;
+SET IDENTITY_INSERT [#__finder_taxonomy]  OFF;
 
 /****** Object:  Table [#__finder_taxonomy_map] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1603,18 +1596,18 @@ CREATE TABLE [#__finder_taxonomy_map](
 (
 	[link_id] ASC,
 	[node_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [link_id] ON [#__finder_taxonomy_map]
 (
 	[link_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [node_id] ON [#__finder_taxonomy_map]
 (
 	[node_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_terms] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1632,30 +1625,30 @@ CREATE TABLE [#__finder_terms](
  CONSTRAINT [PK_#__finder_terms_term_id] PRIMARY KEY CLUSTERED
 (
 	[term_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
  CONSTRAINT [#__finder_terms$idx_term] UNIQUE NONCLUSTERED
 (
 	[term] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_soundex_phrase] ON [#__finder_terms]
 (
 	[soundex] ASC,
 	[phrase] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_stem_phrase] ON [#__finder_terms]
 (
 	[stem] ASC,
 	[phrase] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_term_phrase] ON [#__finder_terms]
 (
 	[term] ASC,
 	[phrase] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_terms_common] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1666,19 +1659,19 @@ CREATE TABLE [#__finder_terms_common](
  CONSTRAINT [PK_#__finder_terms_common] PRIMARY KEY CLUSTERED
 (
 	[term] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_lang] ON [#__finder_terms_common]
 (
 	[language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_word_lang] ON [#__finder_terms_common]
 (
 	[term] ASC,
 	[language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 INSERT [#__finder_terms_common] ([term], [language]) VALUES ('a', 'en');
 INSERT [#__finder_terms_common] ([term], [language]) VALUES ('about', 'en');
@@ -1812,12 +1805,12 @@ CREATE TABLE [#__finder_tokens](
 CREATE NONCLUSTERED INDEX [idx_context] ON [#__finder_tokens]
 (
 	[context] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_word] ON [#__finder_tokens]
 (
 	[term] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_tokens_aggregate] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1839,12 +1832,12 @@ CREATE TABLE [#__finder_tokens_aggregate](
 CREATE NONCLUSTERED INDEX [keyword_id] ON [#__finder_tokens_aggregate]
 (
 	[term_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [token] ON [#__finder_tokens_aggregate]
 (
 	[term] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__finder_types] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1856,11 +1849,11 @@ CREATE TABLE [#__finder_types](
  CONSTRAINT [PK_#__finder_types_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
  CONSTRAINT [#__finder_types$title] UNIQUE NONCLUSTERED
 (
 	[title] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 /****** Object:  Table [#__languages] ******/
@@ -1884,24 +1877,24 @@ CREATE TABLE [#__languages](
  CONSTRAINT [PK_#__languages_lang_id] PRIMARY KEY CLUSTERED
 (
 	[lang_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
  CONSTRAINT [#__languages$idx_sef] UNIQUE NONCLUSTERED
 (
 	[sef] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE UNIQUE INDEX [idx_access] ON [#__languages]
 (
 	[access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-SET IDENTITY_INSERT [#__languages] ON;
+SET IDENTITY_INSERT [#__languages]  ON;
 
 INSERT INTO [#__languages] ([lang_id], [lang_code], [title], [title_native], [sef], [image], [description], [metakey], [metadesc], [sitename], [published], [access], [ordering])
-SELECT 1, 'en-GB  ', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', '', 1, 1, 1;
+VALUES (1, 'en-GB  ', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', '', 1, 1, 1);
 
-SET IDENTITY_INSERT [#__languages] OFF;
+SET IDENTITY_INSERT [#__languages]  OFF;
 
 /****** Object:  Table [#__menu] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -1934,19 +1927,19 @@ CREATE TABLE [#__menu](
  CONSTRAINT [PK_#__menu_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
  CONSTRAINT [#__menu$idx_client_id_parent_id_alias] UNIQUE NONCLUSTERED
 (
 	[client_id] ASC,
 	[parent_id] ASC,
 	[alias] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_alias] ON [#__menu]
 (
 	[alias] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_componentid] ON [#__menu]
 (
@@ -1954,45 +1947,45 @@ CREATE NONCLUSTERED INDEX [idx_componentid] ON [#__menu]
 	[menutype] ASC,
 	[published] ASC,
 	[access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_language] ON [#__menu]
 (
 	[language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_left_right] ON [#__menu]
 (
 	[lft] ASC,
 	[rgt] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_menutype] ON [#__menu]
 (
 	[menutype] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_browserNav] ON [#__menu]
 (
 	[browserNav] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_home] ON [#__menu]
 (
 	[home] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_template_style_id] ON [#__menu]
 (
 	[template_style_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_img] ON [#__menu]
 (
 	[img] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-SET IDENTITY_INSERT [#__menu] ON;
+SET IDENTITY_INSERT [#__menu]  ON;
 
 INSERT INTO [#__menu] ([id], [menutype], [title], [alias], [note], [path], [link], [type], [published], [parent_id], [level], [component_id], [checked_out], [checked_out_time], [browserNav], [access], [img], [template_style_id], [params], [lft], [rgt], [home], [language], [client_id])
 SELECT 1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '1900-01-01 00:00:00', 0, 0, '', 0, '', 0, 45, 0, '*', 0
@@ -2039,7 +2032,7 @@ SELECT 22, 'menu', 'com_associations', 'Multilingual Associations', '', 'Multili
 UNION ALL
 SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '1900-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 41, 42, 1, '*', 0;
 
-SET IDENTITY_INSERT [#__menu] OFF;
+SET IDENTITY_INSERT [#__menu]  OFF;
 
 /****** Object:  Table [#__menu_types] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2053,19 +2046,19 @@ CREATE TABLE [#__menu_types](
  CONSTRAINT [PK_#__menu_types_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
  CONSTRAINT [#__menu_types$idx_menutype] UNIQUE NONCLUSTERED
 (
 	[menutype] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
-SET IDENTITY_INSERT [#__menu_types] ON;
+SET IDENTITY_INSERT [#__menu_types]  ON;
 
 INSERT INTO [#__menu_types] ([id], [menutype], [title], [description])
 SELECT 1, 'mainmenu', 'Main Menu', 'The main menu for the site';
 
-SET IDENTITY_INSERT [#__menu_types] OFF;
+SET IDENTITY_INSERT [#__menu_types]  OFF;
 
 /****** Object:  Table [#__messages] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2083,14 +2076,14 @@ CREATE TABLE [#__messages](
  CONSTRAINT [PK_#__messages_message_id] PRIMARY KEY CLUSTERED
 (
 	[message_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [useridto_state] ON [#__messages]
 (
 	[user_id_to] ASC,
 	[state] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__messages_cfg] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2103,7 +2096,7 @@ CREATE TABLE [#__messages_cfg](
 (
 	[user_id] ASC,
 	[cfg_name] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 /****** Object:  Table [#__modules] ******/
@@ -2131,27 +2124,27 @@ CREATE TABLE [#__modules](
  CONSTRAINT [PK_#__modules_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_language] ON [#__modules]
 (
 	[language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [newsfeeds] ON [#__modules]
 (
 	[module] ASC,
 	[published] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [published] ON [#__modules]
 (
 	[published] ASC,
 	[access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-SET IDENTITY_INSERT [#__modules] ON;
+SET IDENTITY_INSERT [#__modules]  ON;
 
 INSERT INTO [#__modules] ([id], [asset_id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language])
 SELECT 1, 39, 'Main Menu', '', '', 1, 'position-7', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'
@@ -2184,7 +2177,7 @@ SELECT 79, 52, 'Multilanguage status', '', '', 1, 'status', 0, '1900-01-01 00:00
 UNION ALL
 SELECT 86, 53, 'Joomla Version', '', '', 1, 'footer', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*';
 
-SET IDENTITY_INSERT [#__modules] OFF;
+SET IDENTITY_INSERT [#__modules]  OFF;
 
 /****** Object:  Table [#__modules_menu] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2196,10 +2189,8 @@ CREATE TABLE [#__modules_menu](
 (
 	[moduleid] ASC,
 	[menuid] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
-
-SET IDENTITY_INSERT [#__modules_menu] ON;
 
 INSERT INTO [#__modules_menu] ([moduleid], [menuid])
 SELECT 1, 0
@@ -2235,8 +2226,6 @@ UNION ALL
 SELECT 79, 0
 UNION ALL
 SELECT 86, 0;
-
-SET IDENTITY_INSERT [#__modules_menu] OFF;
 
 /****** Object:  Table [#__newsfeeds] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2275,43 +2264,43 @@ CREATE TABLE [#__newsfeeds](
  CONSTRAINT [PK_#__newsfeeds_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_access] ON [#__newsfeeds]
 (
 	[access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_catid] ON [#__newsfeeds]
 (
 	[catid] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__newsfeeds]
 (
 	[checked_out] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__newsfeeds]
 (
 	[created_by] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_language] ON [#__newsfeeds]
 (
 	[language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_state] ON [#__newsfeeds]
 (
 	[published] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__newsfeeds]
 (
 	[xreference] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__overrider] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2324,7 +2313,7 @@ CREATE TABLE [#__overrider](
  CONSTRAINT [PK_#__overrider_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 /****** Object:  Table [#__postinstall_messages] ******/
@@ -2347,10 +2336,8 @@ CREATE TABLE [#__postinstall_messages] (
  CONSTRAINT [PK_#__postinstall_message_id] PRIMARY KEY CLUSTERED
 (
 	[postinstall_message_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
-
-SET IDENTITY_INSERT [#__postinstall_messages] ON;
 
 INSERT INTO [#__postinstall_messages] ([extension_id], [title_key], [description_key], [action_key], [language_extension], [language_client_id], [type], [action_file], [action], [condition_file], [condition_method], [version_introduced], [enabled])
 SELECT 700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1
@@ -2360,8 +2347,6 @@ UNION ALL
 SELECT 700, 'COM_CPANEL_MSG_STATS_COLLECTION_TITLE', 'COM_CPANEL_MSG_STATS_COLLECTION_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/statscollection.php', 'admin_postinstall_statscollection_condition', '3.5.0', 1
 UNION ALL
 SELECT 700, 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_BODY', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_ACTION', 'plg_system_updatenotification', 1, 'action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_condition', '3.6.3', 1;
-
-SET IDENTITY_INSERT [#__postinstall_messages] OFF;
 
 /****** Object:  Table [#__redirect_links] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2380,18 +2365,18 @@ CREATE TABLE [#__redirect_links](
  CONSTRAINT [PK_#__redirect_links_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_old_url] ON [#__redirect_links]
 (
 	[old_url] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_link_modifed] ON [#__redirect_links]
 (
 	[modified_date] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__schemas] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2403,7 +2388,7 @@ CREATE TABLE [#__schemas](
 (
 	[extension_id] ASC,
 	[version_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 /****** Object:  Table [#__session] ******/
@@ -2420,18 +2405,18 @@ CREATE TABLE [#__session](
  CONSTRAINT [PK_#__session_session_id] PRIMARY KEY CLUSTERED
 (
 	[session_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [time] ON [#__session]
 (
 	[time] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [userid] ON [#__session]
 (
 	[userid] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__tags] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2470,52 +2455,52 @@ CREATE TABLE [#__tags](
  CONSTRAINT [PK_#__tags_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [tag_idx] ON [#__tags]
 (
 	[published] ASC,
 	[access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_access] ON [#__tags]
 (
 	[access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__tags]
 (
 	[checked_out] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_path] ON [#__tags]
 (
 	[path] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_left_right] ON [#__tags]
 (
 	[lft] ASC,
 	[rgt] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_alias] ON [#__tags]
 (
 	[alias] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_language] ON [#__tags]
 (
 	[language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-SET IDENTITY_INSERT [#__tags] ON;
+SET IDENTITY_INSERT [#__tags]  ON;
 
 INSERT INTO [#__tags] ([id], [parent_id], [lft], [rgt], [level], [path], [title], [alias], [note], [description], [published], [checked_out], [checked_out_time], [access], [params], [metadesc], [metakey], [metadata], [created_user_id], [created_time], [created_by_alias], [modified_user_id], [modified_time], [images], [urls], [hits], [language], [version], [publish_up], [publish_down])
 SELECT 1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '1900-01-01 00:00:00', 1, '', '', '', '', 42, '2011-01-01 00:00:01', '', 0, '1900-01-01 00:00:00', '', '', 0, '*', 1, '1900-01-01 00:00:00', '1900-01-01 00:00:00';
 
-SET IDENTITY_INSERT [#__tags] OFF;
+SET IDENTITY_INSERT [#__tags]  OFF;
 
 /****** Object:  Table [#__template_styles] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2530,18 +2515,18 @@ CREATE TABLE [#__template_styles](
  CONSTRAINT [PK_#__template_styles_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_home] ON [#__template_styles]
 (
 	[home] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_template] ON [#__template_styles]
 (
 	[template] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 SET IDENTITY_INSERT [#__template_styles] ON;
 
@@ -2554,7 +2539,7 @@ SELECT 7, 'protostar', 0, '1', 'protostar - Default', '{"templateColor":"","logo
 UNION ALL
 SELECT 8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}';
 
-SET IDENTITY_INSERT [#__template_styles] OFF;
+SET IDENTITY_INSERT [#__template_styles]  OFF;
 
 /****** Object:  Table [#__ucm_base] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2567,23 +2552,23 @@ CREATE TABLE [#__ucm_base](
  CONSTRAINT [PK_#__ucm_base_ucm_id] PRIMARY KEY CLUSTERED
 (
 	[ucm_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [ucm_item_id] ON [#__ucm_base]
 (
 	[ucm_item_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [ucm_type_id] ON [#__ucm_base]
 (
 	[ucm_type_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [ucm_language_id] ON [#__ucm_base]
 (
 	[ucm_language_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__ucm_content] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2624,74 +2609,74 @@ CREATE TABLE [#__ucm_content](
  CONSTRAINT [PK_#__ucm_content_core_content_id] PRIMARY KEY CLUSTERED
 (
 	[core_content_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
  CONSTRAINT [#__ucm_content_core_content_id$idx_type_alias_item_id] UNIQUE NONCLUSTERED
 (
 	[core_type_alias] ASC,
 	[core_content_item_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [tag_idx] ON [#__ucm_content]
 (
 	[core_state] ASC,
 	[core_access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_access] ON [#__ucm_content]
 (
 	[core_access] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_alias] ON [#__ucm_content]
 (
 	[core_alias] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_language] ON [#__ucm_content]
 (
 	[core_language] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_title] ON [#__ucm_content]
 (
 	[core_title] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_modified_time] ON [#__ucm_content]
 (
 	[core_modified_time] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_created_time] ON [#__ucm_content]
 (
 	[core_created_time] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_content_type] ON [#__ucm_content]
 (
 	[core_type_alias] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_core_modified_user_id] ON [#__ucm_content]
 (
 	[core_modified_user_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_core_checked_out_user_id] ON [#__ucm_content]
 (
 	[core_checked_out_user_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_core_created_user_id] ON [#__ucm_content]
 (
 	[core_created_user_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_core_type_id] ON [#__ucm_content]
 (
 	[core_type_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__ucm_history] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2710,19 +2695,19 @@ CREATE TABLE [#__ucm_history](
  CONSTRAINT [PK_#__ucm_history_version_id] PRIMARY KEY CLUSTERED
 (
 	[version_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_ucm_item_id] ON [#__ucm_history]
 (
 	[ucm_type_id] ASC,
 	[ucm_item_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_save_date] ON [#__ucm_history]
 (
 	[save_date] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__update_sites] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2738,7 +2723,7 @@ CREATE TABLE [#__update_sites](
  CONSTRAINT [PK_#__update_sites_update_site_id] PRIMARY KEY CLUSTERED
 (
 	[update_site_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 SET IDENTITY_INSERT [#__update_sites] ON;
@@ -2764,12 +2749,10 @@ CREATE TABLE [#__update_sites_extensions](
 (
 	[update_site_id] ASC,
 	[extension_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
-SET IDENTITY_INSERT [#__update_sites_extensions] ON;
-
-INSERT INTO [#__update_sites_extensions] ([update_site_id], [extension_id])
+INSERT INTO [#__update_sites_extensions] (update_site_id, extension_id)
 SELECT 1, 700
 UNION ALL
 SELECT 2, 700
@@ -2777,8 +2760,6 @@ UNION ALL
 SELECT 3, 802
 UNION ALL
 SELECT 4, 28;
-
-SET IDENTITY_INSERT [#__update_sites_extensions] OFF;
 
 /****** Object:  Table [#__updates] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2801,7 +2782,7 @@ CREATE TABLE [#__updates](
  CONSTRAINT [PK_#__updates_update_id] PRIMARY KEY CLUSTERED
 (
 	[update_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 /****** Object:  Table [#__user_keys] ******/
@@ -2818,25 +2799,25 @@ CREATE TABLE [#__user_keys](
  CONSTRAINT [PK_#__user_keys_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
  CONSTRAINT [#__user_keys$series] UNIQUE NONCLUSTERED
 (
 	[series] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
  CONSTRAINT [#__user_keys$series_2] UNIQUE NONCLUSTERED
 (
 	[series] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
  CONSTRAINT [#__user_keys$series_3] UNIQUE NONCLUSTERED
 (
 	[series] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [user_id] ON [#__user_keys]
 (
   [user_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__user_notes] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2860,18 +2841,18 @@ CREATE TABLE [#__user_notes](
  CONSTRAINT [PK_#__user_notes_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_category_id] ON [#__user_notes]
 (
  [catid] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_user_id] ON [#__user_notes]
 (
  [user_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__user_profiles] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2885,7 +2866,7 @@ CREATE TABLE [#__user_profiles](
 (
 	[user_id] ASC,
 	[profile_key] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 /****** Object:  Table [#__user_usergroup_map] ******/
@@ -2898,8 +2879,9 @@ CREATE TABLE [#__user_usergroup_map](
 (
 	[user_id] ASC,
 	[group_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
+
 
 /****** Object:  Table [#__usergroups] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2913,31 +2895,31 @@ CREATE TABLE [#__usergroups](
  CONSTRAINT [PK_#__usergroups_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
  CONSTRAINT [#__usergroups$idx_usergroup_parent_title_lookup] UNIQUE NONCLUSTERED
 (
 	[title] ASC,
 	[parent_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_usergroup_title_lookup] ON [#__usergroups]
 (
 	[title] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_usergroup_adjacency_lookup] ON [#__usergroups]
 (
 	[parent_id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_usergroup_nested_set_lookup] ON [#__usergroups]
 (
 	[lft] ASC,
 	[rgt] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-SET IDENTITY_INSERT [#__usergroups] ON;
+SET IDENTITY_INSERT [#__usergroups]  ON;
 
 INSERT INTO [#__usergroups] ([id], [parent_id], [lft], [rgt], [title])
 SELECT 1, 0, 1, 18, 'Public'
@@ -2958,7 +2940,7 @@ SELECT 8, 1, 16, 17, 'Super Users'
 UNION ALL
 SELECT 9, 1, 2, 3, 'Guest';
 
-SET IDENTITY_INSERT [#__usergroups] OFF;
+SET IDENTITY_INSERT [#__usergroups]  OFF;
 
 /****** Object:  Table [#__users] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2983,28 +2965,28 @@ CREATE TABLE [#__users](
  CONSTRAINT [PK_#__users_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [email] ON [#__users]
 (
 	[email] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_block] ON [#__users]
 (
 	[block] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_name] ON [#__users]
 (
 	[name] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [username] ON [#__users]
 (
 	[username] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__viewlevels] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -3017,11 +2999,11 @@ CREATE TABLE [#__viewlevels](
  CONSTRAINT [PK_#__viewlevels_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
  CONSTRAINT [#__viewlevels$idx_assetgroup_title_lookup] UNIQUE NONCLUSTERED
 (
 	[title] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 SET IDENTITY_INSERT [#__viewlevels]  ON;
