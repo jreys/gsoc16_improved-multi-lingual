@@ -240,22 +240,21 @@ jQuery(document).ready(function($) {
 					// Update main frame data-id attribute (used after save).
 					this.setAttribute('data-id', targetLoadedId);
 					this.setAttribute('data-action', 'edit');
-
-					// Update the reference item associations tab.
-					var reference     = document.getElementById('reference-association');
-					var languageCode  = targetLanguage.replace(/-/, '_');
-					var title         = $(this).contents().find('#jform_title').val()
-
-					// - For modal association selectors.
-					$(reference).contents().find('#jform_associations_' + languageCode + '_id').val(targetLoadedId);
-					$(reference).contents().find('#jform_associations_' + languageCode + '_name').val(title);
-
-					// - For chosen association selectors (menus).
-					$(reference).contents().find('#jform_associations_' + languageCode + '_chzn').remove();
-					$(reference).contents().find('#jform_associations_' + languageCode).append('<option value=\"'+ targetLoadedId + '\">' + title + '</option>');
-					$(reference).contents().find('#jform_associations_' + languageCode).val(targetLoadedId).change().chosen();
-
 				}
+
+				// Update the reference item associations tab.
+				var reference     = document.getElementById('reference-association');
+				var languageCode  = targetLanguage.replace(/-/, '_');
+				var title         = $(this).contents().find('#jform_title').val()
+
+				// - For modal association selectors.
+				$(reference).contents().find('#jform_associations_' + languageCode + '_id').val(targetLoadedId);
+				$(reference).contents().find('#jform_associations_' + languageCode + '_name').val(title);
+
+				// - For chosen association selectors (menus).
+				$(reference).contents().find('#jform_associations_' + languageCode + '_chzn').remove();
+				$(reference).contents().find('#jform_associations_' + languageCode).append('<option value=\"'+ targetLoadedId + '\">' + title + '</option>');
+				$(reference).contents().find('#jform_associations_' + languageCode).val(targetLoadedId).change().chosen();
 			}
 
 			// Update the target item associations tab.
