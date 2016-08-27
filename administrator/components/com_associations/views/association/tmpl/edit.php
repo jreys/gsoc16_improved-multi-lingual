@@ -41,7 +41,8 @@ $options = array(
 					data-action="edit"
 					data-item="<?php echo $this->itemType->item; ?>"
 					data-id="<?php echo $this->referenceId; ?>"
-					data-language="<?php echo $this->referenceLanguage; ?>">
+					data-language="<?php echo $this->referenceLanguage; ?>"
+					data-editurl="<?php echo JRoute::_($this->editUri); ?>">
 				</iframe>
 			</div>
 		</div>
