@@ -74,8 +74,9 @@ class AssociationsHelper extends JHelperContent
 			}
 
 			// Check for component item type model and his properties.
-			$componentName = ucfirst(substr($it[$key]->component, 4));
-			$modelsPath    = $it[$key]->adminPath . '/models';
+			$componentName  = ucfirst(substr($it[$key]->component, 4));
+			$modelsPath     = $it[$key]->adminPath . '/models';
+			$helpersPath    = $it[$key]->adminPath . '/helpers';
 
 			// If component item type models path does not exist, item type does not support associations.
 			if (!is_dir($modelsPath))
@@ -89,8 +90,22 @@ class AssociationsHelper extends JHelperContent
 			JLoader::register($componentName . 'Model' . $itemName, $modelsPath . '/' . $it[$key]->item . '.php');
 			$it[$key]->model = JModelLegacy::getInstance($itemName, $componentName . 'Model', array('ignore_request' => true));
 
-			// If component item type model cannot loaded, or associations properties does not exist, item type does not support associations.
-			$it[$key]->associations->support = $it[$key]->model && $it[$key]->model->get('associationsContext');
+			// Load component's helper
+			$helperName = $componentName . 'AssociationsHelper';
+			JLoader::register($helperName, $helpersPath . '/associations.php');
+
+			// If component item helper cannot loaded, or hasAssociationsSupport is false, item type does not support associations.
+			if ($it[$key]->item !== 'category')
+			{
+				$helper = new $helperName;
+
+				$it[$key]->associations->support           = $helper->hasAssociationsSupport();
+				$it[$key]->associations->supportCategories = $helper->hasAssociationsCategories();
+			}
+			else
+			{
+				$it[$key]->associations->support = true;
+			}
 
 			// Get item type alias and asset column key.
 			$it[$key]->assetKey  = $it[$key]->item === 'category' ? $it[$key]->extension . '.category' : $it[$key]->model->get('typeAlias');
