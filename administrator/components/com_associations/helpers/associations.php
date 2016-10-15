@@ -95,7 +95,7 @@ class AssociationsHelper extends JHelperContent
 			JLoader::register($helperName, $helpersPath . '/associations.php');
 
 			// If component item helper cannot loaded, or hasAssociationsSupport is false, item type does not support associations.
-			if ($it[$key]->item !== 'category')
+			if (file_exists($helpersPath . '/associations.php') && $it[$key]->item !== 'category')
 			{
 				$helper = new $helperName;
 
