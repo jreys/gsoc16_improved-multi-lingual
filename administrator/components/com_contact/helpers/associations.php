@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ContactsAssociationsHelper extends JHelperContent
+class ContactAssociationsHelper extends JHelperContent
 {
 	/**
 	 * Check if item supports associations
