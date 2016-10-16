@@ -90,21 +90,23 @@ class AssociationsHelper extends JHelperContent
 			JLoader::register($componentName . 'Model' . $itemName, $modelsPath . '/' . $it[$key]->item . '.php');
 			$it[$key]->model = JModelLegacy::getInstance($itemName, $componentName . 'Model', array('ignore_request' => true));
 
-			// Load component's helper
-			$helperName = $componentName . 'AssociationsHelper';
-			JLoader::register($helperName, $helpersPath . '/associations.php');
+			$columnAlias = array();
 
 			// If component item helper cannot loaded, or hasAssociationsSupport is false, item type does not support associations.
-			if (file_exists($helpersPath . '/associations.php') && $it[$key]->item !== 'category')
+			if (file_exists($helpersPath . '/associations/' . $it[$key]->item . '.php') || $it[$key]->item === 'category')
 			{
-				$helper = new $helperName;
+				$helperName = $itemName . 'AssociationsHelper';
+				JLoader::register($helperName, $helpersPath . '/associations/' . $it[$key]->item . '.php');
 
-				$it[$key]->associations->support           = $helper->hasAssociationsSupport();
-				$it[$key]->associations->supportCategories = $helper->hasAssociationsCategories();
-			}
-			else
-			{
-				$it[$key]->associations->support = true;
+				if ($it[$key]->item !== 'category')
+				{
+					$helper = new $helperName;
+
+					$it[$key]->associations->support           = $helper->hasAssociationsSupport();
+					$it[$key]->associations->supportCategories = $helper->hasAssociationsCategories();
+
+					$columnAlias = $helper->getColumnTableAlias();
+				}
 			}
 
 			// Get item type alias and asset column key.
@@ -134,27 +136,15 @@ class AssociationsHelper extends JHelperContent
 
 			// Get the database item type table fields.
 			$it[$key]->tableFields = $it[$key]->table->getFields();
-			$it[$key]->fields      = new Registry;
-			$fields                = array(
-				'id',
-				'title',
-				'alias',
-				'ordering',
-				'menutype',
-				'level',
-				'catid',
-				'language',
-				'access',
-				'state',
-				'created_user_id',
-				'checked_out',
-				'checked_out_time',
-			);
-
-			foreach ($fields as $field)
+			
+			if ($it[$key]->item !== 'category' && !empty($columnAlias))
 			{
-				$tableField                 = $it[$key]->table->getColumnAlias($field);
-				$it[$key]->fields->{$field} = isset($it[$key]->tableFields[$tableField]) ? $tableField : null;
+				$it[$key]->fields = new Registry;
+				
+				foreach ($columnAlias as $column => $alias)
+				{
+					$it[$key]->fields->{$column} = $alias;
+				}
 			}
 
 			// Disallow ordering according to component.
