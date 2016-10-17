@@ -59,7 +59,7 @@ class ContactAssociationsHelper extends JHelperContent
 			'catid'            => 'catid',
 			'language'         => 'language',
 			'access'           => 'access',
-			'state'            => 'state',
+			'state'            => 'published',
 			'created_user_id'  => 'created_by',
 			'checked_out'      => 'checked_out',
 			'checked_out_time' => 'checked_out_time',

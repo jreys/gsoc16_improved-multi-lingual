@@ -150,28 +150,28 @@ class AssociationsHelper extends JHelperContent
 			// Disallow ordering according to component.
 			$it[$key]->excludeOrdering = array();
 
-			if (is_null($it[$key]->fields->catid))
+			if (!isset($it[$key]->fields->catid))
 			{
 				array_push($it[$key]->excludeOrdering, 'category_title');
 			}
-			if (is_null($it[$key]->fields->menutype))
+			if (!isset($it[$key]->fields->menutype))
 			{
 				array_push($it[$key]->excludeOrdering, 'menutype_title');
 			}
-			if (is_null($it[$key]->fields->access))
+			if (!isset($it[$key]->fields->access))
 			{
 				array_push($it[$key]->excludeOrdering, 'access_level');
 			}
-			if (is_null($it[$key]->fields->ordering))
+			if (!isset($it[$key]->fields->ordering))
 			{
 				array_push($it[$key]->excludeOrdering, 'ordering');
 			}
 
-			// Check the default ordering (ordering is the default, is component does not support, fallback to title).
-			$it[$key]->defaultOrdering = is_null($it[$key]->fields->ordering) ? array('title', 'ASC') : array('ordering', 'ASC');
+			// Check the default ordering (ordering is the default. If not supported, fallback to title).
+			$it[$key]->defaultOrdering = !isset($it[$key]->fields->ordering) ? array('title', 'ASC') : array('ordering', 'ASC');
 
-			// If item does not have id, title, alias and language cannot support associations.
-			if (in_array(null, array($it[$key]->fields->id, $it[$key]->fields->title, $it[$key]->fields->alias, $it[$key]->fields->language)))
+			// If item does not have id, title, alias and language, it cannot support associations.
+			if (!isset($it[$key]->fields->id) || !isset($it[$key]->fields->title) || !isset($it[$key]->fields->alias) || !isset($it[$key]->fields->language))
 			{
 				$it[$key]->associations->support = false;
 			}
