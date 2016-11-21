@@ -50,7 +50,7 @@ class MenusAssociationsHelper extends JHelperContent
 	public static function getListQuery($itemType = '')
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
 		$app = JFactory::getApplication();
